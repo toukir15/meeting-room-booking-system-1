@@ -28,13 +28,13 @@ export default function Navbar() {
       <div>
         <ul className="flex gap-12">
           <li>
-            <Link to="">Home</Link>
+            <Link to="/">Home</Link>
           </li>
           <li>
             <Link to="">Meeting Rooms</Link>
           </li>
           <li>
-            <Link to="">About us</Link>
+            <Link to="/about-us">About us</Link>
           </li>
           <li>
             <Link to="">Contact us</Link>

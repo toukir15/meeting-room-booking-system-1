@@ -1,10 +1,11 @@
 import { Outlet } from "react-router-dom";
+import Footer from "../home/Footer";
 
 export default function MainLayout() {
   return (
     <div>
       <Outlet />
-      {/* <div>This is footer</div> */}
+      <Footer />
     </div>
   );
 }
