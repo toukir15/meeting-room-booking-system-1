@@ -3,6 +3,7 @@ import avatar from "../../../public/avatar.webp";
 import { useEffect, useRef } from "react";
 import tippy from "tippy.js";
 import "tippy.js/dist/tippy.css";
+import logo from "../../../public/icon.png";
 
 export default function Navbar() {
   const avatarRef = useRef<HTMLImageElement>(null); // Ref for the avatar image
@@ -21,10 +22,10 @@ export default function Navbar() {
   }, []);
   return (
     <div className="flex justify-between items-center w-full ">
-      <div className="flex justify-between gap-8">
-        <h4>Logo</h4>
-        <h5>Meeting Room Booking</h5>
-      </div>
+      <Link to={"/"} className="flex justify-between gap-4 items-center">
+        <img src={logo} className="w-10" alt="" />
+        <h5 className="text-xl font-medium">MeetEase</h5>
+      </Link>
       <div>
         <ul className="flex gap-12">
           <li>
@@ -37,7 +38,7 @@ export default function Navbar() {
             <Link to="/about-us">About us</Link>
           </li>
           <li>
-            <Link to="">Contact us</Link>
+            <Link to="/contact-us">Contact us</Link>
           </li>
         </ul>
       </div>
