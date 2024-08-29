@@ -2,6 +2,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import Navbar from "../home/Navbar";
 import { Autoplay, Navigation } from "swiper/modules";
 import { banner1, banner2, banner3, banner4, banner5, banner6 } from "../..";
+import "./HeroSection.css";
 
 const HeroSection = () => (
   <div className="h-[700px] flex flex-col">

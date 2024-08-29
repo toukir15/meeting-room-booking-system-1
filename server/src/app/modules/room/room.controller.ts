@@ -8,13 +8,14 @@ import { catchAsync } from '../../utils/catchAsync';
 
 const createRoom = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const roomData = req?.body;
-    const result = await RoomServices.createRoomIntoDB(roomData);
+    const roomData = JSON.parse(req?.body.data);
+    const files = req.files;
+    // const result = await RoomServices.createRoomIntoDB(roomData, files);
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
       message: 'Room added successfully',
-      data: result,
+      data: 'result',
     });
   },
 );

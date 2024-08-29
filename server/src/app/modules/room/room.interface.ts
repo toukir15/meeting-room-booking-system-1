@@ -1,9 +1,21 @@
 export type TRoom = {
   name: string;
-  roomNo: number;
-  floorNo: number;
   capacity: number;
   pricePerSlot: number;
+  roomNo: number;
+  floorNo: number;
+  images?: string[];
   amenities: string[];
   isDeleted: boolean;
+};
+
+export type TMulterFile = {
+  fieldname: string;
+  originalname: string;
+  encoding: string;
+  mimetype: string;
+  destination: string;
+  filename: string;
+  path: string;
+  size: number;
 };

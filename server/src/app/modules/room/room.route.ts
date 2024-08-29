@@ -4,12 +4,14 @@ import { validateRequest } from '../../middlewares/validateRequest';
 import { RoomValidations } from './room.validation';
 import { auth } from '../../middlewares/auth';
 import { USER_ROLE } from '../user/user.const';
+import { upload } from '../../utils/sendImageToCloudinary';
 const router = express.Router();
 
 router.post(
   '/',
-  auth(USER_ROLE.admin),
-  validateRequest(RoomValidations.createRoomValidationSchema),
+  // auth(USER_ROLE.admin),
+  // validateRequest(RoomValidations.createRoomValidationSchema),
+  upload.array('rooms'),
   RoomControllers.createRoom,
 );
 router.get('/', RoomControllers.getAllRooms);

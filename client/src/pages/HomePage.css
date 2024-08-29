@@ -1,0 +1,31 @@
+.swiper-button-next {
+  background: white;
+  font-size: 10px !important;
+  height: 40px !important;
+  width: 40px !important;
+  border-radius: 100%;
+  color: black !important;
+  right: 5% !important;
+}
+
+.swiper-button-prev {
+  background: white;
+  font-size: 10px !important;
+  height: 40px !important;
+  width: 40px !important;
+  border-radius: 100%;
+  color: black !important;
+  left: 5% !important;
+}
+
+.swiper-button-prev::after {
+  font-size: 20px !important;
+  position: relative;
+  right: 2%;
+}
+
+.swiper-button-next::after {
+  font-size: 20px !important;
+  position: relative;
+  left: 2%;
+}

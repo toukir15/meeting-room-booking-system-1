@@ -1,10 +1,18 @@
 import httpStatus from 'http-status';
 import { AppError } from '../../errors/appError';
-import { TRoom } from './room.interface';
+import { TMulterFile, TRoom } from './room.interface';
 import { Room } from './room.model';
+import { sendImageToCloudinary } from '../../utils/sendImageToCloudinary';
 
-const createRoomIntoDB = async (payload: TRoom) => {
-  const result = await Room.create(payload);
+const createRoomIntoDB = async (roomData: TRoom, files: TMulterFile[]) => {
+  const result = await Room.create(roomData);
+  files.map(async (file) => {
+    const { secure_url } = await sendImageToCloudinary(
+      file.filename,
+      file.path,
+    );
+    await Room.findByIdAndUpdate(result._id, { $push: { images: secure_url } });
+  });
   return result;
 };
 
