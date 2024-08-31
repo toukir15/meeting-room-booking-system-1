@@ -28,26 +28,11 @@ export default function AddRoom() {
   };
 
   const handleAddRoom = (data: FormValues) => {
-    // Here, data.images contains the FileList object for the uploaded images
-    console.log(data);
-
-    // Example: You could handle form submission here, such as uploading files to a server.
-    // const formData = new FormData();
-    // for (let i = 0; i < data.images.length; i++) {
-    //   formData.append('images', data.images[i]);
-    // }
-    // formData.append('roomName', data.roomName);
-    // formData.append('roomNo', data.roomNo.toString());
-    // formData.append('floorNo', data.floorNo.toString());
-    // formData.append('capacity', data.capacity.toString());
-    // formData.append('pricePerSlot', data.pricePerSlot.toString());
-    // formData.append('availableQuantity', data.availableQuantity.toString());
-
-    // Example POST request to upload data:
-    // fetch('/api/rooms', {
-    //   method: 'POST',
-    //   body: formData,
-    // });
+    const formData = new FormData();
+    for (let i = 0; i < data.images.length; i++) {
+      formData.append("images", data.images[i]);
+    }
+    formData.append("roomData", JSON.stringify(data));
   };
 
   return (

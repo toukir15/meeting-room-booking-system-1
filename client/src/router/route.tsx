@@ -11,9 +11,10 @@ import RoomDetails from "../pages/RoomDetails";
 import BookRoom from "../pages/BookRoom";
 import AdminDashboardLayout from "../components/layout/AdminDashboardLayout";
 import RoomManagement from "../pages/adminDashboardPages/roomManagement/RoomManagement";
-import SlotManagement from "../pages/adminDashboardPages/SlotManagement";
+import SlotManagement from "../pages/adminDashboardPages/SlotManagement.t/SlotManagement";
 import BookingManagement from "../pages/adminDashboardPages/BookingManagement";
 import AddRoom from "../pages/adminDashboardPages/roomManagement/AddRoom";
+import CreateSlot from "../pages/adminDashboardPages/SlotManagement.t/CreateSlot";
 
 export const router = createBrowserRouter([
   {
@@ -63,12 +64,16 @@ export const router = createBrowserRouter([
         element: <RoomManagement />,
       },
       {
-        path: "room-management/add-room",
+        path: "room-management/create-room",
         element: <AddRoom />,
       },
       {
         path: "slot-management",
         element: <SlotManagement />,
+      },
+      {
+        path: "slot-management/create-slot",
+        element: <CreateSlot />,
       },
       {
         path: "booking-management",

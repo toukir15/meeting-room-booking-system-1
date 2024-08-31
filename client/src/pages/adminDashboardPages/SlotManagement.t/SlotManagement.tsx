@@ -6,9 +6,9 @@ interface DataType {
   key: string;
   roomName: string;
   roomNo: number;
-  floorNo: number;
-  capacity: number;
-  pricePerSlot: number;
+  date: string;
+  startTime: string;
+  endTime: string;
 }
 
 const columns: TableProps<DataType>["columns"] = [
@@ -23,20 +23,19 @@ const columns: TableProps<DataType>["columns"] = [
     key: "roomNo",
   },
   {
-    title: "Floor No",
-    dataIndex: "floorNo",
-    key: "floorNo",
+    title: "Date",
+    dataIndex: "date",
+    key: "date",
   },
   {
-    title: "Capacity",
-    dataIndex: "capacity",
-    key: "capacity",
+    title: "Start Time",
+    dataIndex: "startTime",
+    key: "startTime",
   },
   {
-    title: "Price Per Slot",
-    dataIndex: "pricePerSlot",
-    key: "pricePerSlot",
-    render: (price) => <span>${price}</span>,
+    title: "End Time",
+    dataIndex: "endTime",
+    key: "endTime",
   },
 
   {
@@ -59,104 +58,104 @@ const data: DataType[] = [
   {
     key: "1",
     roomNo: 4,
-    floorNo: 4,
-    capacity: 55,
-    pricePerSlot: 20,
+    date: "04/04/2021",
+    startTime: "9:00",
+    endTime: "10:00",
     roomName: "John Browndsfffffffffffffffffff",
   },
   {
     key: "2",
     roomNo: 4,
-    floorNo: 4,
-    capacity: 55,
-    pricePerSlot: 20,
+    date: "04/04/2021",
+    startTime: "9:00",
+    endTime: "10:00",
     roomName: "Jim Green",
   },
   {
     key: "3",
     roomNo: 4,
-    floorNo: 4,
-    capacity: 55,
-    pricePerSlot: 20,
+    date: "04/04/2021",
+    startTime: "9:00",
+    endTime: "10:00",
     roomName: "Joe Black",
   },
   {
     key: "4",
     roomNo: 4,
-    floorNo: 4,
-    capacity: 55,
-    pricePerSlot: 20,
+    date: "04/04/2021",
+    startTime: "9:00",
+    endTime: "10:00",
     roomName: "John Browndsfffffffffffffffffff",
   },
   {
     key: "5",
     roomNo: 4,
-    floorNo: 4,
-    capacity: 55,
-    pricePerSlot: 20,
+    date: "04/04/2021",
+    startTime: "9:00",
+    endTime: "10:00",
     roomName: "Jim Green",
   },
   {
     key: "6",
     roomNo: 4,
-    floorNo: 4,
-    capacity: 55,
-    pricePerSlot: 20,
+    date: "04/04/2021",
+    startTime: "9:00",
+    endTime: "10:00",
     roomName: "Joe Black",
   },
   {
     key: "7",
     roomNo: 4,
-    floorNo: 4,
-    capacity: 55,
-    pricePerSlot: 20,
+    date: "04/04/2021",
+    startTime: "9:00",
+    endTime: "10:00",
     roomName: "John Browndsfffffffffffffffffff",
   },
   {
     key: "8",
     roomNo: 4,
-    floorNo: 4,
-    capacity: 55,
-    pricePerSlot: 20,
+    date: "04/04/2021",
+    startTime: "9:00",
+    endTime: "10:00",
     roomName: "Jim Green",
   },
   {
     key: "9",
     roomNo: 4,
-    floorNo: 4,
-    capacity: 55,
-    pricePerSlot: 20,
+    date: "04/04/2021",
+    startTime: "9:00",
+    endTime: "10:00",
     roomName: "Joe Black",
   },
   {
     key: "10",
     roomNo: 4,
-    floorNo: 4,
-    capacity: 55,
-    pricePerSlot: 20,
+    date: "04/04/2021",
+    startTime: "9:00",
+    endTime: "10:00",
     roomName: "Joe Black",
   },
   {
     key: "11",
     roomNo: 4,
-    floorNo: 4,
-    capacity: 55,
-    pricePerSlot: 20,
+    date: "04/04/2021",
+    startTime: "9:00",
+    endTime: "10:00",
     roomName: "Joe Black",
   },
 ];
-export default function RoomManagement() {
+export default function SlotManagement() {
   const navigate = useNavigate();
   return (
     <div className="px-32 ">
       <div className="flex justify-end">
         <button
           onClick={() =>
-            navigate("/admin/dashboard/room-management/create-room")
+            navigate("/admin/dashboard/slot-management/create-slot")
           }
           className="bg-rose-500 hover:bg-rose-600 transition duration-200 text-white py-2 px-6 rounded mb-6"
         >
-          Create Room
+          Create Slot
         </button>
       </div>
       <div className="mt-20">
