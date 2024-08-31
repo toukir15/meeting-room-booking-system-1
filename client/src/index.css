@@ -13,3 +13,18 @@
 .tippy-box[data-placement^="right"] .tippy-arrow {
   display: none;
 }
+/* Custom CSS for active menu item */
+.ant-menu-dark .ant-menu-item-selected a {
+  color: #e3e3e3; /* Custom active link color */
+}
+
+/* Optional: Customize the background of the active item */
+.ant-menu-dark .ant-menu-item-selected {
+  background-color: #e11e48; /* Custom background color for active item */
+}
+
+.ant-table-thead > tr > th {
+  background-color: #4caf50; /* Change to your desired background color */
+  color: white; /* Change to your desired text color */
+  font-weight: bold; /* Optionally make the text bold */
+}

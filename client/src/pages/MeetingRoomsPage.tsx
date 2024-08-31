@@ -4,11 +4,13 @@ import room1 from "../../public/images/room/room2.webp";
 import Navbar from "../components/meetingRooms/Navbar";
 import { IoIosSearch } from "react-icons/io";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function MeetingRoomsPage() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isSort, setIsSort] = useState(false);
   const [isFilter, setIsFilter] = useState(false);
+  const navigate = useNavigate();
 
   const handleFilter = () => {
     setIsFilter(true);
@@ -93,7 +95,10 @@ export default function MeetingRoomsPage() {
 
       <div className="pb-32 container mx-auto">
         <div className=" grid grid-cols-4 gap-10 px-20 ">
-          <div className="w-fit">
+          <div
+            onClick={() => navigate("/room-details")}
+            className="w-fit cursor-pointer"
+          >
             <Swiper
               speed={1000}
               navigation={true}

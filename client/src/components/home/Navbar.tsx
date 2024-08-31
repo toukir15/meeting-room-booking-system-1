@@ -55,7 +55,7 @@ export default function Navbar() {
         >
           <ul className="">
             <li className="border-b  py-3 px-6 hover:bg-gray-100">
-              <Link to={""}>My Bookings</Link>
+              <Link to={""}>Dashboard</Link>
             </li>
             <li className="py-3 px-6 hover:bg-gray-100">
               <Link to={""}>Logout</Link>
