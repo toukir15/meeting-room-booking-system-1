@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useCreateRoomMutation } from "../../../redux/features/roomManagement/roomManagementApi";
+import { Select } from "antd";
+import type { SelectProps } from "antd";
+import "./AddRoom.css";
 
 type FormValues = {
   roomName: string;
@@ -7,12 +11,25 @@ type FormValues = {
   floorNo: number;
   capacity: number;
   pricePerSlot: number;
-  images: FileList;
   availableQuantity: number;
+  images: FileList;
 };
 
 export default function AddRoom() {
   const [fileNames, setFileNames] = useState<string[]>([]);
+  const [files, setFiles] = useState<File[]>([]);
+  const [amenities, setAmenities] = useState<string[]>([]); // State for selected amenities
+  const [createRoom] = useCreateRoomMutation();
+
+  console.log(amenities);
+  const options: SelectProps["options"] = [
+    { value: "Wifi", label: "Wifi" },
+    { value: "Projector", label: "Projector" },
+  ];
+
+  const handleChange = (value: string[]) => {
+    setAmenities(value); // Update amenities state
+  };
 
   const {
     register,
@@ -22,17 +39,41 @@ export default function AddRoom() {
 
   const handleAddImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      const files = Array.from(e.target.files);
-      setFileNames(files.map((file) => file.name));
+      const fileArray = Array.from(e.target.files);
+      setFiles(fileArray);
+      setFileNames(fileArray.map((file) => file.name));
     }
   };
 
   const handleAddRoom = (data: FormValues) => {
     const formData = new FormData();
-    for (let i = 0; i < data.images.length; i++) {
-      formData.append("images", data.images[i]);
-    }
-    formData.append("roomData", JSON.stringify(data));
+
+    files.forEach((file) => {
+      formData.append(`file`, file); // Each file gets a unique indexed key
+    });
+
+    // Append other form data
+    formData.append(
+      "data",
+      JSON.stringify({
+        roomName: data.roomName,
+        roomNo: data.roomNo,
+        floorNo: data.floorNo,
+        capacity: data.capacity,
+        pricePerSlot: data.pricePerSlot,
+        availableQuantity: data.availableQuantity,
+        amenities: amenities, // Include the selected amenities
+      })
+    );
+
+    createRoom(formData)
+      .unwrap()
+      .then((response) => {
+        console.log("Room added successfully:", response);
+      })
+      .catch((error) => {
+        console.error("Error adding room:", error);
+      });
   };
 
   return (
@@ -40,15 +81,17 @@ export default function AddRoom() {
       <form
         onSubmit={handleSubmit(handleAddRoom)}
         method="post"
-        className="flex lg:w-[50%] lg:mx-auto w-full px-4 flex-col"
+        encType="multipart/form-data" // Important for file uploads
+        className="flex lg:w-[50%] lg:mx-auto w-full px-4 flex-col create-room"
       >
+        {/* Form Fields */}
         <div className="flex flex-col md:flex-row w-full md:items-center mb-2 md:mb-6">
           <label className="md:w-[30%] mb-1" htmlFor="roomName">
             Room Name
           </label>
           <input
             {...register("roomName", { required: true })}
-            className="border py-2.5 lg:w-[70%] text-black outline-none border-gray-300 px-3 rounded text-sm"
+            className="border py-2.5 lg:w-[70%] text-black outline-none border-gray-300 px-3 rounded text-sm bg-[#E8F0FD]"
             type="text"
             placeholder="Room name"
           />
@@ -63,7 +106,7 @@ export default function AddRoom() {
           </label>
           <input
             {...register("roomNo", { required: true })}
-            className="border py-2.5 lg:w-[70%] text-black outline-none border-gray-300 px-3 rounded text-sm"
+            className="border py-2.5 lg:w-[70%] text-black outline-none border-gray-300 px-3 rounded text-sm bg-[#E8F0FD]"
             type="number"
             placeholder="Room no"
           />
@@ -80,7 +123,7 @@ export default function AddRoom() {
           </label>
           <input
             {...register("floorNo", { required: true })}
-            className="border py-2.5 lg:w-[70%] text-black outline-none border-gray-300 px-3 rounded text-sm"
+            className="border py-2.5 lg:w-[70%] text-black outline-none border-gray-300 px-3 rounded text-sm bg-[#E8F0FD]"
             type="number"
             placeholder="Floor no"
           />
@@ -97,7 +140,7 @@ export default function AddRoom() {
           </label>
           <input
             {...register("capacity", { required: true })}
-            className="border py-2.5 lg:w-[70%] text-black outline-none border-gray-300 px-3 rounded text-sm"
+            className="border py-2.5 lg:w-[70%] text-black outline-none border-gray-300 px-3 rounded text-sm bg-[#E8F0FD]"
             type="number"
             placeholder="Capacity"
           />
@@ -112,7 +155,7 @@ export default function AddRoom() {
           </label>
           <input
             {...register("pricePerSlot", { required: true })}
-            className="border py-2.5 lg:w-[70%] text-black outline-none border-gray-300 px-3 rounded text-sm"
+            className="border py-2.5 lg:w-[70%] text-black outline-none border-gray-300 px-3 rounded text-sm bg-[#E8F0FD]"
             type="number"
             placeholder="Price per slot"
           />
@@ -120,6 +163,24 @@ export default function AddRoom() {
             <span className="text-red-500 text-sm">
               Price per slot is required
             </span>
+          )}
+        </div>
+
+        <div className="flex flex-col md:flex-row w-full md:items-center mb-2 md:mb-6">
+          <label className="md:w-[30%] mb-1" htmlFor="amenities">
+            Amenities
+          </label>
+          <div className="w-[70%]">
+            <Select
+              mode="tags"
+              style={{ width: "100%" }}
+              placeholder="Amenities"
+              onChange={handleChange}
+              options={options}
+            />
+          </div>
+          {errors.pricePerSlot && (
+            <span className="text-red-500 text-sm">Amenites is required</span>
           )}
         </div>
 
@@ -165,7 +226,7 @@ export default function AddRoom() {
           </label>
           <input
             {...register("availableQuantity", { required: true })}
-            className="border py-2.5 lg:w-[70%] text-black outline-none border-gray-300 px-3 rounded text-sm"
+            className="border py-2.5 lg:w-[70%] text-black outline-none border-gray-300 px-3 rounded text-sm bg-[#E8F0FD]"
             type="number"
             placeholder="Available quantity"
           />

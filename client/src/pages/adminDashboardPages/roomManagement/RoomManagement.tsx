@@ -1,14 +1,15 @@
 import { Space, Table } from "antd";
 import type { TableProps } from "antd";
 import { useNavigate } from "react-router-dom";
+import { useGetRoomsQuery } from "../../../redux/features/roomManagement/roomManagementApi";
 
 interface DataType {
   key: string;
   roomName: string;
-  roomNo: number;
-  floorNo: number;
-  capacity: number;
-  pricePerSlot: number;
+  roomNo: string;
+  floorNo: string;
+  capacity: string;
+  pricePerSlot: string;
 }
 
 const columns: TableProps<DataType>["columns"] = [
@@ -55,98 +56,9 @@ const columns: TableProps<DataType>["columns"] = [
   },
 ];
 
-const data: DataType[] = [
-  {
-    key: "1",
-    roomNo: 4,
-    floorNo: 4,
-    capacity: 55,
-    pricePerSlot: 20,
-    roomName: "John Browndsfffffffffffffffffff",
-  },
-  {
-    key: "2",
-    roomNo: 4,
-    floorNo: 4,
-    capacity: 55,
-    pricePerSlot: 20,
-    roomName: "Jim Green",
-  },
-  {
-    key: "3",
-    roomNo: 4,
-    floorNo: 4,
-    capacity: 55,
-    pricePerSlot: 20,
-    roomName: "Joe Black",
-  },
-  {
-    key: "4",
-    roomNo: 4,
-    floorNo: 4,
-    capacity: 55,
-    pricePerSlot: 20,
-    roomName: "John Browndsfffffffffffffffffff",
-  },
-  {
-    key: "5",
-    roomNo: 4,
-    floorNo: 4,
-    capacity: 55,
-    pricePerSlot: 20,
-    roomName: "Jim Green",
-  },
-  {
-    key: "6",
-    roomNo: 4,
-    floorNo: 4,
-    capacity: 55,
-    pricePerSlot: 20,
-    roomName: "Joe Black",
-  },
-  {
-    key: "7",
-    roomNo: 4,
-    floorNo: 4,
-    capacity: 55,
-    pricePerSlot: 20,
-    roomName: "John Browndsfffffffffffffffffff",
-  },
-  {
-    key: "8",
-    roomNo: 4,
-    floorNo: 4,
-    capacity: 55,
-    pricePerSlot: 20,
-    roomName: "Jim Green",
-  },
-  {
-    key: "9",
-    roomNo: 4,
-    floorNo: 4,
-    capacity: 55,
-    pricePerSlot: 20,
-    roomName: "Joe Black",
-  },
-  {
-    key: "10",
-    roomNo: 4,
-    floorNo: 4,
-    capacity: 55,
-    pricePerSlot: 20,
-    roomName: "Joe Black",
-  },
-  {
-    key: "11",
-    roomNo: 4,
-    floorNo: 4,
-    capacity: 55,
-    pricePerSlot: 20,
-    roomName: "Joe Black",
-  },
-];
 export default function RoomManagement() {
   const navigate = useNavigate();
+  const { data: roomData } = useGetRoomsQuery(undefined);
   return (
     <div className="px-32 ">
       <div className="flex justify-end">
@@ -162,7 +74,7 @@ export default function RoomManagement() {
       <div className="mt-20">
         <Table
           columns={columns}
-          dataSource={data}
+          dataSource={roomData?.data}
           pagination={{ pageSize: 10 }}
           className="custom-table-header"
         />

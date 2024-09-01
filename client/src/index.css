@@ -14,17 +14,17 @@
   display: none;
 }
 /* Custom CSS for active menu item */
-.ant-menu-dark .ant-menu-item-selected a {
-  color: #e3e3e3; /* Custom active link color */
-}
+/* .ant-menu-dark .ant-menu-item-selected a {
+  color: #e3e3e3;
+} */
 
 /* Optional: Customize the background of the active item */
-.ant-menu-dark .ant-menu-item-selected {
-  background-color: #e11e48; /* Custom background color for active item */
-}
-
+/* .ant-menu-dark .ant-menu-item-selected {
+  background-color: #e11e48; 
+} */
+/* 
 .ant-table-thead > tr > th {
-  background-color: #4caf50; /* Change to your desired background color */
-  color: white; /* Change to your desired text color */
-  font-weight: bold; /* Optionally make the text bold */
-}
+  background-color: #4caf50;
+  color: white;
+  font-weight: bold;
+} */

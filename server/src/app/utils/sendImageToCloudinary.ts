@@ -35,8 +35,7 @@ export const sendImageToCloudinary = (
     );
   });
 };
-
-const storage = multer.diskStorage({
+export const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'uploads/');
   },

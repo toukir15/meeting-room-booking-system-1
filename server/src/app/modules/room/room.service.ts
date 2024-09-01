@@ -5,7 +5,22 @@ import { Room } from './room.model';
 import { sendImageToCloudinary } from '../../utils/sendImageToCloudinary';
 
 const createRoomIntoDB = async (roomData: TRoom, files: TMulterFile[]) => {
-  const result = await Room.create(roomData);
+  const data = {
+    roomName: roomData.roomName,
+    roomNo: roomData.roomNo,
+    floorNo: roomData.floorNo,
+    capacity: roomData.capacity,
+    pricePerSlot: roomData.pricePerSlot,
+    availableQuantity: roomData.availableQuantity,
+    amenities: roomData.amenities,
+  };
+
+  const findRoom = await Room.findOne({ roomName: roomData.roomName });
+  if (findRoom) {
+    throw new AppError(httpStatus.BAD_REQUEST, 'This room already exist');
+  }
+
+  const result = await Room.create(data);
   files.map(async (file) => {
     const { secure_url } = await sendImageToCloudinary(
       file.filename,

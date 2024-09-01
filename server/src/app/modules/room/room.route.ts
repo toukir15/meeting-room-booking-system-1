@@ -11,7 +11,7 @@ router.post(
   '/',
   // auth(USER_ROLE.admin),
   // validateRequest(RoomValidations.createRoomValidationSchema),
-  upload.array('rooms'),
+  upload.array('file'),
   RoomControllers.createRoom,
 );
 router.get('/', RoomControllers.getAllRooms);

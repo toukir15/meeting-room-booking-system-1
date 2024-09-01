@@ -1,12 +1,14 @@
-import { Space, Table } from "antd";
+import { Space, Table, Tag } from "antd";
 import type { TableProps } from "antd";
 import { useNavigate } from "react-router-dom";
+import { useGetSlotsQuery } from "../../../redux/features/slotManagement/slotManagementApi";
 
 interface DataType {
   key: string;
-  roomName: string;
+  room: string;
   roomNo: number;
   date: string;
+  isBooked: boolean;
   startTime: string;
   endTime: string;
 }
@@ -37,6 +39,20 @@ const columns: TableProps<DataType>["columns"] = [
     dataIndex: "endTime",
     key: "endTime",
   },
+  {
+    title: "Booked Status",
+    dataIndex: "isBooked",
+    key: "isBooked",
+    render: (isBooked: boolean) => {
+      const tagColor = isBooked ? "volcano" : "green";
+      const tagLabel = isBooked ? "Booked" : "Available";
+      return (
+        <Tag color={tagColor} key={tagLabel}>
+          {tagLabel.toUpperCase()}
+        </Tag>
+      );
+    },
+  },
 
   {
     title: "Action",
@@ -54,98 +70,9 @@ const columns: TableProps<DataType>["columns"] = [
   },
 ];
 
-const data: DataType[] = [
-  {
-    key: "1",
-    roomNo: 4,
-    date: "04/04/2021",
-    startTime: "9:00",
-    endTime: "10:00",
-    roomName: "John Browndsfffffffffffffffffff",
-  },
-  {
-    key: "2",
-    roomNo: 4,
-    date: "04/04/2021",
-    startTime: "9:00",
-    endTime: "10:00",
-    roomName: "Jim Green",
-  },
-  {
-    key: "3",
-    roomNo: 4,
-    date: "04/04/2021",
-    startTime: "9:00",
-    endTime: "10:00",
-    roomName: "Joe Black",
-  },
-  {
-    key: "4",
-    roomNo: 4,
-    date: "04/04/2021",
-    startTime: "9:00",
-    endTime: "10:00",
-    roomName: "John Browndsfffffffffffffffffff",
-  },
-  {
-    key: "5",
-    roomNo: 4,
-    date: "04/04/2021",
-    startTime: "9:00",
-    endTime: "10:00",
-    roomName: "Jim Green",
-  },
-  {
-    key: "6",
-    roomNo: 4,
-    date: "04/04/2021",
-    startTime: "9:00",
-    endTime: "10:00",
-    roomName: "Joe Black",
-  },
-  {
-    key: "7",
-    roomNo: 4,
-    date: "04/04/2021",
-    startTime: "9:00",
-    endTime: "10:00",
-    roomName: "John Browndsfffffffffffffffffff",
-  },
-  {
-    key: "8",
-    roomNo: 4,
-    date: "04/04/2021",
-    startTime: "9:00",
-    endTime: "10:00",
-    roomName: "Jim Green",
-  },
-  {
-    key: "9",
-    roomNo: 4,
-    date: "04/04/2021",
-    startTime: "9:00",
-    endTime: "10:00",
-    roomName: "Joe Black",
-  },
-  {
-    key: "10",
-    roomNo: 4,
-    date: "04/04/2021",
-    startTime: "9:00",
-    endTime: "10:00",
-    roomName: "Joe Black",
-  },
-  {
-    key: "11",
-    roomNo: 4,
-    date: "04/04/2021",
-    startTime: "9:00",
-    endTime: "10:00",
-    roomName: "Joe Black",
-  },
-];
 export default function SlotManagement() {
   const navigate = useNavigate();
+  const { data } = useGetSlotsQuery(undefined);
   return (
     <div className="px-32 ">
       <div className="flex justify-end">
@@ -161,7 +88,7 @@ export default function SlotManagement() {
       <div className="mt-20">
         <Table
           columns={columns}
-          dataSource={data}
+          dataSource={data?.data}
           pagination={{ pageSize: 10 }}
           className="custom-table-header"
         />

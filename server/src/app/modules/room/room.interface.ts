@@ -1,9 +1,10 @@
 export type TRoom = {
-  name: string;
-  capacity: number;
-  pricePerSlot: number;
-  roomNo: number;
-  floorNo: number;
+  roomName: string;
+  capacity: string;
+  pricePerSlot: string;
+  roomNo: string;
+  floorNo: string;
+  availableQuantity: string;
   images?: string[];
   amenities: string[];
   isDeleted: boolean;
