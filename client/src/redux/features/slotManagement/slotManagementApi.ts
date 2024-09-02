@@ -9,12 +9,7 @@ const slotManagement = baseApi.injectEndpoints({
           method: "GET",
         };
       },
-      // transformResponse: (response: TResponseRedux<TAcademicSemester[]>) => {
-      //   return {
-      //     data: response.data,
-      //     meta: response.meta,
-      //   };
-      // },
+      providesTags: ["slot"],
     }),
     createSlot: builder.mutation({
       query: (data) => {
@@ -25,8 +20,33 @@ const slotManagement = baseApi.injectEndpoints({
           body: data,
         };
       },
+      invalidatesTags: ["slot"],
+    }),
+    deleteSlot: builder.mutation({
+      query: (id) => {
+        return {
+          url: `/slots/${id}`,
+          method: "DELETE",
+        };
+      },
+      invalidatesTags: ["slot"],
+    }),
+    updateSlot: builder.mutation({
+      query: ({ date, id }) => {
+        return {
+          url: `/slots/${id}`,
+          method: "PATCH",
+          body: { date },
+        };
+      },
+      invalidatesTags: ["slot"],
     }),
   }),
 });
 
-export const { useCreateSlotMutation, useGetSlotsQuery } = slotManagement;
+export const {
+  useCreateSlotMutation,
+  useGetSlotsQuery,
+  useDeleteSlotMutation,
+  useUpdateSlotMutation,
+} = slotManagement;

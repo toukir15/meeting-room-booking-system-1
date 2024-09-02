@@ -32,7 +32,7 @@ const createRoomIntoDB = async (roomData: TRoom, files: TMulterFile[]) => {
 };
 
 const getAllRoomsFromDB = async () => {
-  const result = await Room.find();
+  const result = await Room.find({ isDeleted: false });
   return result;
 };
 
@@ -42,6 +42,7 @@ const getSingleRoomFromDB = async (id: string) => {
 };
 
 const updateRoomIntoDB = async (id: string, payload: Partial<TRoom>) => {
+  // console.log(payload);
   // check is room exist or not
   const isRoomExist = await Room.findById(id);
   if (!isRoomExist) {

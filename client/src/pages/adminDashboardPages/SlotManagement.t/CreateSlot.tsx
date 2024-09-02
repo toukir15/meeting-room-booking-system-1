@@ -1,12 +1,18 @@
-import { DatePicker, Select, TimePicker } from "antd";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { DatePicker, notification, Select, TimePicker } from "antd";
 import { useForm } from "react-hook-form";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { useGetRoomsQuery } from "../../../redux/features/roomManagement/roomManagementApi";
 import "./CreateSlot.css";
 import { useCreateSlotMutation } from "../../../redux/features/slotManagement/slotManagementApi";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import { CheckCircleOutlined } from "@ant-design/icons";
+import { LuBadgeCheck } from "react-icons/lu";
 
 export default function CreateSlot() {
+  const navigate = useNavigate();
   const [createSlot] = useCreateSlotMutation();
   dayjs.extend(customParseFormat);
   const { data: roomData } = useGetRoomsQuery(undefined);
@@ -37,12 +43,33 @@ export default function CreateSlot() {
     formState: { errors },
   } = useForm();
 
-  const handleCreateSlot = async (data) => {
-    console.log(data);
-    createSlot(data);
+  interface SlotFormData {
+    roomName: string;
+    roomNo: string;
+    date: string;
+    startDate: string;
+    endDate: string;
+  }
+  const handleCreateSlot = async (data: SlotFormData) => {
+    try {
+      await createSlot(data);
+      toast.success("Slots created successfully", {
+        duration: 10000,
+      });
+      navigate("/admin/dashboard/slot-management");
+    } catch (error) {
+      console.error("Error creating slot:", error);
+      notification.error({
+        message: "Slot Creation Failed",
+        description: "There was an error creating the slot. Please try again.",
+      });
+    }
   };
 
-  const handleStartTimeChange = (time, timeString) => {
+  const handleStartTimeChange = (
+    time: string | number | Date | dayjs.Dayjs | null | undefined,
+    timeString: any
+  ) => {
     setValue("startTime", timeString);
 
     const endTime = dayjs(time).add(1, "hour");
@@ -87,7 +114,7 @@ export default function CreateSlot() {
             Room Name
           </label>
           <Select
-            className="w-[70%] border rounded-md"
+            className="w-[70%] border rounded-md border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 bg-[#E0F7FA]"
             showSearch
             placeholder="Select a room"
             filterOption={(input, option) => {
@@ -119,7 +146,7 @@ export default function CreateSlot() {
           </label>
           <input
             {...register("roomNo", { required: true })}
-            className="border py-2.5 lg:w-[70%] text-black outline-none border-gray-300 px-3 rounded text-sm"
+            className="border py-2.5 lg:w-[70%] text-black outline-none border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 bg-[#E0F7FA] hover:bg-white px-3 rounded text-sm "
             type="number"
             disabled
             placeholder="Room no"
@@ -137,7 +164,7 @@ export default function CreateSlot() {
             Date
           </label>
           <DatePicker
-            className="py-2.5 w-[70%]"
+            className="py-2.5 w-[70%] border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 bg-[#E0F7FA]"
             value={selectedDate ? dayjs(selectedDate, dateFormat) : null}
             format={dateFormat}
             onChange={(date, dateString) => {
@@ -158,7 +185,7 @@ export default function CreateSlot() {
             Start Time
           </label>
           <TimePicker
-            className="py-2.5 outline-none w-[70%]"
+            className="py-2.5 outline-none w-[70%] border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 bg-[#E0F7FA]"
             onChange={handleStartTimeChange}
             format="HH:mm"
             disabledTime={disabledTime}

@@ -1,6 +1,7 @@
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Menu } from "antd";
 import Sider from "antd/es/layout/Sider";
+import logo from "../../../public/icon.png";
 
 // Static JSON data
 const sidebarItems = [
@@ -50,7 +51,7 @@ export default function AdminDashboardLayout() {
           top: 0,
           left: 0,
           zIndex: 1,
-          backgroundColor: "#001529", // Dark background color for the entire Sider
+          backgroundColor: "#001529",
         }}
       >
         <div
@@ -60,22 +61,30 @@ export default function AdminDashboardLayout() {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            backgroundColor: "#001529", // Match background with the Sider
+            backgroundColor: "#001529",
           }}
         >
           <button
             onClick={() => navigate("/")}
             style={{ color: "white", background: "none", border: "none" }}
+            className="text-2xl font-medium flex items-center gap-4"
           >
-            MeetEase
+            <img className="w-8" src={logo} alt="" />
+            <span> MeetEase</span>
           </button>
         </div>
         <Menu
           theme="dark"
           mode="inline"
           selectedKeys={[activeKey as string]}
-          style={{ color: "white" }} // Set the default link color
-          items={menuItems}
+          style={{ color: "white", marginTop: "20px" }}
+          items={menuItems.map((item) => ({
+            ...item,
+            style: {
+              backgroundColor: activeKey === item.key ? "#F54361" : "inherit",
+              color: activeKey === item.key ? "#fff" : "inherit",
+            },
+          }))}
         />
       </Sider>
       <div style={{ marginLeft: 250, padding: "1rem", width: "100%" }}>

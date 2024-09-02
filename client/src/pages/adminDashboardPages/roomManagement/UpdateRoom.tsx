@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useCreateRoomMutation } from "../../../redux/features/roomManagement/roomManagementApi";
+import { useUpdateRoomMutation } from "../../../redux/features/roomManagement/roomManagementApi";
 import { Select } from "antd";
 import type { SelectProps } from "antd";
 import "./AddRoom.css";
 import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../../redux/hook";
+import { RootState } from "../../../redux/store";
 
 type FormValues = {
   roomName: string;
@@ -16,14 +18,12 @@ type FormValues = {
   images: FileList;
 };
 
-export default function AddRoom() {
-  const [fileNames, setFileNames] = useState<string[]>([]);
-  const [files, setFiles] = useState<File[]>([]);
-  const [amenities, setAmenities] = useState<string[]>([]); // State for selected amenities
-  const [createRoom] = useCreateRoomMutation();
+export default function UpdateRoom() {
+  const [amenities, setAmenities] = useState<string[]>([]);
+  const [updateRoom] = useUpdateRoomMutation();
   const navigate = useNavigate();
+  const room = useAppSelector((state: RootState) => state.roomManagement.room);
 
-  console.log(amenities);
   const options: SelectProps["options"] = [
     { value: "Wifi", label: "Wifi" },
     { value: "Projector", label: "Projector" },
@@ -39,39 +39,10 @@ export default function AddRoom() {
     formState: { errors },
   } = useForm<FormValues>();
 
-  const handleAddImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const fileArray = Array.from(e.target.files);
-      setFiles(fileArray);
-      setFileNames(fileArray.map((file) => file.name));
-    }
-  };
-
   const handleAddRoom = (data: FormValues) => {
-    const formData = new FormData();
-
-    files.forEach((file) => {
-      formData.append(`file`, file); // Each file gets a unique indexed key
-    });
-
-    // Append other form data
-    formData.append(
-      "data",
-      JSON.stringify({
-        roomName: data.roomName,
-        roomNo: data.roomNo,
-        floorNo: data.floorNo,
-        capacity: data.capacity,
-        pricePerSlot: data.pricePerSlot,
-        availableQuantity: data.availableQuantity,
-        amenities: amenities, // Include the selected amenities
-      })
-    );
-
-    createRoom(formData)
+    updateRoom({ data: { ...data, amenities }, id: room?._id })
       .unwrap()
       .then((response) => {
-        console.log(response);
         if (response.success) {
           navigate("/admin/dashboard/room-management");
         }
@@ -96,8 +67,9 @@ export default function AddRoom() {
           </label>
           <input
             {...register("roomName", { required: true })}
-            className="border py-2.5 lg:w-[70%] text-black outline-none  px-3 rounded text-sm border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 bg-[#E0F7FA] hover:bg-white"
+            className="border py-2.5 lg:w-[70%] text-black outline-none px-3 rounded text-sm border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 bg-[#E0F7FA]"
             type="text"
+            defaultValue={room?.roomName}
             placeholder="Room name"
           />
           {errors.roomName && (
@@ -111,8 +83,9 @@ export default function AddRoom() {
           </label>
           <input
             {...register("roomNo", { required: true })}
-            className="border py-2.5 lg:w-[70%] text-black outline-none  px-3 rounded text-sm border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 bg-[#E0F7FA] hover:bg-white"
+            className="border py-2.5 lg:w-[70%] text-black outline-none px-3 rounded text-sm border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 bg-[#E0F7FA]"
             type="number"
+            defaultValue={room?.roomNo}
             placeholder="Room no"
           />
           {errors.roomNo && (
@@ -128,8 +101,9 @@ export default function AddRoom() {
           </label>
           <input
             {...register("floorNo", { required: true })}
-            className="border py-2.5 lg:w-[70%] text-black outline-none  px-3 rounded text-sm border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 bg-[#E0F7FA] hover:bg-white"
+            className="border py-2.5 lg:w-[70%] text-black outline-none px-3 rounded text-sm border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 bg-[#E0F7FA]"
             type="number"
+            defaultValue={room?.floorNo}
             placeholder="Floor no"
           />
           {errors.floorNo && (
@@ -145,8 +119,9 @@ export default function AddRoom() {
           </label>
           <input
             {...register("capacity", { required: true })}
-            className="border py-2.5 lg:w-[70%] text-black outline-none  px-3 rounded text-sm border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 bg-[#E0F7FA] hover:bg-white"
+            className="border py-2.5 lg:w-[70%] text-black outline-none px-3 rounded text-sm border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 bg-[#E0F7FA]"
             type="number"
+            defaultValue={room?.capacity}
             placeholder="Capacity"
           />
           {errors.capacity && (
@@ -160,8 +135,9 @@ export default function AddRoom() {
           </label>
           <input
             {...register("pricePerSlot", { required: true })}
-            className="border py-2.5 lg:w-[70%] text-black outline-none  px-3 rounded text-sm border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 bg-[#E0F7FA] hover:bg-white"
+            className="border py-2.5 lg:w-[70%] text-black outline-none px-3 rounded text-sm border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 bg-[#E0F7FA]"
             type="number"
+            defaultValue={room?.pricePerSlot}
             placeholder="Price per slot"
           />
           {errors.pricePerSlot && (
@@ -175,14 +151,14 @@ export default function AddRoom() {
           <label className="md:w-[30%] mb-1" htmlFor="amenities">
             Amenities
           </label>
-          <div className="w-[70%]">
+          <div className="w-[70%] border border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 rounded">
             <Select
               mode="tags"
-              className="border rounded border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200"
               style={{ width: "100%" }}
               placeholder="Amenities"
               onChange={handleChange}
               options={options}
+              defaultValue={room?.amenities}
             />
           </div>
           {errors.pricePerSlot && (
@@ -190,17 +166,16 @@ export default function AddRoom() {
           )}
         </div>
 
-        <div className="flex flex-col md:flex-row w-full md:items-center mb-2 md:mb-6">
+        {/* <div className="flex flex-col md:flex-row w-full md:items-center mb-2 md:mb-6">
           <label className="md:w-[30%] mb-1" htmlFor="addImage">
             Add Images
           </label>
           <input
-            {...register("images", { required: true })}
+            {...register("images")}
             onChange={handleAddImageChange}
             type="file"
             id="addImage"
             className="hidden"
-            multiple
           />
           <label
             htmlFor="addImage"
@@ -224,7 +199,7 @@ export default function AddRoom() {
               Image upload is required
             </span>
           )}
-        </div>
+        </div> */}
 
         <div className="flex flex-col md:flex-row w-full md:items-center mb-2 md:mb-6">
           <label className="md:w-[30%] mb-1" htmlFor="availableQuantity">
@@ -232,8 +207,9 @@ export default function AddRoom() {
           </label>
           <input
             {...register("availableQuantity", { required: true })}
-            className="border py-2.5 lg:w-[70%] text-black outline-none  px-3 rounded text-sm border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 bg-[#E0F7FA] hover:bg-white"
+            className="border py-2.5 lg:w-[70%] text-black outline-none px-3 rounded text-sm border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 bg-[#E0F7FA]"
             type="number"
+            defaultValue={room?.availableQuantity}
             placeholder="Available quantity"
           />
           {errors.availableQuantity && (
@@ -250,7 +226,7 @@ export default function AddRoom() {
               type="submit"
               className="w-1/2 bg-rose-500 hover:bg-rose-600 text-white transition duration-150 font-medium py-3 px-4 rounded-lg"
             >
-              Add Room
+              Update Room
             </button>
             <button
               type="button"

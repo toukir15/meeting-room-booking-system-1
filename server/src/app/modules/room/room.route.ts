@@ -16,16 +16,16 @@ router.post(
 );
 router.get('/', RoomControllers.getAllRooms);
 router.get('/:id', RoomControllers.getSingleRoom);
-router.put(
+router.patch(
   '/:id',
-  auth(USER_ROLE.admin),
-  validateRequest(RoomValidations.updateRoomValidationSchema),
+  // auth(USER_ROLE.admin),
+  // validateRequest(RoomValidations.updateRoomValidationSchema),
   RoomControllers.updateRoom,
 );
 router.delete(
   '/:id',
-  auth(USER_ROLE.admin),
-  validateRequest(RoomValidations.updateRoomValidationSchema),
+  // auth(USER_ROLE.admin),
+  // validateRequest(RoomValidations.updateRoomValidationSchema),
   RoomControllers.deleteRoom,
 );
 

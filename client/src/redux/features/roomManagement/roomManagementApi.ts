@@ -9,12 +9,7 @@ const roomManagementApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
-      // transformResponse: (response: TResponseRedux<TAcademicSemester[]>) => {
-      //   return {
-      //     data: response.data,
-      //     meta: response.meta,
-      //   };
-      // },
+      providesTags: ["room"],
     }),
     createRoom: builder.mutation({
       query: (data) => {
@@ -24,8 +19,34 @@ const roomManagementApi = baseApi.injectEndpoints({
           body: data,
         };
       },
+      invalidatesTags: ["room"],
+    }),
+    updateRoom: builder.mutation({
+      query: ({ data, id }) => {
+        console.log({ data, id });
+        return {
+          url: `/rooms/${id}`,
+          method: "PATCH",
+          body: data,
+        };
+      },
+      invalidatesTags: ["room"],
+    }),
+    deleteRoom: builder.mutation({
+      query: (id) => {
+        return {
+          url: `/rooms/${id}`,
+          method: "DELETE",
+        };
+      },
+      invalidatesTags: ["room"],
     }),
   }),
 });
 
-export const { useCreateRoomMutation, useGetRoomsQuery } = roomManagementApi;
+export const {
+  useCreateRoomMutation,
+  useGetRoomsQuery,
+  useDeleteRoomMutation,
+  useUpdateRoomMutation,
+} = roomManagementApi;

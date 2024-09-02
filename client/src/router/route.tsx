@@ -15,6 +15,8 @@ import SlotManagement from "../pages/adminDashboardPages/SlotManagement.t/SlotMa
 import BookingManagement from "../pages/adminDashboardPages/BookingManagement";
 import AddRoom from "../pages/adminDashboardPages/roomManagement/AddRoom";
 import CreateSlot from "../pages/adminDashboardPages/SlotManagement.t/CreateSlot";
+import UpdateRoom from "../pages/adminDashboardPages/roomManagement/UpdateRoom";
+import UpdateSlot from "../pages/adminDashboardPages/SlotManagement.t/UpdateSlot";
 
 export const router = createBrowserRouter([
   {
@@ -68,12 +70,20 @@ export const router = createBrowserRouter([
         element: <AddRoom />,
       },
       {
+        path: "room-management/update-room",
+        element: <UpdateRoom />,
+      },
+      {
         path: "slot-management",
         element: <SlotManagement />,
       },
       {
         path: "slot-management/create-slot",
         element: <CreateSlot />,
+      },
+      {
+        path: "slot-management/update-slot",
+        element: <UpdateSlot />,
       },
       {
         path: "booking-management",
