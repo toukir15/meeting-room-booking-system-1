@@ -87,7 +87,10 @@ export default function AdminDashboardLayout() {
           }))}
         />
       </Sider>
-      <div style={{ marginLeft: 250, padding: "1rem", width: "100%" }}>
+      <div
+        className="bg-gray-50"
+        style={{ marginLeft: 250, padding: "1rem", width: "100%" }}
+      >
         <Outlet />
       </div>
     </div>

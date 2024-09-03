@@ -97,7 +97,6 @@ const deleteSlotFromDB = async (id: string) => {
 
 const updateSlotIntoDB = async (data: { date: string }, id: string) => {
   const result = await Slot.findByIdAndUpdate(id, data, { new: true });
-  console.log(result);
   return result;
 };
 

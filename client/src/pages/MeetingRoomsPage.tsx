@@ -1,15 +1,30 @@
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import room1 from "../../public/images/room/room2.webp";
 import Navbar from "../components/meetingRooms/Navbar";
 import { IoIosSearch } from "react-icons/io";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useGetRoomsQuery } from "../redux/features/roomManagement/roomManagementApi";
+import { useAppDispatch } from "../redux/hook";
+import { setRoom } from "../redux/features/room/roomSlice";
+
+type TRoom = {
+  _id: string;
+  roomName: string;
+  roomNo: string;
+  capacity: string;
+  pricePerSlot: string;
+  floorNo: string;
+  amenities: string[];
+  images: string[];
+};
 
 export default function MeetingRoomsPage() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isSort, setIsSort] = useState(false);
   const [isFilter, setIsFilter] = useState(false);
+  const { data: roomsData } = useGetRoomsQuery(undefined);
+  const disPatch = useAppDispatch();
   const navigate = useNavigate();
 
   const handleFilter = () => {
@@ -28,8 +43,20 @@ export default function MeetingRoomsPage() {
     setIsSort(false);
   };
 
+  const handleRoom = (e: React.MouseEvent<HTMLElement>, id: string) => {
+    const target = e.target as HTMLElement;
+    const isSwiperButton =
+      target.classList.contains("swiper-button-next") ||
+      target.classList.contains("swiper-button-prev");
+    if (!isSwiperButton) {
+      const findRoom = roomsData?.data.find((room: TRoom) => room._id == id);
+      disPatch(setRoom(findRoom));
+      navigate("/room-details");
+    }
+  };
+
   return (
-    <>
+    <div className="h-screen">
       <Navbar />
       <div className="flex justify-center items-center flex-col pt-10 pb-20 ">
         <div>
@@ -94,284 +121,44 @@ export default function MeetingRoomsPage() {
       </div>
 
       <div className="pb-32 container mx-auto">
-        <div className=" grid grid-cols-4 gap-10 px-20 ">
-          <div
-            onClick={() => navigate("/room-details")}
-            className="w-fit cursor-pointer"
-          >
-            <Swiper
-              speed={1000}
-              navigation={true}
-              modules={[Navigation]}
-              className="h-[320px] w-[320px]"
+        <div className="grid grid-cols-4 gap-10 px-20">
+          {roomsData?.data.map((room: TRoom) => (
+            <div
+              onClick={(e) => handleRoom(e, room._id)}
+              className="w-fit cursor-pointer"
+              key={room._id}
             >
-              <SwiperSlide>
-                <div>
-                  <img
-                    src={room1}
-                    alt="Banner 1"
-                    className=" w-[320px] h-[320px] rounded-lg object-fill"
-                  />
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div>
-                  <img
-                    src={room1}
-                    alt="Banner 2"
-                    className=" w-[320px] h-[320px] rounded-lg object-fill"
-                  />
-                </div>
-              </SwiperSlide>
-            </Swiper>
-            <h6 className="mt-2 text-xl font-medium">Gromebridge, UK</h6>
-            <h6 className="text-gray-800">
-              Capacity <span className="font-medium">48</span>
-            </h6>
-            <h6 className="mt-1 text-gray-900">
-              Per slot <span className="font-medium">$100</span>
-            </h6>
-          </div>
-          <div className="w-fit">
-            <Swiper
-              speed={1000}
-              navigation={true}
-              modules={[Navigation]} // Include Autoplay in modules array
-              className="h-[320px] w-[320px]" // Ensure Swiper takes full height
-            >
-              <SwiperSlide>
-                <div>
-                  <img
-                    src={room1}
-                    alt="Banner 1"
-                    className=" w-[320px] h-[320px] rounded-lg object-fill"
-                  />
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div>
-                  <img
-                    src={room1}
-                    alt="Banner 2"
-                    className=" w-[320px] h-[320px] rounded-lg object-fill"
-                  />
-                </div>
-              </SwiperSlide>
-            </Swiper>
-            <h6 className="mt-2 text-xl font-medium">Gromebridge, UK</h6>
-            <h6 className="text-gray-800">
-              Capacity <span className="font-medium">48</span>
-            </h6>
-            <h6 className="mt-1 text-gray-900">
-              Per slot <span className="font-medium">$100</span>
-            </h6>
-          </div>
-          <div className="w-fit">
-            <Swiper
-              speed={1000}
-              navigation={true}
-              modules={[Navigation]} // Include Autoplay in modules array
-              className="h-[320px] w-[320px]" // Ensure Swiper takes full height
-            >
-              <SwiperSlide>
-                <div>
-                  <img
-                    src={room1}
-                    alt="Banner 1"
-                    className=" w-[320px] h-[320px] rounded-lg object-fill"
-                  />
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div>
-                  <img
-                    src={room1}
-                    alt="Banner 2"
-                    className=" w-[320px] h-[320px] rounded-lg object-fill"
-                  />
-                </div>
-              </SwiperSlide>
-            </Swiper>
-            <h6 className="mt-2 text-xl font-medium">Gromebridge, UK</h6>
-            <h6 className="text-gray-800">
-              Capacity <span className="font-medium">48</span>
-            </h6>
-            <h6 className="mt-1 text-gray-900">
-              Per slot <span className="font-medium">$100</span>
-            </h6>
-          </div>
-          <div className="w-fit">
-            <Swiper
-              speed={1000}
-              navigation={true}
-              modules={[Navigation]} // Include Autoplay in modules array
-              className="h-[320px] w-[320px]" // Ensure Swiper takes full height
-            >
-              <SwiperSlide>
-                <div>
-                  <img
-                    src={room1}
-                    alt="Banner 1"
-                    className=" w-[320px] h-[320px] rounded-lg object-fill"
-                  />
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div>
-                  <img
-                    src={room1}
-                    alt="Banner 2"
-                    className=" w-[320px] h-[320px] rounded-lg object-fill"
-                  />
-                </div>
-              </SwiperSlide>
-            </Swiper>
-            <h6 className="mt-2 text-xl font-medium">Gromebridge, UK</h6>
-            <h6 className="text-gray-800">
-              Capacity <span className="font-medium">48</span>
-            </h6>
-            <h6 className="mt-1 text-gray-900">
-              Per slot <span className="font-medium">$100</span>
-            </h6>
-          </div>
-          <div className="w-fit">
-            <Swiper
-              speed={1000}
-              navigation={true}
-              modules={[Navigation]} // Include Autoplay in modules array
-              className="h-[320px] w-[320px]" // Ensure Swiper takes full height
-            >
-              <SwiperSlide>
-                <div>
-                  <img
-                    src={room1}
-                    alt="Banner 1"
-                    className=" w-[320px] h-[320px] rounded-lg object-fill"
-                  />
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div>
-                  <img
-                    src={room1}
-                    alt="Banner 2"
-                    className=" w-[320px] h-[320px] rounded-lg object-fill"
-                  />
-                </div>
-              </SwiperSlide>
-            </Swiper>
-            <h6 className="mt-2 text-xl font-medium">Gromebridge, UK</h6>
-            <h6 className="text-gray-800">
-              Capacity <span className="font-medium">48</span>
-            </h6>
-            <h6 className="mt-1 text-gray-900">
-              Per slot <span className="font-medium">$100</span>
-            </h6>
-          </div>
-          <div className="w-fit">
-            <Swiper
-              speed={1000}
-              navigation={true}
-              modules={[Navigation]} // Include Autoplay in modules array
-              className="h-[320px] w-[320px]" // Ensure Swiper takes full height
-            >
-              <SwiperSlide>
-                <div>
-                  <img
-                    src={room1}
-                    alt="Banner 1"
-                    className=" w-[320px] h-[320px] rounded-lg object-fill"
-                  />
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div>
-                  <img
-                    src={room1}
-                    alt="Banner 2"
-                    className=" w-[320px] h-[320px] rounded-lg object-fill"
-                  />
-                </div>
-              </SwiperSlide>
-            </Swiper>
-            <h6 className="mt-2 text-xl font-medium">Gromebridge, UK</h6>
-            <h6 className="text-gray-800">
-              Capacity <span className="font-medium">48</span>
-            </h6>
-            <h6 className="mt-1 text-gray-900">
-              Per slot <span className="font-medium">$100</span>
-            </h6>
-          </div>
-          <div className="w-fit">
-            <Swiper
-              speed={1000}
-              navigation={true}
-              modules={[Navigation]} // Include Autoplay in modules array
-              className="h-[320px] w-[320px]" // Ensure Swiper takes full height
-            >
-              <SwiperSlide>
-                <div>
-                  <img
-                    src={room1}
-                    alt="Banner 1"
-                    className=" w-[320px] h-[320px] rounded-lg object-fill"
-                  />
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div>
-                  <img
-                    src={room1}
-                    alt="Banner 2"
-                    className=" w-[320px] h-[320px] rounded-lg object-fill"
-                  />
-                </div>
-              </SwiperSlide>
-            </Swiper>
-            <h6 className="mt-2 text-xl font-medium">Gromebridge, UK</h6>
-            <h6 className="text-gray-800">
-              Capacity <span className="font-medium">48</span>
-            </h6>
-            <h6 className="mt-1 text-gray-900">
-              Per slot <span className="font-medium">$100</span>
-            </h6>
-          </div>
-          <div className="w-fit">
-            <Swiper
-              speed={1000}
-              navigation={true}
-              modules={[Navigation]} // Include Autoplay in modules array
-              className="h-[320px] w-[320px]" // Ensure Swiper takes full height
-            >
-              <SwiperSlide>
-                <div>
-                  <img
-                    src={room1}
-                    alt="Banner 1"
-                    className=" w-[320px] h-[320px] rounded-lg object-fill"
-                  />
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div>
-                  <img
-                    src={room1}
-                    alt="Banner 2"
-                    className=" w-[320px] h-[320px] rounded-lg object-fill"
-                  />
-                </div>
-              </SwiperSlide>
-            </Swiper>
-            <h6 className="mt-2 text-xl font-medium">Gromebridge, UK</h6>
-            <h6 className="text-gray-800">
-              Capacity <span className="font-medium">48</span>
-            </h6>
-            <h6 className="mt-1 text-gray-900">
-              Per slot <span className="font-medium">$100</span>
-            </h6>
-          </div>
+              <Swiper
+                speed={1000}
+                navigation={true}
+                modules={[Navigation]}
+                className="h-[320px] w-[320px]"
+              >
+                {room.images.map((image, index) => (
+                  <SwiperSlide key={index}>
+                    <div>
+                      <img
+                        src={image}
+                        alt={`Banner ${index + 1}`}
+                        className="w-[320px] h-[320px] rounded-lg object-fill"
+                      />
+                    </div>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+
+              <h6 className="mt-2 text-xl font-medium">{room.roomName}</h6>
+              <h6 className="text-gray-800">
+                Capacity <span className="font-medium">{room.capacity}</span>
+              </h6>
+              <h6 className="mt-1 text-gray-900">
+                Per slot{" "}
+                <span className="font-medium">${room.pricePerSlot}</span>
+              </h6>
+            </div>
+          ))}
         </div>
       </div>
-    </>
+    </div>
   );
 }

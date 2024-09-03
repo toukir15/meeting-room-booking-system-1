@@ -1,21 +1,54 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "/icon.png";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useLoginMutation } from "../../redux/features/auth/authApi";
+import { toast } from "sonner";
+import { jwtDecode } from "jwt-decode";
+import { useAppDispatch } from "../../redux/hook";
+import { setUser } from "../../redux/features/auth/authSlice";
 
 type TLogin = {
   email: string;
   password: string;
 };
 
+type TUser = {
+  email: string;
+  _id: string;
+  iat: number;
+  role: string;
+};
+
 export default function LoginPage() {
+  const [login] = useLoginMutation();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<TLogin>();
-  const handleLoginForm: SubmitHandler<TLogin> = (data) => {
-    console.log(data);
+
+  const handleLoginForm: SubmitHandler<TLogin> = async (data) => {
+    const result = await login(data);
+    const token = result.data.token;
+    if (token) {
+      const decoded = jwtDecode(token) as TUser;
+      dispatch(setUser(decoded));
+      navigate("/");
+    }
+
+    if (result.error) {
+      if ("data" in result.error) {
+        const apiError = result.error.data as { message: string };
+        toast.error(apiError.message, { duration: 2000 });
+      } else {
+        // Handle non-API errors
+        toast.error("An unexpected error occurred.", { duration: 2000 });
+      }
+    }
   };
+
   return (
     <div
       onSubmit={handleSubmit(handleLoginForm)}

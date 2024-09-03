@@ -17,6 +17,8 @@ import AddRoom from "../pages/adminDashboardPages/roomManagement/AddRoom";
 import CreateSlot from "../pages/adminDashboardPages/SlotManagement.t/CreateSlot";
 import UpdateRoom from "../pages/adminDashboardPages/roomManagement/UpdateRoom";
 import UpdateSlot from "../pages/adminDashboardPages/SlotManagement.t/UpdateSlot";
+import AdminProtectedRoute from "../components/layout/AdminProtectedRoute";
+import ProtectedRoute from "../components/layout/ProtectedRoute";
 
 export const router = createBrowserRouter([
   {
@@ -37,15 +39,27 @@ export const router = createBrowserRouter([
       },
       {
         path: "meeting-rooms",
-        element: <MeetingRoomsPage />,
+        element: (
+          <ProtectedRoute>
+            <MeetingRoomsPage />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "room-details",
-        element: <RoomDetails />,
+        element: (
+          <ProtectedRoute>
+            <RoomDetails />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "book-room",
-        element: <BookRoom />,
+        element: (
+          <ProtectedRoute>
+            <BookRoom />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "error",
@@ -55,7 +69,11 @@ export const router = createBrowserRouter([
   },
   {
     path: "/admin/dashboard",
-    element: <AdminDashboardLayout />,
+    element: (
+      <AdminProtectedRoute>
+        <AdminDashboardLayout />
+      </AdminProtectedRoute>
+    ),
     children: [
       {
         path: "",

@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "/icon.png";
 import ReactFlagsSelect from "react-flags-select";
 import { SubmitHandler, useForm, Controller } from "react-hook-form";
+import { useCreateUserMutation } from "../../redux/features/user/userApi";
+import { toast } from "sonner";
 
 const countryData = {
   AF: { code: "+93", country: "Afghanistan" },
@@ -250,10 +252,14 @@ type TSignupData = {
   email: string;
   password: string;
   confirmPassword: string;
-  number: string;
+  phone: string;
   address: string;
   country: CountryCode;
 };
+interface ErrorData {
+  success: boolean;
+  message: string;
+}
 
 const customLabels = Object.entries(countryData).reduce(
   (labels, [key, value]) => {
@@ -265,17 +271,40 @@ const customLabels = Object.entries(countryData).reduce(
 
 export default function SignupPage() {
   const [selectedCountry, setSelectedCountry] = useState<CountryCode>("US");
-
+  const [createUser] = useCreateUserMutation();
+  const navigate = useNavigate();
   const {
     control,
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<TSignupData>();
-  const handleRegisterForm: SubmitHandler<TSignupData> = (data) => {
-    const phoneNumber = `${countryData[selectedCountry].code} ${data.number}`;
-    const signupData = { ...data, number: phoneNumber };
-    console.log(signupData);
+
+  const handleRegisterForm: SubmitHandler<TSignupData> = async (data) => {
+    try {
+      // Construct phone number
+      const phoneNumber = `${countryData[selectedCountry].code} ${data.phone}`;
+      const signupData = { ...data, phone: phoneNumber };
+      console.log(signupData);
+      // Attempt to create the user
+      const result = await createUser(signupData);
+      if (result.error) {
+        if ("data" in result.error) {
+          const errorData = result.error.data as ErrorData; // Type assertion
+
+          if (!errorData.success) {
+            toast.error(errorData.message);
+          }
+        } else {
+          // Handle other types of errors if needed
+          toast.error("An unexpected error occurred.");
+        }
+      } else {
+        navigate("/login");
+      }
+    } catch (error) {
+      toast.error("Registration Failed");
+    }
   };
 
   return (
@@ -284,7 +313,7 @@ export default function SignupPage() {
         className="bg-white w-[600px] shadow-lg py-[30px] rounded-2xl flex justify-center items-center flex-col"
         onSubmit={handleSubmit(handleRegisterForm)}
       >
-        <img className="w-20 mb-5" src={logo} alt="" />
+        <img className="w-16 mb-3" src={logo} alt="" />
         <h3 className="text-3xl font-medium mb-4 text-gray-700">MeetEase</h3>
 
         {/* Name Field */}
@@ -363,10 +392,32 @@ export default function SignupPage() {
           )}
         </div>
 
+        {/* Address Field */}
+        <div className="flex flex-col w-4/5 md:w-3/5 mb-4">
+          <label className="text-gray-700" htmlFor="address">
+            Address
+          </label>
+          <input
+            {...register("address", {
+              required: "Address is required",
+              // validate: (value) =>
+              //   value === watch("password") || "Passwords do not match",
+            })}
+            className="outline-none border mt-1 p-2 rounded border-[#E8E8E8]"
+            placeholder="Address"
+            type="text"
+          />
+          {errors.address && (
+            <span className="text-red-600 text-sm mt-1">
+              {errors.address.message}
+            </span>
+          )}
+        </div>
+
         {/* Number Field */}
         <div className="flex flex-col w-4/5 md:w-3/5 mb-4">
           <label className="text-gray-700" htmlFor="number">
-            Number
+            Phone
           </label>
           <div className="flex items-center gap-2">
             <div className="relative top-[2px]">
@@ -391,26 +442,32 @@ export default function SignupPage() {
               />
             </div>
             <input
-              {...register("number", { required: "Number is required" })}
+              {...register("phone", {
+                required: "Number is required",
+                pattern: {
+                  value: /^[0-9]+$/,
+                  message: "Only numbers are allowed",
+                },
+              })}
               className="outline-none border mt-1 p-2 rounded border-[#E8E8E8] w-full"
               placeholder="Phone number"
               type="tel"
             />
           </div>
-          {errors.number && (
+          {errors.phone && (
             <span className="text-red-600 text-sm mt-1">
-              {errors.number.message}
+              {errors.phone.message}
             </span>
           )}
         </div>
 
         <button
           type="submit"
-          className="bg-rose-500 hover:bg-rose-600 transition duration-200 text-white py-[10px] px-12 rounded-xl font-bold mt-4"
+          className="bg-rose-500 hover:bg-rose-600 transition duration-200 text-white py-[10px] px-12 rounded-xl font-bold mt-2"
         >
           Sign Up
         </button>
-        <p className="text-[#b5b4b4] mt-3 md:mt-8">
+        <p className="text-[#b5b4b4] mt-3 md:mt-4">
           Already have an account?{" "}
           <Link
             to={`/login`}

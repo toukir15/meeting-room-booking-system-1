@@ -2,12 +2,24 @@ import { configureStore } from "@reduxjs/toolkit";
 import { baseApi } from "./api/baseApi";
 import roomManagementReducer from "./features/roomManagement/roomManagementSlice";
 import slotManagementReducer from "./features/slotManagement/slotManagementSlice";
+import roomReducer from "./features/room/roomSlice";
+import authReducer from "./features/auth/authSlice";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
 
+const persistConfig = {
+  key: "auth",
+  storage,
+};
+
+const persistedReducer = persistReducer(persistConfig, authReducer);
 export const store = configureStore({
   reducer: {
     [baseApi.reducerPath]: baseApi.reducer,
     roomManagement: roomManagementReducer,
     slotManagement: slotManagementReducer,
+    room: roomReducer,
+    auth: persistedReducer,
   },
   middleware: (getDefaultMiddlewares) =>
     getDefaultMiddlewares().concat(baseApi.middleware),
@@ -17,3 +29,5 @@ export const store = configureStore({
 export type RootState = ReturnType<typeof store.getState>;
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;
+
+export const persistor = persistStore(store);

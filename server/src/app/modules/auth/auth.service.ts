@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import httpStatus from 'http-status';
 import config from '../../config';
 import { AppError } from '../../errors/appError';
@@ -11,28 +12,36 @@ const loginUser = async (payload: Partial<TUser>) => {
     email: payload.email,
   }).lean();
 
-  // check user exist or not
+  // Check if the user exists
   if (!isUserExist) {
     throw new AppError(httpStatus.UNAUTHORIZED, 'User does not exist');
   }
 
-  // compare password
+  // Compare password
   const loginPassword = payload.password as string;
   const hashPassword = isUserExist.password;
-  delete isUserExist.password;
+  // eslint-disable-next-line no-unused-vars
+  const { password, ...userWithoutPassword } = isUserExist; // Destructure to exclude password
+
   const jwtPayload = {
     id: isUserExist._id.toHexString(),
     email: isUserExist.email,
     role: isUserExist.role,
+    name: isUserExist.name,
+    phone: isUserExist.phone,
   };
 
   const comparePassword = bcrypt.compareSync(loginPassword, hashPassword);
   if (!comparePassword) {
-    throw new AppError(httpStatus.UNAUTHORIZED, 'You provide a wrong password');
+    throw new AppError(
+      httpStatus.UNAUTHORIZED,
+      'You provided a wrong password',
+    );
   }
-  // generate jwt token
+
+  // Generate JWT token
   const token = jwt.sign(jwtPayload, config.secret_key as string);
-  return { token, isUserExist };
+  return { token, user: userWithoutPassword };
 };
 
 export const AuthServices = {
