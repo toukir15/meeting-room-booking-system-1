@@ -3,7 +3,7 @@ import { z } from 'zod';
 const createBookingValidationSchema = z.object({
   body: z.object({
     date: z.string(),
-    slots: z.array(z.string()),
+    slot: z.string(),
     room: z.string(),
     user: z.string(),
     totalAmount: z.number().default(0),
@@ -15,7 +15,7 @@ const createBookingValidationSchema = z.object({
 const updateBookingValidationSchema = z.object({
   body: z.object({
     date: z.string().optional(),
-    slots: z.array(z.string()).optional(),
+    slot: z.string().optional(),
     room: z.string().optional(),
     user: z.string().optional(),
     totalAmount: z.number().default(0).optional(),

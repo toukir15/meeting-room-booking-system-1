@@ -2,9 +2,7 @@ import httpStatus from 'http-status';
 import { AppError } from '../../errors/appError';
 import { TBooking } from './booking.interface';
 import { Booking } from './booking.model';
-import mongoose from 'mongoose';
 import { Room } from '../room/room.model';
-import { Slot } from '../slot/slot.model';
 
 const createBookingIntoDB = async (payload: TBooking) => {
   // check room  exist or not
@@ -12,92 +10,62 @@ const createBookingIntoDB = async (payload: TBooking) => {
   if (!isExistRoom) {
     throw new AppError(httpStatus.BAD_REQUEST, 'Room does not exist');
   }
-
-  // check slot exist or not
-  payload.slots.forEach(async (slot) => {
-    const isSlotExist = await Slot.findById(slot);
-    if (!isSlotExist) {
-      throw new AppError(httpStatus.BAD_REQUEST, 'Room does not exist');
-    }
-  });
-
   const result = await Booking.create(payload);
-  const id = result._id;
+  return result;
+};
 
-  // make total amount and populate the reference data
-  const populatedBooking = await Booking.aggregate([
-    // Stage 1: Match by _id
-    { $match: { _id: id } },
+import { Types } from 'mongoose';
 
-    // Stage 2: Lookup slots collection to populate 'slots' field
+const getMyBookingsFromDB = async (id: string) => {
+  const userId = new Types.ObjectId(id); // Convert string id to ObjectId
+
+  const result = await Booking.aggregate([
     {
-      $lookup: {
-        from: 'slots',
-        localField: 'slots',
-        foreignField: '_id',
-        as: 'slots',
-      },
+      $match: { user: userId }, // Match bookings for the specified user
     },
-
-    // Stage 3: Unwind the 'slots' array to process each slot individually
-    { $unwind: '$slots' },
-
-    // // Stage 4: Lookup rooms collection to populate 'room' field
     {
       $lookup: {
         from: 'rooms',
-        localField: 'slots.room',
+        localField: 'room',
         foreignField: '_id',
         as: 'room',
       },
     },
-
-    // // Stage 5: Unwind the 'room' array to ensure 'room' is a single object
-    { $unwind: '$room' },
-
-    // // Stage 6: Lookup users collection to populate 'user' field
+    {
+      $unwind: '$room',
+    },
     {
       $lookup: {
-        from: 'users', // The name of the users collection
-        localField: 'user',
+        from: 'slots',
+        localField: 'slot',
         foreignField: '_id',
-        as: 'user',
+        as: 'slot',
       },
     },
-
-    // // Stage 7: Unwind the 'user' array to ensure 'user' is a single object
-    { $unwind: '$user' },
-
-    // Stage 8: Group by _id to restore the structure and accumulate 'slots' array
     {
-      $group: {
-        _id: '$_id',
-        date: { $first: '$date' },
-        room: { $first: '$room' },
-        user: { $first: '$user' },
-        slots: { $push: '$slots' },
-        totalAmount: { $sum: '$room.pricePerSlot' },
-        isConfirmed: { $first: '$isConfirmed' },
-        isDeleted: { $first: '$isDeleted' },
+      $unwind: '$slot',
+    },
+    {
+      $project: {
+        _id: 1,
+        date: 1,
+        room: {
+          _id: 1,
+          roomName: 1,
+          pricePerSlot: 1,
+        },
+        slot: {
+          _id: 1,
+          date: 1,
+          startTime: 1,
+          endTime: 1,
+        },
+        isConfirmed: 1,
+        isDeleted: 1,
       },
     },
   ]);
 
-  // update total amount
-  const totalAmount = populatedBooking[0].totalAmount;
-  await Booking.findByIdAndUpdate(
-    id,
-    {
-      totalAmount,
-    },
-    { new: true, runValidators: true },
-  );
-
-  return populatedBooking;
-};
-
-const getMyBookingsFromDB = async (id: string) => {
-  const result = await Booking.find({ user: id });
   return result;
 };
 

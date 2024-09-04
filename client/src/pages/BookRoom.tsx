@@ -1,12 +1,13 @@
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { DatePicker, TimePicker } from "antd";
 import room2 from "../../public/images/room/room2.webp";
 import Navbar from "../components/meetingRooms/Navbar";
 import { useAppSelector } from "../redux/hook";
 import { useGetAvailableSlotQuery } from "../redux/features/slot/slotApi";
+import { useCreatePaymentSessionMutation } from "../redux/features/payment/paymentApi";
 
 dayjs.extend(customParseFormat);
 
@@ -15,24 +16,38 @@ const timeFormat = "HH:mm";
 const date = new Date();
 const initialFormattedDate = date.toISOString().split("T")[0];
 
+type TCheckout = {
+  name: string;
+  email: string;
+  phone: string;
+  startTime: Dayjs | null;
+  endTime: Dayjs | null;
+  date: Dayjs;
+};
+
 export default function BookRoom() {
   // states
   const user = useAppSelector((state) => state.auth.user);
   const room = useAppSelector((state) => state.room.room);
+  console.log(user);
 
   // Manage date state
   const [selectedDate, setSelectedDate] = useState(
     dayjs(initialFormattedDate, dateFormat)
   );
+  const [startTime, setStartTime] = useState<Dayjs | null>(null);
+  const [endTime, setEndTime] = useState<Dayjs | null>(null);
 
   const query = { roomId: room?._id, date: selectedDate.format(dateFormat) };
 
-  // api call
+  // API call to get available slots
   const { data: availableSlotData } = useGetAvailableSlotQuery(query);
+  const [createPaymentSession] = useCreatePaymentSessionMutation();
 
-  const availableStartTime = availableSlotData?.data.map((data) => {
-    return dayjs(data.startTime, timeFormat);
-  });
+  const availableStartTime: Dayjs[] =
+    availableSlotData?.data.map((data: { startTime: string }) =>
+      dayjs(data.startTime, timeFormat)
+    ) || [];
 
   const {
     register,
@@ -40,9 +55,11 @@ export default function BookRoom() {
     formState: { errors },
     setValue,
     getValues,
-  } = useForm();
+  } = useForm<TCheckout>();
 
-  const handleCheckout = (data) => {
+  console.log(room?.pricePerSlot);
+
+  const handleCheckout = async (data: TCheckout) => {
     const date = getValues("date");
     const startTime = getValues("startTime");
     const endTime = getValues("endTime");
@@ -51,15 +68,20 @@ export default function BookRoom() {
       date: date ? date.format(dateFormat) : selectedDate.format(dateFormat),
       startTime: startTime ? startTime.format(timeFormat) : null,
       endTime: endTime ? endTime.format(timeFormat) : null,
+      pricePerSlot: room?.pricePerSlot,
+      roomName: room?.roomName,
+      room: room?._id,
+      user: user?.id,
     };
-    console.log("Booking Data:", bookingData);
+    console.log(bookingData);
+
+    const result = await createPaymentSession({ bookingData, userData: user });
+    console.log(result);
     // You can add your API call here to process the booking
   };
 
-  const disabledTime = (current) => {
-    if (!current) {
-      return {};
-    }
+  const disabledTime = (current: Dayjs | null) => {
+    if (!current) return {};
 
     const unavailableHours = Array.from({ length: 24 }, (_, i) => i).filter(
       (hour) =>
@@ -84,9 +106,23 @@ export default function BookRoom() {
     };
   };
 
+  // Automatically update endTime to be one hour after startTime
+  useEffect(() => {
+    if (startTime) {
+      const newEndTime = startTime.add(1, "hour");
+      setEndTime(newEndTime);
+      setValue("endTime", newEndTime);
+    }
+  }, [startTime, setValue]);
+
   useEffect(() => {
     setValue("date", selectedDate); // Set the default value for date in the form
   }, [selectedDate, setValue]);
+
+  useEffect(() => {
+    setValue("startTime", startTime);
+    setValue("endTime", endTime);
+  }, [startTime, endTime, setValue]);
 
   return (
     <>
@@ -103,11 +139,11 @@ export default function BookRoom() {
               </h2>
               <div className="flex flex-col w-full mb-4">
                 <label className="text-text-secondary" htmlFor="name">
-                  Name
+                  Name *
                 </label>
                 <input
                   {...register("name", { required: "Name is required" })}
-                  className="outline-none border mt-1 p-2 rounded border-[#E8E8E8] w-full"
+                  className="outline-none border mt-1 p-2 rounded border-[#E8E8E8] w-full shadow"
                   placeholder="Your name"
                   defaultValue={user?.name}
                   type="text"
@@ -115,11 +151,11 @@ export default function BookRoom() {
               </div>
               <div className="flex flex-col w-full mb-4">
                 <label className="text-text-secondary" htmlFor="email">
-                  Email
+                  Email *
                 </label>
                 <input
                   {...register("email", { required: "Email is required" })}
-                  className="outline-none border mt-1 p-2 rounded border-[#E8E8E8] w-full"
+                  className="outline-none border mt-1 p-2 rounded border-[#E8E8E8] w-full shadow"
                   placeholder="Your email"
                   defaultValue={user?.email}
                   type="text"
@@ -127,11 +163,11 @@ export default function BookRoom() {
               </div>
               <div className="flex flex-col w-full mb-4">
                 <label className="text-text-secondary" htmlFor="phone">
-                  Phone
+                  Phone *
                 </label>
                 <input
                   {...register("phone", { required: "Phone is required" })}
-                  className="outline-none border mt-1 p-2 rounded border-[#E8E8E8] w-full"
+                  className="outline-none border mt-1 p-2 rounded border-[#E8E8E8] w-full shadow"
                   placeholder="Your phone"
                   defaultValue={user?.phone}
                   type="text"
@@ -139,10 +175,10 @@ export default function BookRoom() {
               </div>
               <div className="flex flex-col w-full mb-4">
                 <label className="text-text-secondary mb-1" htmlFor="date">
-                  Date
+                  Date *
                 </label>
                 <DatePicker
-                  className="py-2 w-full"
+                  className="py-2 w-full shadow"
                   value={selectedDate}
                   format={dateFormat}
                   onChange={(value) => setSelectedDate(value)}
@@ -150,23 +186,26 @@ export default function BookRoom() {
               </div>
               <div className="flex flex-col w-full mb-4">
                 <label className="text-text-secondary mb-1" htmlFor="time">
-                  Start Time
+                  Start Time *
                 </label>
                 <TimePicker
-                  className="py-2 w-full"
+                  className="py-2 w-full shadow"
                   format={timeFormat}
-                  onChange={(value) => setValue("startTime", value)}
+                  value={startTime}
+                  onChange={(value) => setStartTime(value)}
                   disabledTime={disabledTime}
                 />
               </div>
               <div className="flex flex-col w-full mb-4">
                 <label className="text-text-secondary mb-1" htmlFor="time">
-                  End Time
+                  End Time *
                 </label>
                 <TimePicker
-                  className="py-2 w-full"
+                  className="py-2 w-full shadow"
                   format={timeFormat}
-                  onChange={(value) => setValue("endTime", value)}
+                  value={endTime}
+                  onChange={(value) => setEndTime(value)}
+                  disabled
                 />
               </div>
             </div>

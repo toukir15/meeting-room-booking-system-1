@@ -4,7 +4,7 @@ export interface user {
   email: string;
   role: string;
   iat: number;
-  _id: string;
+  id: string;
   name: string;
   phone: string;
 }
