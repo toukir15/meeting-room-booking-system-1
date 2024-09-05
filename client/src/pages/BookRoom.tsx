@@ -4,11 +4,10 @@ import dayjs, { Dayjs } from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { DatePicker, TimePicker } from "antd";
 import room2 from "../../public/images/room/room2.webp";
-import Navbar from "../components/meetingRooms/Navbar";
 import { useAppSelector } from "../redux/hook";
 import { useGetAvailableSlotQuery } from "../redux/features/slot/slotApi";
 import { useCreatePaymentSessionMutation } from "../redux/features/payment/paymentApi";
-import { useNavigate } from "react-router-dom";
+import SecondaryNavbar from "../components/shared/SecondaryNavbar";
 
 dayjs.extend(customParseFormat);
 
@@ -27,7 +26,7 @@ type TCheckout = {
 };
 
 export default function BookRoom() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   // states
   const user = useAppSelector((state) => state.auth.user);
   const room = useAppSelector((state) => state.room.room);
@@ -127,7 +126,7 @@ export default function BookRoom() {
 
   return (
     <>
-      <Navbar />
+      <SecondaryNavbar />
       <div className="bg-gray-50">
         <form
           onSubmit={handleSubmit(handleCheckout)}

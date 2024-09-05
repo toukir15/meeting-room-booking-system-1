@@ -1,11 +1,11 @@
 import { baseApi } from "../../api/baseApi";
 
-const roomManagementApi = baseApi.injectEndpoints({
+const bookingManagementApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getBookings: builder.query({
       query: () => {
         return {
-          url: "/bookings",
+          url: "/bookings/get-bookings",
           method: "GET",
         };
       },
@@ -43,4 +43,4 @@ const roomManagementApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useGetBookingsQuery } = roomManagementApi;
+export const { useGetBookingsQuery } = bookingManagementApi;

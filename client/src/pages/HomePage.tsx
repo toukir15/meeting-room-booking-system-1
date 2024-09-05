@@ -1,4 +1,3 @@
-import Navbar from "../components/home/Navbar";
 import { IoTimerOutline } from "react-icons/io5";
 
 // Import Swiper styles
@@ -16,14 +15,13 @@ import WhyChooesUs from "../components/home/WhyChooesUs";
 import Step from "../components/home/Step";
 import Testmonial from "../components/home/Testmonial";
 import Hero from "../components/home/Hero";
+import Navbar from "../components/shared/PrimaryNavbar";
 
 export default function HomePage() {
   return (
     <>
-      <div className="h-[700px] flex flex-col">
-        <div className="absolute w-full px-28 top-6 z-50 text-white">
-          <Navbar />
-        </div>
+      <div className="h-[808px] flex flex-col">
+        <Navbar />
         <Hero />
       </div>
 

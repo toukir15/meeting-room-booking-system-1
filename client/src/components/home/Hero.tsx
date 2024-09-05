@@ -8,7 +8,6 @@ export default function Hero() {
     <div className="flex-1">
       {/* banner section  */}
       <div className=" relative">
-        {/* Set to full height */}
         <Swiper
           autoplay={{
             delay: 3000,
@@ -17,7 +16,7 @@ export default function Hero() {
           speed={3000}
           navigation={true}
           modules={[Navigation, Autoplay]}
-          className="mySwiper h-[700px]"
+          className="mySwiper h-[725px]"
         >
           <SwiperSlide>
             <div className="overlay-container h-full">

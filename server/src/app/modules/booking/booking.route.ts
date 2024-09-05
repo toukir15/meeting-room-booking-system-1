@@ -13,7 +13,7 @@ router.post(
   BookingControllers.createBooking,
 );
 
-router.get('/', BookingControllers.getAllBookings);
+router.get('/get-bookings', BookingControllers.getAllBookings);
 
 router.put(
   '/:id',

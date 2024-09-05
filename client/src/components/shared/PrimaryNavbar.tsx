@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import avatar from "../../../public/avatar.webp";
-import logo from "../../../public/icon.png";
+import avatar from "/public/avatar.webp";
+import logo from "/public/icon.png";
 
-export default function Navbar() {
+export default function PrimaryNavbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navbarRef = useRef<HTMLDivElement>(null);
 
@@ -27,7 +27,10 @@ export default function Navbar() {
   }, []);
 
   return (
-    <div className="flex justify-between items-center w-full" ref={navbarRef}>
+    <div
+      className="flex justify-between items-center w-full container mx-auto py-5 shadow-sm"
+      ref={navbarRef}
+    >
       <Link to={"/"} className="flex justify-between gap-4 items-center">
         <img src={logo} className="w-10" alt="" />
         <h5 className="text-xl font-medium">MeetEase</h5>

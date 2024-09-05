@@ -1,14 +1,12 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-import Navbar from "../home/Navbar";
 import { Autoplay, Navigation } from "swiper/modules";
 import { banner1, banner2, banner3, banner4, banner5, banner6 } from "../..";
 import "./HeroSection.css";
+import Navbar from "../shared/PrimaryNavbar";
 
 const HeroSection = () => (
   <div className="h-[700px] flex flex-col">
-    <div className="absolute w-full px-28 top-6 z-50 text-white">
-      <Navbar />
-    </div>
+    <Navbar />
     <div className="flex-1">
       {/* banner section  */}
       <div className=" relative">
@@ -21,7 +19,7 @@ const HeroSection = () => (
           speed={3000}
           navigation={true}
           modules={[Navigation, Autoplay]}
-          className="mySwiper h-[700px]"
+          className="mySwiper h-[725px]"
         >
           <SwiperSlide>
             <div className="overlay-container h-full">

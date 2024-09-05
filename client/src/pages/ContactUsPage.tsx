@@ -1,14 +1,14 @@
 import { TbLocationFilled } from "react-icons/tb";
-import Navbar from "../components/contactUs/Navbar";
 import { Link } from "react-router-dom";
 import { MdAlternateEmail } from "react-icons/md";
 import { FaPhoneAlt } from "react-icons/fa";
 import { CgOrganisation } from "react-icons/cg";
+import SecondaryNavbar from "../components/shared/SecondaryNavbar";
 
 const ContactUs = () => {
   return (
     <>
-      <Navbar />
+      <SecondaryNavbar />
       <div className="h-[calc(100vh-230px)]">
         <div className="md:flex gap-28 items-center mb-[50px] sm:mb-[60px] md:mb-[140px] lg:mt-[150px] md:mt-[150px] mt-[110px] container mx-auto px-40">
           <div className="w-2/3">
