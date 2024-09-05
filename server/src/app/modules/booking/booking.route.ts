@@ -13,6 +13,8 @@ router.post(
   BookingControllers.createBooking,
 );
 
+router.get('/', BookingControllers.getAllBookings);
+
 router.put(
   '/:id',
   auth(USER_ROLE.admin),

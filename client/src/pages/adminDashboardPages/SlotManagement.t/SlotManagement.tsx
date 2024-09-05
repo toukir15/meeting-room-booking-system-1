@@ -75,11 +75,17 @@ export default function SlotManagement() {
       title: "Start Time",
       dataIndex: "startTime",
       key: "startTime",
+      render: (startTime: string) => {
+        return <Tag color={"blue"}>{startTime}</Tag>;
+      },
     },
     {
       title: "End Time",
       dataIndex: "endTime",
       key: "endTime",
+      render: (endTime: string) => {
+        return <Tag color={"cyan"}>{endTime}</Tag>;
+      },
     },
     {
       title: "Booked Status",

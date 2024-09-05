@@ -66,10 +66,9 @@ const createPaymentSession = async (bookingData: BookingData) => {
       slotId: String(findSlot._id),
       bookingData: JSON.stringify(bookingCollectionData),
     },
-    success_url: 'http://localhost:5173/',
+    success_url: 'http://localhost:5173/payment-success',
     cancel_url: 'http://localhost:5173/',
   });
-  console.log(session);
   return session;
 };
 

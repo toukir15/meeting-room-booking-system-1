@@ -8,6 +8,7 @@ import Navbar from "../components/meetingRooms/Navbar";
 import { useAppSelector } from "../redux/hook";
 import { useGetAvailableSlotQuery } from "../redux/features/slot/slotApi";
 import { useCreatePaymentSessionMutation } from "../redux/features/payment/paymentApi";
+import { useNavigate } from "react-router-dom";
 
 dayjs.extend(customParseFormat);
 
@@ -26,10 +27,10 @@ type TCheckout = {
 };
 
 export default function BookRoom() {
+  const navigate = useNavigate();
   // states
   const user = useAppSelector((state) => state.auth.user);
   const room = useAppSelector((state) => state.room.room);
-  console.log(user);
 
   // Manage date state
   const [selectedDate, setSelectedDate] = useState(
@@ -57,8 +58,6 @@ export default function BookRoom() {
     getValues,
   } = useForm<TCheckout>();
 
-  console.log(room?.pricePerSlot);
-
   const handleCheckout = async (data: TCheckout) => {
     const date = getValues("date");
     const startTime = getValues("startTime");
@@ -73,10 +72,12 @@ export default function BookRoom() {
       room: room?._id,
       user: user?.id,
     };
-    console.log(bookingData);
 
     const result = await createPaymentSession({ bookingData, userData: user });
-    console.log(result);
+    const url = result.data?.data.url;
+    if (url) {
+      window.location.href = url;
+    }
     // You can add your API call here to process the booking
   };
 

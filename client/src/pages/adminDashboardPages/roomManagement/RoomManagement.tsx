@@ -1,4 +1,4 @@
-import { Space, Table } from "antd";
+import { Space, Table, Tag } from "antd";
 import type { TableProps } from "antd";
 import { useNavigate } from "react-router-dom";
 import {
@@ -62,22 +62,31 @@ export default function RoomManagement() {
       title: "Room No",
       dataIndex: "roomNo",
       key: "roomNo",
+      render: (endTime: string) => {
+        return <Tag color={"orange"}>{endTime}</Tag>;
+      },
     },
     {
       title: "Floor No",
       dataIndex: "floorNo",
       key: "floorNo",
+      render: (endTime: string) => {
+        return <Tag color={"magenta"}>{endTime}</Tag>;
+      },
     },
     {
       title: "Capacity",
       dataIndex: "capacity",
       key: "capacity",
+      render: (endTime: string) => {
+        return <Tag color={"cyan"}>{endTime}</Tag>;
+      },
     },
     {
       title: "Price Per Slot",
       dataIndex: "pricePerSlot",
       key: "pricePerSlot",
-      render: (price) => <span>${price}</span>,
+      render: (price) => <Tag color="green">${price}</Tag>,
     },
 
     {

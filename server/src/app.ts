@@ -41,23 +41,18 @@ app.post(
         'whsec_2305593bfaeeb4dc5073fe220e8c92b9702b55bc9a5b527d0ed2715ab8c3f7b5',
       );
     } catch (err) {
-      return res.status(400).send(`Webhook Error: ${err.message}`);
+      throw new AppError(httpStatus.BAD_REQUEST, 'Webhook Error');
     }
 
     // Handle the event
     if (event.type === 'checkout.session.completed') {
       const session = event.data.object as Stripe.Checkout.Session;
+
       const bookingData = JSON.parse(session.metadata!.bookingData);
-
-      if (bookingData) {
-        const result = await Booking.create(bookingData);
-        console.log(result);
-      }
-
-      // Retrieve session metadata (booking data)
       const slotId = session.metadata!.slotId;
 
       try {
+        // update slot status
         await Slot.findByIdAndUpdate(
           slotId,
           {
@@ -65,6 +60,11 @@ app.post(
           },
           { new: true },
         );
+
+        // create booking
+        if (bookingData) {
+          await Booking.create(bookingData);
+        }
       } catch (err) {
         throw new AppError(
           httpStatus.BAD_REQUEST,

@@ -36,6 +36,17 @@ const getMyBookingsFromDB = async (id: string) => {
     },
     {
       $lookup: {
+        from: 'users',
+        localField: 'user',
+        foreignField: '_id',
+        as: 'user',
+      },
+    },
+    {
+      $unwind: '$user',
+    },
+    {
+      $lookup: {
         from: 'slots',
         localField: 'slot',
         foreignField: '_id',
@@ -49,6 +60,10 @@ const getMyBookingsFromDB = async (id: string) => {
       $project: {
         _id: 1,
         date: 1,
+        user: {
+          _id: 1,
+          name: 1,
+        },
         room: {
           _id: 1,
           roomName: 1,
@@ -66,6 +81,68 @@ const getMyBookingsFromDB = async (id: string) => {
     },
   ]);
 
+  return result;
+};
+
+const getAllBookingsFromDB = async () => {
+  const result = await Booking.aggregate([
+    {
+      $lookup: {
+        from: 'rooms',
+        localField: 'room',
+        foreignField: '_id',
+        as: 'room',
+      },
+    },
+    {
+      $unwind: '$room',
+    },
+    {
+      $lookup: {
+        from: 'users',
+        localField: 'user',
+        foreignField: '_id',
+        as: 'user',
+      },
+    },
+    {
+      $unwind: '$user',
+    },
+    {
+      $lookup: {
+        from: 'slots',
+        localField: 'slot',
+        foreignField: '_id',
+        as: 'slot',
+      },
+    },
+    {
+      $unwind: '$slot',
+    },
+    {
+      $project: {
+        _id: 1,
+        date: 1,
+        user: {
+          _id: 1,
+          name: 1,
+        },
+        room: {
+          _id: 1,
+          roomName: 1,
+          pricePerSlot: 1,
+        },
+        slot: {
+          _id: 1,
+          date: 1,
+          startTime: 1,
+          endTime: 1,
+        },
+        isConfirmed: 1,
+        isDeleted: 1,
+      },
+    },
+  ]);
   return result;
 };
 
@@ -108,4 +185,5 @@ export const BookingServices = {
   getMyBookingsFromDB,
   updateBookingIntoDB,
   deleteBookingFromDB,
+  getAllBookingsFromDB,
 };

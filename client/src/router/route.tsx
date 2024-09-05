@@ -19,6 +19,8 @@ import UpdateRoom from "../pages/adminDashboardPages/roomManagement/UpdateRoom";
 import UpdateSlot from "../pages/adminDashboardPages/SlotManagement.t/UpdateSlot";
 import AdminProtectedRoute from "../components/layout/AdminProtectedRoute";
 import ProtectedRoute from "../components/layout/ProtectedRoute";
+import PaymentSuccess from "../pages/PaymentSuccess";
+import MyBookings from "../pages/MyBookings";
 
 export const router = createBrowserRouter([
   {
@@ -58,6 +60,14 @@ export const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <BookRoom />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "book-room/my-bookings",
+        element: (
+          <ProtectedRoute>
+            <MyBookings />
           </ProtectedRoute>
         ),
       },
@@ -116,6 +126,10 @@ export const router = createBrowserRouter([
   {
     path: "/sign-up",
     element: <SignupPage />,
+  },
+  {
+    path: "/payment-success",
+    element: <PaymentSuccess />,
   },
 ]);
 
