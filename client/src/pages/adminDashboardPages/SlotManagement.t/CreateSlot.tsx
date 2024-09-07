@@ -7,7 +7,6 @@ import { useGetRoomsQuery } from "../../../redux/features/roomManagement/roomMan
 import "./CreateSlot.css";
 import { useCreateSlotMutation } from "../../../redux/features/slotManagement/slotManagementApi";
 import { useNavigate } from "react-router-dom";
-import { SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
 
 export default function CreateSlot() {
@@ -33,13 +32,6 @@ export default function CreateSlot() {
     },
     []
   );
-  interface SlotFormData {
-    roomName: string;
-    roomNo: string;
-    date: string;
-    startDate: string;
-    endDate: string;
-  }
 
   const {
     register,
@@ -50,10 +42,7 @@ export default function CreateSlot() {
     formState: { errors },
   } = useForm();
 
-  const handleCreateSlot: SubmitHandler<SlotFormData> = async (
-    data: SlotFormData
-  ) => {
-    console.log(data);
+  const handleCreateSlot = async (data: any) => {
     try {
       const result = await createSlot(data);
       if (result.data.success) {
@@ -180,7 +169,7 @@ export default function CreateSlot() {
                   className="border py-2.5 lg:w-[100%] text-black outline-none px-3 rounded text-sm border-gray-300 hover:border-gray-400 transition duration-200 shadow"
                   value={field.value ? dayjs(field.value, dateFormat) : null}
                   format={dateFormat}
-                  onChange={(date, dateString) => {
+                  onChange={(_date, dateString) => {
                     setValue("date", dateString);
                   }}
                   disabledDate={(current) =>
@@ -245,7 +234,7 @@ export default function CreateSlot() {
                 : null
             }
             disabled={true}
-            onChange={(time, timeString) => setValue("endTime", timeString)}
+            onChange={(_time, timeString) => setValue("endTime", timeString)}
             format="HH:mm"
           />
           {errors.endTime && (

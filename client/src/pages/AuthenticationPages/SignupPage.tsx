@@ -429,8 +429,8 @@ export default function SignupPage() {
                   <ReactFlagsSelect
                     {...field}
                     selected={selectedCountry}
-                    onSelect={(countryCode: CountryCode) => {
-                      setSelectedCountry(countryCode);
+                    onSelect={(countryCode) => {
+                      setSelectedCountry(countryCode as CountryCode);
                       field.onChange(countryCode);
                     }}
                     countries={Object.keys(countryData) as CountryCode[]}
