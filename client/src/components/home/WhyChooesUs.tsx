@@ -11,7 +11,7 @@ export default function WhyChooesUs() {
   return (
     <section className="mb-32 bg-[#F7F9FB] py-32">
       <div className="container mx-auto">
-        <div className="grid grid-cols-4 mt-20">
+        <div className="grid grid-cols-4 my-10">
           <div className="w-[385px] bg-white p-8 flex justify-center items-center rounded">
             <h1 className="text-center text-4xl text-gray-800 font-bold">
               Why Chooes Us?
@@ -53,7 +53,7 @@ export default function WhyChooesUs() {
               calendar.
             </p>
             <div className="flex justify-end">
-              <button className="rotate-90 bg-white p-6 rounded-full mt-6 text-[20px]">
+              <button className="group-hover:rotate-45 transition-all duration-200 relative bottom-0 rotate-90 bg-white p-6 rounded-full mt-6 text-[20px]">
                 <FaArrowUp />
               </button>
             </div>

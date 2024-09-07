@@ -62,12 +62,12 @@ export default function UpdateRoom() {
       >
         {/* Form Fields */}
         <div className="flex flex-col md:flex-row w-full md:items-center mb-2 md:mb-6">
-          <label className="md:w-[30%] mb-1" htmlFor="roomName">
+          <label className="md:w-[30%] mb-1 text-gray-600" htmlFor="roomName">
             Room Name
           </label>
           <input
             {...register("roomName", { required: true })}
-            className="border py-2.5 lg:w-[70%] text-black outline-none px-3 rounded text-sm border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 bg-[#E0F7FA]"
+            className="border py-2.5 lg:w-[70%] text-black outline-none  px-3 rounded text-sm border-gray-300 hover:border-gray-400 transition duration-200 shadow"
             type="text"
             defaultValue={room?.roomName}
             placeholder="Room name"
@@ -78,12 +78,12 @@ export default function UpdateRoom() {
         </div>
 
         <div className="flex flex-col md:flex-row w-full md:items-center mb-2 md:mb-6">
-          <label className="md:w-[30%] mb-1" htmlFor="roomNo">
+          <label className="md:w-[30%] mb-1 text-gray-600" htmlFor="roomNo">
             Room No
           </label>
           <input
             {...register("roomNo", { required: true })}
-            className="border py-2.5 lg:w-[70%] text-black outline-none px-3 rounded text-sm border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 bg-[#E0F7FA]"
+            className="border py-2.5 lg:w-[70%] text-black outline-none  px-3 rounded text-sm border-gray-300 hover:border-gray-400 transition duration-200 shadow"
             type="number"
             defaultValue={room?.roomNo}
             placeholder="Room no"
@@ -96,12 +96,12 @@ export default function UpdateRoom() {
         </div>
 
         <div className="flex flex-col md:flex-row w-full md:items-center mb-2 md:mb-6">
-          <label className="md:w-[30%] mb-1" htmlFor="floorNo">
+          <label className="md:w-[30%] mb-1 text-gray-600" htmlFor="floorNo">
             Floor No
           </label>
           <input
             {...register("floorNo", { required: true })}
-            className="border py-2.5 lg:w-[70%] text-black outline-none px-3 rounded text-sm border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 bg-[#E0F7FA]"
+            className="border py-2.5 lg:w-[70%] text-black outline-none  px-3 rounded text-sm border-gray-300 hover:border-gray-400 transition duration-200 shadow"
             type="number"
             defaultValue={room?.floorNo}
             placeholder="Floor no"
@@ -114,12 +114,12 @@ export default function UpdateRoom() {
         </div>
 
         <div className="flex flex-col md:flex-row w-full md:items-center mb-2 md:mb-6">
-          <label className="md:w-[30%] mb-1" htmlFor="capacity">
+          <label className="md:w-[30%] mb-1 text-gray-600" htmlFor="capacity">
             Capacity
           </label>
           <input
             {...register("capacity", { required: true })}
-            className="border py-2.5 lg:w-[70%] text-black outline-none px-3 rounded text-sm border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 bg-[#E0F7FA]"
+            className="border py-2.5 lg:w-[70%] text-black outline-none  px-3 rounded text-sm border-gray-300 hover:border-gray-400 transition duration-200 shadow"
             type="number"
             defaultValue={room?.capacity}
             placeholder="Capacity"
@@ -130,12 +130,15 @@ export default function UpdateRoom() {
         </div>
 
         <div className="flex flex-col md:flex-row w-full md:items-center mb-2 md:mb-6">
-          <label className="md:w-[30%] mb-1" htmlFor="pricePerSlot">
+          <label
+            className="md:w-[30%] mb-1 text-gray-600"
+            htmlFor="pricePerSlot"
+          >
             Price Per Slot
           </label>
           <input
             {...register("pricePerSlot", { required: true })}
-            className="border py-2.5 lg:w-[70%] text-black outline-none px-3 rounded text-sm border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 bg-[#E0F7FA]"
+            className="border py-2.5 lg:w-[70%] text-black outline-none  px-3 rounded text-sm border-gray-300 hover:border-gray-400 transition duration-200 shadow"
             type="number"
             defaultValue={room?.pricePerSlot}
             placeholder="Price per slot"
@@ -148,7 +151,7 @@ export default function UpdateRoom() {
         </div>
 
         <div className="flex flex-col md:flex-row w-full md:items-center mb-2 md:mb-6">
-          <label className="md:w-[30%] mb-1" htmlFor="amenities">
+          <label className="md:w-[30%] mb-1 text-gray-600" htmlFor="amenities">
             Amenities
           </label>
           <div className="w-[70%] border border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 rounded">
@@ -167,7 +170,7 @@ export default function UpdateRoom() {
         </div>
 
         {/* <div className="flex flex-col md:flex-row w-full md:items-center mb-2 md:mb-6">
-          <label className="md:w-[30%] mb-1" htmlFor="addImage">
+          <label className="md:w-[30%] mb-1 text-gray-600" htmlFor="addImage">
             Add Images
           </label>
           <input
@@ -202,12 +205,15 @@ export default function UpdateRoom() {
         </div> */}
 
         <div className="flex flex-col md:flex-row w-full md:items-center mb-2 md:mb-6">
-          <label className="md:w-[30%] mb-1" htmlFor="availableQuantity">
+          <label
+            className="md:w-[30%] mb-1 text-gray-600"
+            htmlFor="availableQuantity"
+          >
             Available Quantity
           </label>
           <input
             {...register("availableQuantity", { required: true })}
-            className="border py-2.5 lg:w-[70%] text-black outline-none px-3 rounded text-sm border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 bg-[#E0F7FA]"
+            className="border py-2.5 lg:w-[70%] text-black outline-none  px-3 rounded text-sm border-gray-300 hover:border-gray-400 transition duration-200 shadow"
             type="number"
             defaultValue={room?.availableQuantity}
             placeholder="Available quantity"
@@ -220,7 +226,7 @@ export default function UpdateRoom() {
         </div>
 
         <div className="flex flex-col md:flex-row w-full md:items-center">
-          <div className="md:w-[30%] mb-1"></div>
+          <div className="md:w-[30%] mb-1 text-gray-600"></div>
           <div className="md:lg:w-[70%] flex gap-6">
             <button
               type="submit"

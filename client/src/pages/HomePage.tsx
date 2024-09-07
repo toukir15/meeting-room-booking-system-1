@@ -4,7 +4,6 @@ import { IoTimerOutline } from "react-icons/io5";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/autoplay";
-import "./HomePage.css";
 
 // import required modules
 import { GoShieldCheck } from "react-icons/go";

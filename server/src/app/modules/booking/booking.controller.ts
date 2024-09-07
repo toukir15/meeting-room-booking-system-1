@@ -21,8 +21,7 @@ const createBooking = catchAsync(
 
 const getMyBookings = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    // const userId = req.user.id as string;
-    const userId = '66d5c4b7aa95a76885f3d866';
+    const userId = req.user.id as string;
     const result = await BookingServices.getMyBookingsFromDB(userId);
     sendResponse(res, {
       statusCode: httpStatus.OK,
@@ -35,7 +34,6 @@ const getMyBookings = catchAsync(
 
 const getAllBookings = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    console.log('hello');
     const result = await BookingServices.getAllBookingsFromDB();
     sendResponse(res, {
       statusCode: httpStatus.OK,
@@ -46,11 +44,24 @@ const getAllBookings = catchAsync(
   },
 );
 
+// const updateBooking = catchAsync(
+//   async (req: Request, res: Response, next: NextFunction) => {
+//     const { id } = req.params;
+//     const updateData = req.body;
+//     const result = await BookingServices.updateBookingIntoDB(id, updateData);
+//     sendResponse(res, {
+//       statusCode: httpStatus.OK,
+//       success: true,
+//       message: 'Booking updated successfully',
+//       data: result,
+//     });
+//   },
+// );
+
 const updateBooking = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
-    const updateData = req.body;
-    const result = await BookingServices.updateBookingIntoDB(id, updateData);
+    const result = await BookingServices.updateBookingIntoDB(id);
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,

@@ -19,20 +19,55 @@ const slot_model_1 = require("./slot.model");
 const slot_utils_1 = require("./slot.utils");
 const createSlotIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const makeSlot = (0, slot_utils_1.makeSlotFN)(payload);
-    // Retrieve existing slots from the database for the given room
-    const existingSlots = yield slot_model_1.Slot.find({ room: makeSlot[0].room }).lean();
-    // Check for duplicates based on startTime or endTime
-    const duplicates = makeSlot.filter((newSlot) => existingSlots.some((existingSlot) => existingSlot.startTime === newSlot.startTime ||
+    // Retrieve existing slots from the database for the given room on the specific date
+    const existingSlots = yield slot_model_1.Slot.find({
+        room: makeSlot[0].room,
+        date: makeSlot[0].date,
+    }).lean();
+    // Filter out the unique slots that do not conflict with existing ones
+    const uniqueSlots = makeSlot.filter((newSlot) => !existingSlots.some((existingSlot) => existingSlot.startTime === newSlot.startTime ||
         existingSlot.endTime === newSlot.endTime));
-    // Throw error if all provided slots are duplicates
-    if (duplicates.length === makeSlot.length) {
-        throw new appError_1.AppError(http_status_1.default.BAD_REQUEST, 'All provided slots already exist.');
+    // Check if any slots are left to insert
+    if (uniqueSlots.length === 0) {
+        throw new appError_1.AppError(http_status_1.default.BAD_REQUEST, 'All provided slots already exist or overlap with existing slots.');
     }
-    // Filter out the unique slots
-    const uniqueSlots = makeSlot.filter((newSlot) => !existingSlots.some((existingSlot) => existingSlot.startTime === newSlot.startTime &&
-        existingSlot.endTime === newSlot.endTime));
     // Insert the unique slots into the database
     const result = yield slot_model_1.Slot.insertMany(uniqueSlots);
+    return result;
+});
+const getSlotsFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield slot_model_1.Slot.aggregate([
+        // Lookup stage to join Room collection with Slot collection
+        {
+            $lookup: {
+                from: 'rooms',
+                localField: 'room',
+                foreignField: '_id',
+                as: 'roomDetails',
+            },
+        },
+        // Unwind the roomDetails array (since we're expecting only one match)
+        {
+            $unwind: '$roomDetails',
+        },
+        // Project stage to replace room with roomName
+        {
+            $project: {
+                date: 1,
+                startTime: 1,
+                endTime: 1,
+                roomNo: 1,
+                isBooked: 1,
+                roomName: '$roomDetails.roomName',
+            },
+        },
+        {
+            $sort: {
+                date: 1,
+                startTime: 1,
+            },
+        },
+    ]);
     return result;
 });
 const getAvailableAllSlotFromDB = (query) => __awaiter(void 0, void 0, void 0, function* () {
@@ -49,7 +84,18 @@ const getAvailableAllSlotFromDB = (query) => __awaiter(void 0, void 0, void 0, f
     const result = yield slot_model_1.Slot.find(slotQuery).populate('room');
     return result;
 });
+const deleteSlotFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield slot_model_1.Slot.findByIdAndDelete(id);
+    return result;
+});
+const updateSlotIntoDB = (data, id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield slot_model_1.Slot.findByIdAndUpdate(id, data, { new: true });
+    return result;
+});
 exports.SlotServices = {
     createSlotIntoDB,
     getAvailableAllSlotFromDB,
+    getSlotsFromDB,
+    deleteSlotFromDB,
+    updateSlotIntoDB,
 };

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import success from "../../public/successful.png";
+import success from "/successful.png";
 
 const PaymentSuccess: React.FC = () => {
   const navigate = useNavigate();

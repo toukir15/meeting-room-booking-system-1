@@ -19,6 +19,7 @@ const http_status_1 = __importDefault(require("http-status"));
 const user_service_1 = require("./user.service");
 const createUser = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const userData = req === null || req === void 0 ? void 0 : req.body;
+    console.log(userData);
     const result = yield user_service_1.UserServices.createUserIntoDB(userData);
     (0, sendResponse_1.sendResponse)(res, {
         statusCode: http_status_1.default.OK,

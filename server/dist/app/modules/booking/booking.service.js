@@ -17,95 +17,162 @@ const http_status_1 = __importDefault(require("http-status"));
 const appError_1 = require("../../errors/appError");
 const booking_model_1 = require("./booking.model");
 const room_model_1 = require("../room/room.model");
-const slot_model_1 = require("../slot/slot.model");
 const createBookingIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     // check room  exist or not
     const isExistRoom = yield room_model_1.Room.findById(payload.room);
     if (!isExistRoom) {
         throw new appError_1.AppError(http_status_1.default.BAD_REQUEST, 'Room does not exist');
     }
-    // check slot exist or not
-    payload.slots.forEach((slot) => __awaiter(void 0, void 0, void 0, function* () {
-        const isSlotExist = yield slot_model_1.Slot.findById(slot);
-        if (!isSlotExist) {
-            throw new appError_1.AppError(http_status_1.default.BAD_REQUEST, 'Room does not exist');
-        }
-    }));
     const result = yield booking_model_1.Booking.create(payload);
-    const id = result._id;
-    // make total amount and populate the reference data
-    const populatedBooking = yield booking_model_1.Booking.aggregate([
-        // Stage 1: Match by _id
-        { $match: { _id: id } },
-        // Stage 2: Lookup slots collection to populate 'slots' field
+    return result;
+});
+const mongoose_1 = require("mongoose");
+const getMyBookingsFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const userId = new mongoose_1.Types.ObjectId(id);
+    const result = yield booking_model_1.Booking.aggregate([
         {
-            $lookup: {
-                from: 'slots',
-                localField: 'slots',
-                foreignField: '_id',
-                as: 'slots',
-            },
+            $match: { user: userId }, // Match bookings for the specified user
         },
-        // Stage 3: Unwind the 'slots' array to process each slot individually
-        { $unwind: '$slots' },
-        // // Stage 4: Lookup rooms collection to populate 'room' field
         {
             $lookup: {
                 from: 'rooms',
-                localField: 'slots.room',
+                localField: 'room',
                 foreignField: '_id',
                 as: 'room',
             },
         },
-        // // Stage 5: Unwind the 'room' array to ensure 'room' is a single object
-        { $unwind: '$room' },
-        // // Stage 6: Lookup users collection to populate 'user' field
+        {
+            $unwind: '$room',
+        },
         {
             $lookup: {
-                from: 'users', // The name of the users collection
+                from: 'users',
                 localField: 'user',
                 foreignField: '_id',
                 as: 'user',
             },
         },
-        // // Stage 7: Unwind the 'user' array to ensure 'user' is a single object
-        { $unwind: '$user' },
-        // Stage 8: Group by _id to restore the structure and accumulate 'slots' array
         {
-            $group: {
-                _id: '$_id',
-                date: { $first: '$date' },
-                room: { $first: '$room' },
-                user: { $first: '$user' },
-                slots: { $push: '$slots' },
-                totalAmount: { $sum: '$room.pricePerSlot' },
-                isConfirmed: { $first: '$isConfirmed' },
-                isDeleted: { $first: '$isDeleted' },
+            $unwind: '$user',
+        },
+        {
+            $lookup: {
+                from: 'slots',
+                localField: 'slot',
+                foreignField: '_id',
+                as: 'slot',
+            },
+        },
+        {
+            $unwind: '$slot',
+        },
+        {
+            $project: {
+                _id: 1,
+                date: 1,
+                user: {
+                    _id: 1,
+                    name: 1,
+                },
+                room: {
+                    _id: 1,
+                    roomName: 1,
+                    pricePerSlot: 1,
+                },
+                slot: {
+                    _id: 1,
+                    date: 1,
+                    startTime: 1,
+                    endTime: 1,
+                },
+                isConfirmed: 1,
+                isDeleted: 1,
             },
         },
     ]);
-    // update total amount
-    const totalAmount = populatedBooking[0].totalAmount;
-    yield booking_model_1.Booking.findByIdAndUpdate(id, {
-        totalAmount,
-    }, { new: true, runValidators: true });
-    return populatedBooking;
-});
-const getMyBookingsFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield booking_model_1.Booking.find({ user: id });
     return result;
 });
-const updateBookingIntoDB = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
-    // check is the bookin exist in the db or not
-    const isBookingExist = yield booking_model_1.Booking.findById(id);
-    if (!isBookingExist) {
-        throw new appError_1.AppError(http_status_1.default.BAD_REQUEST, 'Booking is not exist.');
-    }
-    // update the booking
-    const result = yield booking_model_1.Booking.findByIdAndUpdate(id, payload, {
-        new: true,
-        runValidators: true,
-    });
+const getAllBookingsFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield booking_model_1.Booking.aggregate([
+        {
+            $match: {
+                isDeleted: { $ne: true },
+            },
+        },
+        {
+            $lookup: {
+                from: 'rooms',
+                localField: 'room',
+                foreignField: '_id',
+                as: 'room',
+            },
+        },
+        {
+            $unwind: '$room',
+        },
+        {
+            $lookup: {
+                from: 'users',
+                localField: 'user',
+                foreignField: '_id',
+                as: 'user',
+            },
+        },
+        {
+            $unwind: '$user',
+        },
+        {
+            $lookup: {
+                from: 'slots',
+                localField: 'slot',
+                foreignField: '_id',
+                as: 'slot',
+            },
+        },
+        {
+            $unwind: '$slot',
+        },
+        {
+            $project: {
+                _id: 1,
+                date: 1,
+                user: {
+                    _id: 1,
+                    name: 1,
+                },
+                room: {
+                    _id: 1,
+                    roomName: 1,
+                    pricePerSlot: 1,
+                },
+                slot: {
+                    _id: 1,
+                    date: 1,
+                    startTime: 1,
+                    endTime: 1,
+                },
+                isConfirmed: 1,
+                isDeleted: 1,
+            },
+        },
+    ]);
+    return result;
+});
+// const updateBookingIntoDB = async (id: string, payload: Partial<TBooking>) => {
+//   // check is the bookin exist in the db or not
+//   const isBookingExist = await Booking.findById(id);
+//   if (!isBookingExist) {
+//     throw new AppError(httpStatus.BAD_REQUEST, 'Booking is not exist.');
+//   }
+//   // update the booking
+//   const result = await Booking.findByIdAndUpdate(id, payload, {
+//     new: true,
+//     runValidators: true,
+//   });
+//   return result;
+// };
+const updateBookingIntoDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield booking_model_1.Booking.findByIdAndUpdate(id, { isConfirmed: 'confirmed' }, { new: true });
     return result;
 });
 const deleteBookingFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
@@ -126,4 +193,5 @@ exports.BookingServices = {
     getMyBookingsFromDB,
     updateBookingIntoDB,
     deleteBookingFromDB,
+    getAllBookingsFromDB,
 };

@@ -8,11 +8,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthServices = void 0;
+/* eslint-disable @typescript-eslint/no-unused-vars */
 const http_status_1 = __importDefault(require("http-status"));
 const config_1 = __importDefault(require("../../config"));
 const appError_1 = require("../../errors/appError");
@@ -23,26 +35,29 @@ const loginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const isUserExist = yield user_model_1.User.findOne({
         email: payload.email,
     }).lean();
-    // check user exist or not
+    // Check if the user exists
     if (!isUserExist) {
         throw new appError_1.AppError(http_status_1.default.UNAUTHORIZED, 'User does not exist');
     }
-    // compare password
+    // Compare password
     const loginPassword = payload.password;
     const hashPassword = isUserExist.password;
-    // delete isUserExist.password;
+    // eslint-disable-next-line no-unused-vars
+    const { password } = isUserExist, userWithoutPassword = __rest(isUserExist, ["password"]); // Destructure to exclude password
     const jwtPayload = {
         id: isUserExist._id.toHexString(),
         email: isUserExist.email,
         role: isUserExist.role,
+        name: isUserExist.name,
+        phone: isUserExist.phone,
     };
     const comparePassword = bcryptjs_1.default.compareSync(loginPassword, hashPassword);
     if (!comparePassword) {
-        throw new appError_1.AppError(http_status_1.default.UNAUTHORIZED, 'You provide a wrong password');
+        throw new appError_1.AppError(http_status_1.default.UNAUTHORIZED, 'You provided a wrong password');
     }
-    // generate jwt token
+    // Generate JWT token
     const token = jsonwebtoken_1.default.sign(jwtPayload, config_1.default.secret_key);
-    return { token, isUserExist };
+    return { token, user: userWithoutPassword };
 });
 exports.AuthServices = {
     loginUser,

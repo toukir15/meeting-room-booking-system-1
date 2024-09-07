@@ -14,9 +14,11 @@ type TLogin = {
 
 type TUser = {
   email: string;
-  _id: string;
+  id: string;
   iat: number;
   role: string;
+  name: string;
+  phone: string;
 };
 
 export default function LoginPage() {
@@ -31,10 +33,16 @@ export default function LoginPage() {
 
   const handleLoginForm: SubmitHandler<TLogin> = async (data) => {
     const result = await login(data);
-    const token = result.data.token;
+    const token = result?.data?.token as string;
     if (token) {
-      const decoded = jwtDecode(token) as TUser;
-      dispatch(setUser(decoded));
+      const decoded = jwtDecode<TUser>(token);
+      console.log(decoded);
+      dispatch(
+        setUser({
+          user: decoded,
+          token,
+        })
+      );
       navigate("/");
     }
 
@@ -43,7 +51,6 @@ export default function LoginPage() {
         const apiError = result.error.data as { message: string };
         toast.error(apiError.message, { duration: 2000 });
       } else {
-        // Handle non-API errors
         toast.error("An unexpected error occurred.", { duration: 2000 });
       }
     }

@@ -18,14 +18,25 @@ const sendResponse_1 = require("../../utils/sendResponse");
 const http_status_1 = __importDefault(require("http-status"));
 const catchAsync_1 = require("../../utils/catchAsync");
 const createRoom = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const roomData = JSON.parse(req === null || req === void 0 ? void 0 : req.body.data);
+    var _a;
+    const roomData = JSON.parse((_a = req === null || req === void 0 ? void 0 : req.body) === null || _a === void 0 ? void 0 : _a.data);
+    // Check if req.files is defined
     const files = req.files;
-    // const result = await RoomServices.createRoomIntoDB(roomData, files);
+    let fileArray = [];
+    // If files are in an object, flatten them into a single array
+    if (files && !Array.isArray(files)) {
+        fileArray = Object.values(files).flat();
+    }
+    else if (Array.isArray(files)) {
+        fileArray = files;
+    }
+    // Pass the files (if any) to the service
+    const result = yield room_service_1.RoomServices.createRoomIntoDB(roomData, fileArray);
     (0, sendResponse_1.sendResponse)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
         message: 'Room added successfully',
-        data: 'result',
+        data: result,
     });
 }));
 const getAllRooms = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {

@@ -1,58 +1,141 @@
-import Navbar from "../components/meetingRooms/Navbar";
 import { CgMenuGridO } from "react-icons/cg";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../redux/hook";
+import SecondaryNavbar from "../components/shared/SecondaryNavbar";
+import { useEffect } from "react";
 
 export default function RoomDetails() {
   const room = useAppSelector((state) => state.room.room);
-  console.log(room?.images);
   const images = room?.images as string[];
   const navigate = useNavigate();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="h-screen">
-      <Navbar />
+      <SecondaryNavbar />
       <div className=" container mx-auto justify-center mt-20  flex items-center">
-        <div className="">
-          <div className="flex gap-2">
-            {/* Main Image */}
-            <img
-              className="h-[448px] w-[550px] object-cover"
-              src={images[0]}
-              alt=""
-            />
+        <div>
+          {images.length == 1 && (
+            <div>
+              <img src={images[0]} className="w-[600px] h-[500px]" alt="" />
+            </div>
+          )}
 
-            {/* First Column of Images */}
-            <div className="flex flex-col gap-2">
+          {images.length == 2 && (
+            <div className="flex gap-3">
               <img
-                className="h-[220px] w-[350px] object-cover"
+                className="h-[448px] w-[550px] object-cover"
+                src={images[0]}
+                alt=""
+              />
+              <img
+                className="h-[448px] w-[550px] object-cover"
                 src={images[1]}
                 alt=""
               />
+            </div>
+          )}
+          {images.length == 3 && (
+            <div className="flex gap-2">
+              {/* Main Image */}
               <img
-                className="h-[220px] w-[350px] object-cover"
-                src={images[2]}
+                className="h-[448px] w-[550px] object-cover"
+                src={images[0]}
                 alt=""
               />
-            </div>
 
-            {/* Second Column of Images and Button */}
-            <div className="flex flex-col gap-2 relative">
+              {/* First Column of Images */}
+              <div className="flex flex-col gap-2">
+                <img
+                  className="h-[220px] w-[350px] object-cover"
+                  src={images[1]}
+                  alt=""
+                />
+                <img
+                  className="h-[220px] w-[350px] object-cover"
+                  src={images[2]}
+                  alt=""
+                />
+              </div>
+            </div>
+          )}
+
+          {images.length == 4 && (
+            <div className="flex gap-2">
+              {/* Main Image */}
               <img
-                className="h-[220px] w-[350px] object-cover"
+                className="h-[448px] w-[550px] object-cover"
+                src={images[0]}
+                alt=""
+              />
+
+              {/* First Column of Images */}
+              <div className="flex flex-col gap-2">
+                <img
+                  className="h-[220px] w-[350px] object-cover"
+                  src={images[1]}
+                  alt=""
+                />
+                <img
+                  className="h-[220px] w-[350px] object-cover"
+                  src={images[2]}
+                  alt=""
+                />
+              </div>
+
+              <img
+                className="h-[448px] w-[550px] object-cover"
                 src={images[3]}
                 alt=""
               />
+            </div>
+          )}
+
+          {images.length >= 5 && (
+            <div className="flex gap-2">
+              {/* Main Image */}
               <img
-                className="h-[220px] w-[350px] object-cover"
-                src={images[4]}
+                className="h-[448px] w-[550px] object-cover"
+                src={images[0]}
                 alt=""
               />
-              <button className="w-fit flex items-center gap-2 absolute bottom-6 right-6 bg-white px-4 py-2 rounded hover:bg-[#EBEBEB] transition duration-200">
-                <CgMenuGridO />
-                <span>Show all photos</span>
-              </button>
+
+              {/* First Column of Images */}
+              <div className="flex flex-col gap-2">
+                <img
+                  className="h-[220px] w-[350px] object-cover"
+                  src={images[1]}
+                  alt=""
+                />
+                <img
+                  className="h-[220px] w-[350px] object-cover"
+                  src={images[2]}
+                  alt=""
+                />
+              </div>
+
+              {/* Second Column of Images and Button */}
+              <div className="flex flex-col gap-2 relative">
+                <img
+                  className="h-[220px] w-[350px] object-cover"
+                  src={images[3]}
+                  alt=""
+                />
+                <img
+                  className="h-[220px] w-[350px] object-cover"
+                  src={images[4]}
+                  alt=""
+                />
+                <button className="w-fit flex items-center gap-2 absolute bottom-6 right-6 bg-white px-4 py-2 rounded hover:bg-[#EBEBEB] transition duration-200">
+                  <CgMenuGridO />
+                  <span>Show all photos</span>
+                </button>
+              </div>
             </div>
-          </div>
+          )}
 
           <div className="flex justify-between my-6">
             <h2 className=" text-3xl font-medium">{room?.roomName}</h2>

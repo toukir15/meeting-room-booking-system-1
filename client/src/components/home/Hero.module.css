@@ -1,3 +1,6 @@
+.banner {
+  background-image: linear-gradient(to right, #0b0808, #16110c);
+}
 .swiper-button-next {
   background: white;
   font-size: 10px !important;

@@ -18,7 +18,20 @@ const appError_1 = require("../../errors/appError");
 const room_model_1 = require("./room.model");
 const sendImageToCloudinary_1 = require("../../utils/sendImageToCloudinary");
 const createRoomIntoDB = (roomData, files) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield room_model_1.Room.create(roomData);
+    const data = {
+        roomName: roomData.roomName,
+        roomNo: roomData.roomNo,
+        floorNo: roomData.floorNo,
+        capacity: roomData.capacity,
+        pricePerSlot: roomData.pricePerSlot,
+        availableQuantity: roomData.availableQuantity,
+        amenities: roomData.amenities,
+    };
+    const findRoom = yield room_model_1.Room.findOne({ roomName: roomData.roomName });
+    if (findRoom) {
+        throw new appError_1.AppError(http_status_1.default.BAD_REQUEST, 'This room already exist');
+    }
+    const result = yield room_model_1.Room.create(data);
     files.map((file) => __awaiter(void 0, void 0, void 0, function* () {
         const { secure_url } = yield (0, sendImageToCloudinary_1.sendImageToCloudinary)(file.filename, file.path);
         yield room_model_1.Room.findByIdAndUpdate(result._id, { $push: { images: secure_url } });
@@ -26,7 +39,7 @@ const createRoomIntoDB = (roomData, files) => __awaiter(void 0, void 0, void 0, 
     return result;
 });
 const getAllRoomsFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield room_model_1.Room.find();
+    const result = yield room_model_1.Room.find({ isDeleted: false });
     return result;
 });
 const getSingleRoomFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
@@ -34,6 +47,7 @@ const getSingleRoomFromDB = (id) => __awaiter(void 0, void 0, void 0, function* 
     return result;
 });
 const updateRoomIntoDB = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    // console.log(payload);
     // check is room exist or not
     const isRoomExist = yield room_model_1.Room.findById(id);
     if (!isRoomExist) {

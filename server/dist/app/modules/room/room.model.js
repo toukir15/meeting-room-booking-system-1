@@ -3,13 +3,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Room = void 0;
 const mongoose_1 = require("mongoose");
 const roomSchema = new mongoose_1.Schema({
-    name: { type: String, required: true },
-    capacity: { type: Number, required: true },
-    roomNo: { type: Number, required: true },
-    floorNo: { type: Number, required: true },
-    pricePerSlot: { type: Number, required: true },
-    amenities: { type: [String], required: true },
+    roomName: { type: String, required: true, unique: true },
+    capacity: { type: String, required: true },
+    roomNo: { type: String, required: true },
+    floorNo: { type: String, required: true },
+    pricePerSlot: { type: String, required: true },
+    availableQuantity: { type: String, required: true },
     images: { type: [String] },
+    amenities: { type: [String], required: true },
     isDeleted: { type: Boolean, default: false },
 });
 // 3. Create a Model.

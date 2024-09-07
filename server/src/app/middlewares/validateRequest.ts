@@ -3,16 +3,28 @@ import { AnyZodObject } from 'zod';
 
 export const validateRequest = (schema: AnyZodObject) => {
   return (req: Request, res: Response, next: NextFunction) => {
+    let parsedData;
+
     try {
-      if (Array.isArray(req.body)) {
-        req.body.forEach((data) => {
+      // Try parsing req.body.data as JSON if it's a string, otherwise fallback to req.body
+      if (typeof req.body?.data === 'string') {
+        parsedData = JSON.parse(req.body?.data);
+      } else {
+        parsedData = req.body;
+      }
+
+      // Check if parsedData is an array and validate each item
+      if (Array.isArray(parsedData)) {
+        parsedData.forEach((data) => {
           schema.parse({ body: data });
         });
       } else {
-        schema.parse({ body: req.body });
+        schema.parse({ body: parsedData });
       }
+
       next();
     } catch (err) {
+      // Handle validation errors explicitly
       next(err);
     }
   };

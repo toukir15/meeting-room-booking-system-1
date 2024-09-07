@@ -27,6 +27,15 @@ const createSlot = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(vo
         data: result,
     });
 }));
+const getSlots = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield slot_service_1.SlotServices.getSlotsFromDB();
+    (0, sendResponse_1.sendResponse)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: 'Retrive slots successfully',
+        data: result,
+    });
+}));
 const getAvailableAllSlot = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const query = req === null || req === void 0 ? void 0 : req.query;
     const result = yield slot_service_1.SlotServices.getAvailableAllSlotFromDB(query);
@@ -37,7 +46,31 @@ const getAvailableAllSlot = (0, catchAsync_1.catchAsync)((req, res, next) => __a
         data: result,
     });
 }));
+const deleteSlot = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = req.params.slotId;
+    const result = yield slot_service_1.SlotServices.deleteSlotFromDB(id);
+    (0, sendResponse_1.sendResponse)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: 'Slot deleted successfully',
+        data: result,
+    });
+}));
+const updateSlot = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = req.params.slotId;
+    const data = req.body;
+    const result = yield slot_service_1.SlotServices.updateSlotIntoDB(data, id);
+    (0, sendResponse_1.sendResponse)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: 'Slot updated successfully',
+        data: result,
+    });
+}));
 exports.SlotControllers = {
     createSlot,
     getAvailableAllSlot,
+    getSlots,
+    deleteSlot,
+    updateSlot,
 };

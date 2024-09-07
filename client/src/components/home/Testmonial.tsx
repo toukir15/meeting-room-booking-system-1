@@ -6,7 +6,7 @@ import "./Testmonial.css";
 
 export default function Testmonial() {
   return (
-    <section className="bg-[#F7F9FB] py-32 ">
+    <section className="bg-[#F7F9FB] py-40 ">
       <div className="container mx-auto">
         <h1 className="text-4xl font-bold mb-20 text-center">
           Customer Testimonials

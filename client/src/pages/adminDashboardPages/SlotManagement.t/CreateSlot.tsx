@@ -1,15 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { DatePicker, notification, Select, TimePicker } from "antd";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { useGetRoomsQuery } from "../../../redux/features/roomManagement/roomManagementApi";
 import "./CreateSlot.css";
 import { useCreateSlotMutation } from "../../../redux/features/slotManagement/slotManagementApi";
 import { useNavigate } from "react-router-dom";
+import { SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
-import { CheckCircleOutlined } from "@ant-design/icons";
-import { LuBadgeCheck } from "react-icons/lu";
 
 export default function CreateSlot() {
   const navigate = useNavigate();
@@ -34,15 +33,6 @@ export default function CreateSlot() {
     },
     []
   );
-
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    watch,
-    formState: { errors },
-  } = useForm();
-
   interface SlotFormData {
     roomName: string;
     roomNo: string;
@@ -50,13 +40,28 @@ export default function CreateSlot() {
     startDate: string;
     endDate: string;
   }
-  const handleCreateSlot = async (data: SlotFormData) => {
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    control,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  const handleCreateSlot: SubmitHandler<SlotFormData> = async (
+    data: SlotFormData
+  ) => {
+    console.log(data);
     try {
-      await createSlot(data);
-      toast.success("Slots created successfully", {
-        duration: 10000,
-      });
-      navigate("/admin/dashboard/slot-management");
+      const result = await createSlot(data);
+      if (result.data.success) {
+        toast.success("Slots created successfully", {
+          duration: 10000,
+        });
+        navigate("/admin/dashboard/slot-management");
+      }
     } catch (error) {
       console.error("Error creating slot:", error);
       notification.error({
@@ -87,7 +92,6 @@ export default function CreateSlot() {
     };
   };
 
-  const selectedDate = watch("date");
   const selectedStartTime = watch("startTime");
 
   const handleRoomNameChange = (value: string) => {
@@ -110,11 +114,11 @@ export default function CreateSlot() {
       >
         {/* Room Name */}
         <div className="flex flex-col md:flex-row w-full md:items-center mb-2 md:mb-6">
-          <label className="md:w-[30%] mb-1" htmlFor="roomName">
+          <label className="md:w-[30%] mb-1 text-gray-600" htmlFor="roomName">
             Room Name
           </label>
           <Select
-            className="w-[70%] border rounded-md border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 bg-[#E0F7FA]"
+            className="border py-2.5 lg:w-[70%] text-black outline-none  px-3 rounded text-sm border-gray-300 hover:border-gray-400 transition duration-200 shadow"
             showSearch
             placeholder="Select a room"
             filterOption={(input, option) => {
@@ -141,63 +145,96 @@ export default function CreateSlot() {
 
         {/* Room No */}
         <div className="flex flex-col md:flex-row w-full md:items-center mb-2 md:mb-6">
-          <label className="md:w-[30%] mb-1" htmlFor="roomNo">
+          <label className="md:w-[30%] mb-1 text-gray-600" htmlFor="roomNo">
             Room No
           </label>
-          <input
-            {...register("roomNo", { required: true })}
-            className="border py-2.5 lg:w-[70%] text-black outline-none border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 bg-[#E0F7FA] hover:bg-white px-3 rounded text-sm "
-            type="number"
-            disabled
-            placeholder="Room no"
-          />
-          {errors.roomNo && (
-            <span className="text-red-500 text-sm">
-              Room number is required
-            </span>
-          )}
+          <div className="w-[70%] flex flex-col">
+            <input
+              {...register("roomNo", { required: true })}
+              className="border py-2.5 lg:w-[100%] text-black outline-none  px-3 rounded text-sm border-gray-300  transition duration-200 shadow"
+              type="number"
+              disabled
+              placeholder="Room no"
+            />
+            {errors.roomNo && (
+              <span className="text-red-500 text-sm">
+                Room number is required
+              </span>
+            )}
+          </div>
         </div>
 
         {/* Date */}
         <div className="flex flex-col md:flex-row w-full md:items-center mb-2 md:mb-6">
-          <label className="md:w-[30%] mb-1" htmlFor="date">
+          <label className="md:w-[30%] mb-1 text-gray-600" htmlFor="date">
             Date
           </label>
-          <DatePicker
-            className="py-2.5 w-[70%] border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 bg-[#E0F7FA]"
-            value={selectedDate ? dayjs(selectedDate, dateFormat) : null}
-            format={dateFormat}
-            onChange={(date, dateString) => {
-              setValue("date", dateString);
-            }}
-            disabledDate={(current) =>
-              current && current < dayjs().startOf("day")
-            }
+          <Controller
+            name="date"
+            control={control}
+            rules={{ required: "Date is required" }}
+            render={({ field }) => (
+              <div className="flex flex-col w-[70%]">
+                <DatePicker
+                  {...field}
+                  className="border py-2.5 lg:w-[100%] text-black outline-none px-3 rounded text-sm border-gray-300 hover:border-gray-400 transition duration-200 shadow"
+                  value={field.value ? dayjs(field.value, dateFormat) : null}
+                  format={dateFormat}
+                  onChange={(date, dateString) => {
+                    setValue("date", dateString);
+                  }}
+                  disabledDate={(current) =>
+                    current && current < dayjs().startOf("day")
+                  }
+                />
+                {errors.date && (
+                  <span className="text-red-500 text-sm">
+                    {errors.date.message as string}
+                  </span>
+                )}
+              </div>
+            )}
           />
-          {errors.date && (
-            <span className="text-red-500 text-sm">Date is required</span>
-          )}
         </div>
 
         {/* Start Time */}
         <div className="flex flex-col md:flex-row w-full md:items-center mb-2 md:mb-6">
-          <label className="md:w-[30%] mb-1" htmlFor="startTime">
+          <label className="md:w-[30%] mb-1 text-gray-600" htmlFor="startTime">
             Start Time
           </label>
-          <TimePicker
-            className="py-2.5 outline-none w-[70%] border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 bg-[#E0F7FA]"
-            onChange={handleStartTimeChange}
-            format="HH:mm"
-            disabledTime={disabledTime}
+          <Controller
+            name="startTime"
+            control={control}
+            rules={{ required: "Start time is required" }}
+            render={({ field }) => (
+              <div className="flex flex-col w-[70%]">
+                <TimePicker
+                  {...field}
+                  className="border py-2.5 lg:w-[100%] text-black outline-none px-3 rounded text-sm border-gray-300 hover:border-gray-400 transition duration-200 shadow"
+                  format="HH:mm"
+                  onChange={(time, timeString) => {
+                    if (time && time.isValid()) {
+                      handleStartTimeChange(time, timeString);
+                    } else {
+                      console.log("Invalid time selected");
+                    }
+                  }}
+                  disabledTime={disabledTime}
+                  value={field.value ? dayjs(field.value, "HH:mm") : null}
+                />
+                {errors.startTime && (
+                  <span className="text-red-500 text-sm">
+                    {errors.startTime.message as string}
+                  </span>
+                )}
+              </div>
+            )}
           />
-          {errors.startTime && (
-            <span className="text-red-500 text-sm">Start time is required</span>
-          )}
         </div>
 
         {/* End Time */}
         <div className="flex flex-col md:flex-row w-full md:items-center mb-2 md:mb-6">
-          <label className="md:w-[30%] mb-1" htmlFor="endTime">
+          <label className="md:w-[30%] mb-1 text-gray-600" htmlFor="endTime">
             End Time
           </label>
           <TimePicker
@@ -227,6 +264,9 @@ export default function CreateSlot() {
               Add Slot
             </button>
             <button
+              onClick={() => {
+                navigate("/admin/dashboard/slot-management");
+              }}
               type="button"
               className="w-1/2 border border-rose-500 hover:border-rose-600 text-rose-500 hover:text-rose-600 py-3 px-4 rounded-lg"
             >

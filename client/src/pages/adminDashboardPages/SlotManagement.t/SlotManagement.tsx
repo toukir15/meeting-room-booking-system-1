@@ -70,6 +70,9 @@ export default function SlotManagement() {
       title: "Date",
       dataIndex: "date",
       key: "date",
+      render: (date: string) => {
+        return <Tag color={"purple"}>{date}</Tag>;
+      },
     },
     {
       title: "Start Time",

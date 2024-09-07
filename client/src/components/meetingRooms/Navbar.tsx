@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import avatar from "../../../public/avatar.webp";
+import avatar from "/avatar.webp";
 import { useEffect, useRef } from "react";
 import tippy from "tippy.js";
 import "tippy.js/dist/tippy.css";
-import logo from "../../../public/icon.png";
+import logo from "/icon.png";
 
 export default function Navbar() {
   const avatarRef = useRef<HTMLImageElement>(null); // Ref for the avatar image

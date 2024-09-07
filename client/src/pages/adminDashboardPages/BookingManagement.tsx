@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Space, Table, Tag } from "antd";
 import type { TableProps } from "antd";
-import { useNavigate } from "react-router-dom";
-import { useDeleteSlotMutation } from "../../redux/features/slotManagement/slotManagementApi";
 import Notiflix from "notiflix";
-import { useAppDispatch } from "../../redux/hook";
-import { useGetBookingsQuery } from "../../redux/features/bookingManagement/bookingApi";
+import {
+  useApproveBookingMutation,
+  useGetBookingsQuery,
+  useRejectBookingMutation,
+} from "../../redux/features/bookingManagement/bookingApi";
+import { toast } from "sonner";
 
 interface DataType {
   _id: string;
@@ -19,20 +21,19 @@ interface DataType {
 }
 
 export default function BookingManagement() {
-  const navigate = useNavigate();
   const { data: bookingData } = useGetBookingsQuery(undefined);
-  const [deleteSlot] = useDeleteSlotMutation();
-  const dispatch = useAppDispatch();
-  console.log(bookingData);
+  const [rejectBooking] = useRejectBookingMutation();
+  const [approveBooking] = useApproveBookingMutation();
 
-  const handleDelete = async (id: string) => {
+  const handleReject = async (id: string) => {
+    console.log(id);
     Notiflix.Confirm.show(
       "Delete Confirmation",
-      "Are you sure you want to delete this?",
-      "Delete",
+      "Are you sure you want to reject this?",
+      "reject",
       "Cancel",
       function () {
-        deleteSlot(id);
+        rejectBooking(id);
       },
       function () {
         console.log("Canceled");
@@ -42,6 +43,13 @@ export default function BookingManagement() {
         titleColor: "#d33",
       }
     );
+  };
+
+  const handleApprove = async (id: string) => {
+    const result = await approveBooking(id);
+    if (result.data.success) {
+      toast.success("Successfull Aproved", { duration: 2000 });
+    }
   };
 
   const columns: TableProps<DataType>["columns"] = [
@@ -99,15 +107,31 @@ export default function BookingManagement() {
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <button className="bg-green-500 hover:bg-green-600 transition duration-150 py-1 px-3 rounded text-white">
-            Approve
-          </button>
-          <button
-            className="bg-red-500 hover:bg-red-600 transition duration-150 py-1 px-3 rounded text-white"
-            onClick={() => handleDelete(record._id)}
-          >
-            Reject
-          </button>
+          {record.isConfirmed != "confirmed" && (
+            <>
+              <button
+                onClick={() => handleApprove(record._id)}
+                className="bg-green-500 hover:bg-green-600 transition duration-150 py-1 px-3 rounded text-white"
+              >
+                Approve
+              </button>
+              <button
+                className="bg-red-500 hover:bg-red-600 transition duration-150 py-1 px-3 rounded text-white"
+                onClick={() => handleReject(record._id)}
+              >
+                Reject
+              </button>
+            </>
+          )}
+          {record.isConfirmed != "unconfirmed" && (
+            <button
+              onClick={() => handleApprove(record._id)}
+              disabled
+              className="bg-gray-600 transition duration-150 py-1 px-3 rounded text-white"
+            >
+              Approved
+            </button>
+          )}
         </Space>
       ),
     },

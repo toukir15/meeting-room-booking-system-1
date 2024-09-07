@@ -17,8 +17,7 @@ const createBookingIntoDB = async (payload: TBooking) => {
 import { Types } from 'mongoose';
 
 const getMyBookingsFromDB = async (id: string) => {
-  const userId = new Types.ObjectId(id); // Convert string id to ObjectId
-
+  const userId = new Types.ObjectId(id);
   const result = await Booking.aggregate([
     {
       $match: { user: userId }, // Match bookings for the specified user
@@ -87,6 +86,11 @@ const getMyBookingsFromDB = async (id: string) => {
 const getAllBookingsFromDB = async () => {
   const result = await Booking.aggregate([
     {
+      $match: {
+        isDeleted: { $ne: true },
+      },
+    },
+    {
       $lookup: {
         from: 'rooms',
         localField: 'room',
@@ -146,18 +150,27 @@ const getAllBookingsFromDB = async () => {
   return result;
 };
 
-const updateBookingIntoDB = async (id: string, payload: Partial<TBooking>) => {
-  // check is the bookin exist in the db or not
-  const isBookingExist = await Booking.findById(id);
-  if (!isBookingExist) {
-    throw new AppError(httpStatus.BAD_REQUEST, 'Booking is not exist.');
-  }
+// const updateBookingIntoDB = async (id: string, payload: Partial<TBooking>) => {
+//   // check is the bookin exist in the db or not
+//   const isBookingExist = await Booking.findById(id);
+//   if (!isBookingExist) {
+//     throw new AppError(httpStatus.BAD_REQUEST, 'Booking is not exist.');
+//   }
 
-  // update the booking
-  const result = await Booking.findByIdAndUpdate(id, payload, {
-    new: true,
-    runValidators: true,
-  });
+//   // update the booking
+//   const result = await Booking.findByIdAndUpdate(id, payload, {
+//     new: true,
+//     runValidators: true,
+//   });
+//   return result;
+// };
+
+const updateBookingIntoDB = async (id: string) => {
+  const result = await Booking.findByIdAndUpdate(
+    id,
+    { isConfirmed: 'confirmed' },
+    { new: true },
+  );
   return result;
 };
 

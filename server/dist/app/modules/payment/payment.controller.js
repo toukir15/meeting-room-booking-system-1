@@ -12,22 +12,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AuthControllers = void 0;
-const auth_service_1 = require("./auth.service");
+exports.PaymentController = void 0;
 const catchAsync_1 = require("../../utils/catchAsync");
 const sendResponse_1 = require("../../utils/sendResponse");
 const http_status_1 = __importDefault(require("http-status"));
-const loginUser = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const loginData = req === null || req === void 0 ? void 0 : req.body;
-    const result = yield auth_service_1.AuthServices.loginUser(loginData);
+const payment_service_1 = require("./payment.service");
+const createPaymentSession = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const { bookingData } = req.body;
+    const result = yield payment_service_1.PaymentService.createPaymentSession(bookingData);
     (0, sendResponse_1.sendResponse)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'User logged in successfully',
-        token: result.token,
-        data: result.user,
+        message: 'Create seassion in successfully',
+        data: result,
     });
 }));
-exports.AuthControllers = {
-    loginUser,
+exports.PaymentController = {
+    createPaymentSession,
 };

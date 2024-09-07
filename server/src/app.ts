@@ -9,11 +9,13 @@ import { Slot } from './app/modules/slot/slot.model';
 import { AppError } from './app/errors/appError';
 import httpStatus from 'http-status';
 import { Booking } from './app/modules/booking/booking.model';
+import config from './app/config';
 const app: Application = express();
+const stripe = new Stripe(config.stripe_cli as string);
 
 // parser
 // app.use(express.json());
-app.use(cors());
+app.use(cors({ origin: [config.client_url as string], credentials: true }));
 app.use(express.urlencoded({ extended: true }));
 
 // application routes
@@ -23,10 +25,6 @@ app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
-// Stripe webhook route: parse the body as raw buffer
-const stripe = new Stripe(
-  'sk_test_51NrBpjKfBQVbvexEZDxgs6htLSnLhY2gNUMeW5K7U9Af9twEy3PVfOWFCJ5vk3JfMj6Xi5GofPVoqZbPfXVEP2fN00OwF2s04k',
-);
 app.post(
   '/webhook',
   bodyParser.raw({ type: 'application/json' }),
@@ -38,7 +36,7 @@ app.post(
       event = stripe.webhooks.constructEvent(
         req.body,
         sig,
-        'whsec_2305593bfaeeb4dc5073fe220e8c92b9702b55bc9a5b527d0ed2715ab8c3f7b5',
+        config.stripe_endpoint_secret as string,
       );
     } catch (err) {
       throw new AppError(httpStatus.BAD_REQUEST, 'Webhook Error');

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import avatar from "/public/avatar.webp";
-import logo from "/public/icon.png";
+import avatar from "/avatar.webp";
+import logo from "/icon.png";
 
 export default function PrimaryNavbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -59,15 +59,16 @@ export default function PrimaryNavbar() {
           onClick={toggleDropdown}
         />
         {isDropdownOpen && (
-          <div className="rounded bg-white w-40 text-black absolute -left-[104px] mt-2">
-            <ul>
-              <li className="border-b py-3 px-6 hover:bg-gray-100 rounded">
-                <Link to={"/book-room/my-bookings"}>My Bookings</Link>
-              </li>
-              <li className="py-3 px-6 hover:bg-gray-100 rounded">
-                <Link to={""}>Logout</Link>
-              </li>
-            </ul>
+          <div className="rounded bg-white shadow-sm z-50 w-40 text-black absolute flex flex-col -left-[104px] mt-[21px]">
+            <Link
+              className="border-b border-gray-500 py-3 px-6 hover:bg-[#e3e3e3e9] rounded"
+              to={"/book-room/my-bookings"}
+            >
+              My Bookings
+            </Link>
+            <Link className="py-3 px-6 hover:bg-[#e3e3e3e9] rounded" to={""}>
+              Logout
+            </Link>
           </div>
         )}
       </div>

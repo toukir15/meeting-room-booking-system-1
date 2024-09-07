@@ -64,7 +64,7 @@ export default function UpdateSlot() {
             Room Name
           </label>
           <Select
-            className="w-[70%] border rounded-md border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 bg-[#E0F7FA]"
+            className="w-[70%] border rounded-md border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 bg-white"
             showSearch
             placeholder="Select a room"
             disabled
@@ -94,13 +94,12 @@ export default function UpdateSlot() {
         </div>
 
         {/* Date */}
-        {/* Date */}
         <div className="flex flex-col md:flex-row w-full md:items-center mb-2 md:mb-6">
           <label className="md:w-[30%] mb-1" htmlFor="date">
             Date
           </label>
           <DatePicker
-            className="py-2.5 w-[70%] border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 bg-[#E0F7FA]"
+            className="py-2.5 w-[70%] border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 bg-white]"
             value={selectedDate ? dayjs(selectedDate, dateFormat) : null}
             format={dateFormat}
             onChange={(_date, dateString) => {
@@ -155,6 +154,9 @@ export default function UpdateSlot() {
               Update Slot
             </button>
             <button
+              onClick={() => {
+                navigate("/admin/dashboard/slot-management");
+              }}
               type="button"
               className="w-1/2 border border-rose-500 hover:border-rose-600 text-rose-500 hover:text-rose-600 py-3 px-4 rounded-lg"
             >

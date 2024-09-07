@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import avatar from "../../../public/avatar.webp";
-import logo from "../../../public/icon.png";
+import avatar from "/avatar.webp";
+import logo from "/icon.png";
 
 export default function Navbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);

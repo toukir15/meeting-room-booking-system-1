@@ -5,6 +5,7 @@ const mongoose_1 = require("mongoose");
 // create a schema for slot
 const slotSchema = new mongoose_1.Schema({
     room: { type: mongoose_1.Schema.Types.ObjectId, ref: 'Room' },
+    roomNo: { type: String },
     date: { type: String },
     startTime: { type: String },
     endTime: { type: String },

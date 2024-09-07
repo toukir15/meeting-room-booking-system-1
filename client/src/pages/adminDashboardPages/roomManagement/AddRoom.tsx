@@ -91,107 +91,125 @@ export default function AddRoom() {
       >
         {/* Form Fields */}
         <div className="flex flex-col md:flex-row w-full md:items-center mb-2 md:mb-6">
-          <label className="md:w-[30%] mb-1" htmlFor="roomName">
+          <label className="md:w-[30%] mb-1 text-gray-600" htmlFor="roomName">
             Room Name
           </label>
-          <input
-            {...register("roomName", { required: true })}
-            className="border py-2.5 lg:w-[70%] text-black outline-none  px-3 rounded text-sm border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 bg-[#E0F7FA] hover:bg-white"
-            type="text"
-            placeholder="Room name"
-          />
-          {errors.roomName && (
-            <span className="text-red-500 text-sm">Room name is required</span>
-          )}
+          <div className="w-[70%] flex flex-col">
+            <input
+              {...register("roomName", { required: true })}
+              className="border py-2.5 lg:w-[100%] text-black outline-none  px-3 rounded text-sm border-gray-300 hover:border-gray-400 transition duration-200 shadow"
+              type="text"
+              placeholder="Room name"
+            />
+            {errors.roomName && (
+              <span className="text-red-500 text-sm ">
+                Room name is required
+              </span>
+            )}
+          </div>
         </div>
 
         <div className="flex flex-col md:flex-row w-full md:items-center mb-2 md:mb-6">
-          <label className="md:w-[30%] mb-1" htmlFor="roomNo">
+          <label className="md:w-[30%] mb-1 text-gray-600" htmlFor="roomNo">
             Room No
           </label>
-          <input
-            {...register("roomNo", { required: true })}
-            className="border py-2.5 lg:w-[70%] text-black outline-none  px-3 rounded text-sm border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 bg-[#E0F7FA] hover:bg-white"
-            type="number"
-            placeholder="Room no"
-          />
-          {errors.roomNo && (
-            <span className="text-red-500 text-sm">
-              Room number is required
-            </span>
-          )}
+
+          <div className="w-[70%] flex flex-col">
+            <input
+              {...register("roomNo", { required: true })}
+              className="border py-2.5 lg:w-[100%] text-black outline-none  px-3 rounded text-sm border-gray-300 hover:border-gray-400 transition duration-200 shadow"
+              type="number"
+              placeholder="Room no"
+            />
+            {errors.roomNo && (
+              <span className="text-red-500 text-sm">
+                Room number is required
+              </span>
+            )}
+          </div>
         </div>
 
         <div className="flex flex-col md:flex-row w-full md:items-center mb-2 md:mb-6">
-          <label className="md:w-[30%] mb-1" htmlFor="floorNo">
+          <label className="md:w-[30%] mb-1 text-gray-600" htmlFor="floorNo">
             Floor No
           </label>
-          <input
-            {...register("floorNo", { required: true })}
-            className="border py-2.5 lg:w-[70%] text-black outline-none  px-3 rounded text-sm border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 bg-[#E0F7FA] hover:bg-white"
-            type="number"
-            placeholder="Floor no"
-          />
-          {errors.floorNo && (
-            <span className="text-red-500 text-sm">
-              Floor number is required
-            </span>
-          )}
+          <div className="w-[70%] flex flex-col">
+            <input
+              {...register("floorNo", { required: true })}
+              className="border py-2.5 lg:w-[100%] text-black outline-none  px-3 rounded text-sm border-gray-300 hover:border-gray-400 transition duration-200 shadow"
+              type="number"
+              placeholder="Floor no"
+            />
+            {errors.floorNo && (
+              <span className="text-red-500 text-sm">
+                Floor number is required
+              </span>
+            )}
+          </div>
         </div>
 
         <div className="flex flex-col md:flex-row w-full md:items-center mb-2 md:mb-6">
-          <label className="md:w-[30%] mb-1" htmlFor="capacity">
+          <label className="md:w-[30%] mb-1 text-gray-600" htmlFor="capacity">
             Capacity
           </label>
-          <input
-            {...register("capacity", { required: true })}
-            className="border py-2.5 lg:w-[70%] text-black outline-none  px-3 rounded text-sm border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 bg-[#E0F7FA] hover:bg-white"
-            type="number"
-            placeholder="Capacity"
-          />
-          {errors.capacity && (
-            <span className="text-red-500 text-sm">Capacity is required</span>
-          )}
+          <div className="w-[70%] flex flex-col">
+            <input
+              {...register("capacity", { required: true })}
+              className="border py-2.5 lg:w-[100%] text-black outline-none  px-3 rounded text-sm border-gray-300 hover:border-gray-400 transition duration-200 shadow"
+              type="number"
+              placeholder="Capacity"
+            />
+            {errors.capacity && (
+              <span className="text-red-500 text-sm">Capacity is required</span>
+            )}
+          </div>
         </div>
 
         <div className="flex flex-col md:flex-row w-full md:items-center mb-2 md:mb-6">
-          <label className="md:w-[30%] mb-1" htmlFor="pricePerSlot">
+          <label
+            className="md:w-[30%] mb-1 text-gray-600"
+            htmlFor="pricePerSlot"
+          >
             Price Per Slot
           </label>
-          <input
-            {...register("pricePerSlot", { required: true })}
-            className="border py-2.5 lg:w-[70%] text-black outline-none  px-3 rounded text-sm border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 bg-[#E0F7FA] hover:bg-white"
-            type="number"
-            placeholder="Price per slot"
-          />
-          {errors.pricePerSlot && (
-            <span className="text-red-500 text-sm">
-              Price per slot is required
-            </span>
-          )}
+          <div className="w-[70%] flex flex-col">
+            <input
+              {...register("pricePerSlot", { required: true })}
+              className="border py-2.5 lg:w-[100%] text-black outline-none  px-3 rounded text-sm border-gray-300 hover:border-gray-400 transition duration-200 shadow"
+              type="number"
+              placeholder="Price per slot"
+            />
+            {errors.pricePerSlot && (
+              <span className="text-red-500 text-sm">
+                Price per slot is required
+              </span>
+            )}
+          </div>
         </div>
 
         <div className="flex flex-col md:flex-row w-full md:items-center mb-2 md:mb-6">
-          <label className="md:w-[30%] mb-1" htmlFor="amenities">
+          <label className="md:w-[30%] mb-1 text-gray-600" htmlFor="amenities">
             Amenities
           </label>
-          <div className="w-[70%]">
-            <Select
-              mode="tags"
-              className="border rounded border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200"
-              style={{ width: "100%" }}
-              placeholder="Amenities"
-              onChange={handleChange}
-              options={options}
-            />
+          <div className="w-[70%] flex flex-col">
+            <div className="w-[100%]">
+              <Select
+                mode="tags"
+                className="border rounded border-gray-300 hover:border-gray-400 transition duration-200"
+                style={{ width: "100%" }}
+                placeholder="Amenities"
+                onChange={handleChange}
+                options={options}
+              />
+            </div>
+            {errors.pricePerSlot && (
+              <span className="text-red-500 text-sm">Amenites is required</span>
+            )}
           </div>
-          {errors.pricePerSlot && (
-            <span className="text-red-500 text-sm">Amenites is required</span>
-          )}
         </div>
 
         <div className="flex flex-col md:flex-row w-full md:items-center mb-2 md:mb-6">
-          <label className="md:w-[30%] mb-1" htmlFor="addImage">
+          <label className="md:w-[30%] mb-1 text-gray-600" htmlFor="addImage">
             Add Images
           </label>
           <input
@@ -202,45 +220,54 @@ export default function AddRoom() {
             className="hidden"
             multiple
           />
-          <label
-            htmlFor="addImage"
-            className="py-2 px-5 rounded-full text-sm bg-primary cursor-pointer w-fit border border-rose-500 hover:border-rose-600 text-rose-500 hover:text-rose-600 transition duration-150"
-          >
-            Upload Files
-          </label>
-          <div className="ml-3">
-            {fileNames.length > 0 && (
-              <ul>
-                {fileNames.map((name, index) => (
-                  <li key={index} className="text-sm text-gray-700">
-                    {name}
-                  </li>
-                ))}
-              </ul>
+          <div className="flex flex-col">
+            <div className="flex items-center">
+              <label
+                htmlFor="addImage"
+                className="py-2 px-5 rounded-full h-fit text-sm bg-white cursor-pointer w-fit border border-rose-500 hover:border-rose-600 text-rose-500 hover:text-rose-600 transition duration-150"
+              >
+                Upload Files
+              </label>
+              <div className="ml-3">
+                {fileNames.length > 0 && (
+                  <ul>
+                    {fileNames.map((name, index) => (
+                      <li key={index} className="text-sm text-gray-700">
+                        {name}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </div>
+            {errors.images && fileNames.length < 1 && (
+              <span className="text-red-500 text-sm mt-2 ml-2">
+                Image upload is required
+              </span>
             )}
           </div>
-          {errors.images && (
-            <span className="text-red-500 text-sm">
-              Image upload is required
-            </span>
-          )}
         </div>
 
         <div className="flex flex-col md:flex-row w-full md:items-center mb-2 md:mb-6">
-          <label className="md:w-[30%] mb-1" htmlFor="availableQuantity">
+          <label
+            className="md:w-[30%] mb-1 text-gray-600"
+            htmlFor="availableQuantity"
+          >
             Available Quantity
           </label>
-          <input
-            {...register("availableQuantity", { required: true })}
-            className="border py-2.5 lg:w-[70%] text-black outline-none  px-3 rounded text-sm border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 bg-[#E0F7FA] hover:bg-white"
-            type="number"
-            placeholder="Available quantity"
-          />
-          {errors.availableQuantity && (
-            <span className="text-red-500 text-sm">
-              Available quantity is required
-            </span>
-          )}
+          <div className="w-[70%] flex flex-col">
+            <input
+              {...register("availableQuantity", { required: true })}
+              className="border py-2.5 lg:w-[100%] text-black outline-none  px-3 rounded text-sm border-gray-300 hover:border-gray-400 transition duration-200 shadow"
+              type="number"
+              placeholder="Available quantity"
+            />
+            {errors.availableQuantity && (
+              <span className="text-red-500 text-sm">
+                Available quantity is required
+              </span>
+            )}
+          </div>
         </div>
 
         <div className="flex flex-col md:flex-row w-full md:items-center">
@@ -253,6 +280,9 @@ export default function AddRoom() {
               Add Room
             </button>
             <button
+              onClick={() => {
+                navigate("/admin/dashboard/room-management");
+              }}
               type="button"
               className="w-1/2 border border-rose-500 hover:border-rose-600 text-rose-500 hover:text-rose-600 py-3 px-4 rounded-lg"
             >

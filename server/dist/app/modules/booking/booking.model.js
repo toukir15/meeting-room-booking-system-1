@@ -4,10 +4,9 @@ exports.Booking = void 0;
 const mongoose_1 = require("mongoose");
 const bookingSchema = new mongoose_1.Schema({
     date: { type: String },
-    slots: { type: [mongoose_1.Schema.ObjectId], ref: 'Slot' },
+    slot: { type: mongoose_1.Schema.ObjectId, ref: 'Slot' },
     room: { type: mongoose_1.Schema.ObjectId, ref: 'Room' },
     user: { type: mongoose_1.Schema.ObjectId, ref: 'User' },
-    totalAmount: { type: Number, default: 0 },
     isConfirmed: {
         type: String,
         enum: ['unconfirmed', 'confirmed'],

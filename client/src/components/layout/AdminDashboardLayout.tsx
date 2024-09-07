@@ -1,7 +1,7 @@
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Menu } from "antd";
 import Sider from "antd/es/layout/Sider";
-import logo from "../../../public/icon.png";
+import logo from "/icon.png";
 
 // Static JSON data
 const sidebarItems = [

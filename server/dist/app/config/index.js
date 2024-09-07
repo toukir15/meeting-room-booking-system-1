@@ -15,4 +15,7 @@ exports.default = {
     cloudinary_cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
     cloudinary_api_key: process.env.CLOUDINARY_API_KEY,
     cloudinary_api_secret: process.env.CLOUDINARY_API_SECRET,
+    client_url: process.env.CLIENT_URL,
+    stripe_cli: process.env.STRIPE_CLI,
+    stripe_endpoint_secret: process.env.STRIPE_ENDPOINT_SECRET,
 };

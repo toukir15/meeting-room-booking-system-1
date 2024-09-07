@@ -5,12 +5,25 @@ import { RoomServices } from './room.service';
 import { sendResponse } from '../../utils/sendResponse';
 import httpStatus from 'http-status';
 import { catchAsync } from '../../utils/catchAsync';
+import { Express } from 'express';
 
 const createRoom = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const roomData = JSON.parse(req?.body.data);
+    const roomData = JSON.parse(req?.body?.data);
+
+    // Check if req.files is defined
     const files = req.files;
-    const result = await RoomServices.createRoomIntoDB(roomData, files);
+    let fileArray: Express.Multer.File[] = [];
+
+    // If files are in an object, flatten them into a single array
+    if (files && !Array.isArray(files)) {
+      fileArray = Object.values(files).flat();
+    } else if (Array.isArray(files)) {
+      fileArray = files;
+    }
+
+    // Pass the files (if any) to the service
+    const result = await RoomServices.createRoomIntoDB(roomData, fileArray);
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,

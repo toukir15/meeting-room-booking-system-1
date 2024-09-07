@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import dayjs, { Dayjs } from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { DatePicker, TimePicker } from "antd";
-import room2 from "../../public/images/room/room2.webp";
+import room2 from "/images/room/room2.webp";
 import { useAppSelector } from "../redux/hook";
 import { useGetAvailableSlotQuery } from "../redux/features/slot/slotApi";
 import { useCreatePaymentSessionMutation } from "../redux/features/payment/paymentApi";
@@ -49,13 +49,7 @@ export default function BookRoom() {
       dayjs(data.startTime, timeFormat)
     ) || [];
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-    getValues,
-  } = useForm<TCheckout>();
+  const { register, handleSubmit, setValue, getValues } = useForm<TCheckout>();
 
   const handleCheckout = async (data: TCheckout) => {
     const date = getValues("date");
@@ -192,6 +186,7 @@ export default function BookRoom() {
                   className="py-2 w-full shadow"
                   format={timeFormat}
                   value={startTime}
+                  required
                   onChange={(value) => setStartTime(value)}
                   disabledTime={disabledTime}
                 />

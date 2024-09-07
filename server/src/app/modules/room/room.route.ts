@@ -9,12 +9,16 @@ const router = express.Router();
 
 router.post(
   '/',
-  // auth(USER_ROLE.admin),
+  auth([USER_ROLE.admin]),
   // validateRequest(RoomValidations.createRoomValidationSchema),
   upload.array('file'),
   RoomControllers.createRoom,
 );
-router.get('/', RoomControllers.getAllRooms);
+router.get(
+  '/',
+  auth([USER_ROLE.admin, USER_ROLE.user]),
+  RoomControllers.getAllRooms,
+);
 router.get('/:id', RoomControllers.getSingleRoom);
 router.patch(
   '/:id',

@@ -15,7 +15,7 @@ const loginUser = catchAsync(
       success: true,
       message: 'User logged in successfully',
       token: result.token,
-      data: result.isUserExist,
+      data: result.user,
     });
   },
 );

@@ -1,7 +1,7 @@
 import { FaCheck } from "react-icons/fa6";
-import selectRoom from "/public/images/step/selectRoom.png";
-import timetable from "/public/images/step/timetable.png";
-import confirm from "/public/images/step/confirm.png";
+import selectRoom from "/images/step/selectRoom.png";
+import timetable from "/images/step/timetable.png";
+import confirm from "/images/step/confirm.png";
 export default function Step() {
   return (
     <section className="mb-40 container mx-auto">
