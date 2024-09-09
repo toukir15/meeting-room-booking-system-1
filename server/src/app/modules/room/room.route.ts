@@ -10,26 +10,22 @@ const router = express.Router();
 router.post(
   '/',
   auth([USER_ROLE.admin]),
-  // validateRequest(RoomValidations.createRoomValidationSchema),
   upload.array('file'),
+  validateRequest(RoomValidations.createRoomValidationSchema),
   RoomControllers.createRoom,
 );
-router.get(
-  '/',
-  auth([USER_ROLE.admin, USER_ROLE.user]),
-  RoomControllers.getAllRooms,
-);
+router.get('/', RoomControllers.getAllRooms);
 router.get('/:id', RoomControllers.getSingleRoom);
 router.patch(
   '/:id',
-  // auth(USER_ROLE.admin),
-  // validateRequest(RoomValidations.updateRoomValidationSchema),
+  auth([USER_ROLE.admin]),
+  validateRequest(RoomValidations.updateRoomValidationSchema),
   RoomControllers.updateRoom,
 );
 router.delete(
   '/:id',
-  // auth(USER_ROLE.admin),
-  // validateRequest(RoomValidations.updateRoomValidationSchema),
+  auth([USER_ROLE.admin]),
+  validateRequest(RoomValidations.updateRoomValidationSchema),
   RoomControllers.deleteRoom,
 );
 

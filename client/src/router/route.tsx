@@ -42,19 +42,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "meeting-rooms",
-        element: (
-          <ProtectedRoute>
-            <MeetingRoomsPage />
-          </ProtectedRoute>
-        ),
+        element: <MeetingRoomsPage />,
       },
       {
         path: "room-details",
-        element: (
-          <ProtectedRoute>
-            <RoomDetails />
-          </ProtectedRoute>
-        ),
+        element: <RoomDetails />,
       },
       {
         path: "book-room",

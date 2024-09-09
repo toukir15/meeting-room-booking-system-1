@@ -5,6 +5,7 @@ import { Select } from "antd";
 import type { SelectProps } from "antd";
 import "./AddRoom.css";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 type FormValues = {
   roomName: string;
@@ -23,14 +24,26 @@ export default function AddRoom() {
   const [createRoom] = useCreateRoomMutation();
   const navigate = useNavigate();
 
-  console.log(amenities);
   const options: SelectProps["options"] = [
     { value: "Wifi", label: "Wifi" },
     { value: "Projector", label: "Projector" },
+    { value: "Whiteboard", label: "Whiteboard" },
+    { value: "Conference Phone", label: "Conference Phone" },
+    { value: "Video Conferencing", label: "Video Conferencing" },
+    { value: "Smart TV", label: "Smart TV" },
+    { value: "Flipchart", label: "Flipchart" },
+    { value: "HDMI Connection", label: "HDMI Connection" },
+    { value: "Sound System", label: "Sound System" },
+    { value: "Printer Access", label: "Printer Access" },
+    { value: "Air Conditioning", label: "Air Conditioning" },
+    { value: "Coffee Machine", label: "Coffee Machine" },
+    { value: "Snacks", label: "Snacks" },
+    { value: "Natural Light", label: "Natural Light" },
+    { value: "Comfortable Chairs", label: "Comfortable Chairs" },
   ];
 
   const handleChange = (value: string[]) => {
-    setAmenities(value); // Update amenities state
+    setAmenities(value);
   };
 
   const {
@@ -51,7 +64,7 @@ export default function AddRoom() {
     const formData = new FormData();
 
     files.forEach((file) => {
-      formData.append(`file`, file); // Each file gets a unique indexed key
+      formData.append(`file`, file);
     });
 
     // Append other form data
@@ -64,20 +77,21 @@ export default function AddRoom() {
         capacity: data.capacity,
         pricePerSlot: data.pricePerSlot,
         availableQuantity: data.availableQuantity,
-        amenities: amenities, // Include the selected amenities
+        amenities: amenities,
       })
     );
 
     createRoom(formData)
       .unwrap()
       .then((response) => {
-        console.log(response);
         if (response.success) {
           navigate("/admin/dashboard/room-management");
         }
       })
       .catch((error) => {
-        console.error("Error adding room:", error);
+        if (error.status == 409) {
+          toast.error("This room already exist", { duration: 2000 });
+        }
       });
   };
 

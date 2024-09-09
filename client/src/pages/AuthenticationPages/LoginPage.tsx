@@ -33,17 +33,20 @@ export default function LoginPage() {
 
   const handleLoginForm: SubmitHandler<TLogin> = async (data) => {
     const result = await login(data);
-    const token = result?.data?.token as string;
-    if (token) {
-      const decoded = jwtDecode<TUser>(token);
-      console.log(decoded);
-      dispatch(
-        setUser({
-          user: decoded,
-          token,
-        })
-      );
-      navigate("/");
+    if (result.data.success) {
+      const token = result?.data?.token as string;
+      if (token) {
+        const decoded = jwtDecode<TUser>(token);
+
+        dispatch(
+          setUser({
+            user: decoded,
+            token,
+          })
+        );
+        toast.success("Logged in successfull", { position: "bottom-right" });
+        navigate("/");
+      }
     }
 
     if (result.error) {

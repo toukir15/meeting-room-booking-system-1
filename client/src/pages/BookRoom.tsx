@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import dayjs, { Dayjs } from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { DatePicker, TimePicker } from "antd";
-import room2 from "/images/room/room2.webp";
 import { useAppSelector } from "../redux/hook";
 import { useGetAvailableSlotQuery } from "../redux/features/slot/slotApi";
 import { useCreatePaymentSessionMutation } from "../redux/features/payment/paymentApi";
@@ -26,7 +25,6 @@ type TCheckout = {
 };
 
 export default function BookRoom() {
-  // const navigate = useNavigate();
   // states
   const user = useAppSelector((state) => state.auth.user);
   const room = useAppSelector((state) => state.room.room);
@@ -71,7 +69,6 @@ export default function BookRoom() {
     if (url) {
       window.location.href = url;
     }
-    // You can add your API call here to process the booking
   };
 
   const disabledTime = (current: Dayjs | null) => {
@@ -124,11 +121,11 @@ export default function BookRoom() {
       <div className="bg-gray-50">
         <form
           onSubmit={handleSubmit(handleCheckout)}
-          className="flex container mx-auto h-[calc(100vh-80px)] justify-center items-center"
+          className="flex container mx-auto min-h-[calc(100vh-80px)] justify-center items-center py-10 lg:py-0"
         >
-          <div className="flex px-40 gap-10 w-full">
-            <div className="w-1/2 border p-6 h-fit rounded-xl bg-white shadow-sm">
-              <h2 className="text-3xl text-text-primary font-medium mb-6">
+          <div className="flex flex-col lg:flex-row px-4 md:px-20 lg:px-40 gap-10 w-full">
+            <div className="w-full lg:w-1/2 border p-4 md:p-6 h-fit rounded-xl bg-white shadow-sm">
+              <h2 className="text-2xl md:text-3xl text-text-primary font-medium mb-4 md:mb-6">
                 Request to book
               </h2>
               <div className="flex flex-col w-full mb-4">
@@ -176,6 +173,7 @@ export default function BookRoom() {
                   value={selectedDate}
                   format={dateFormat}
                   onChange={(value) => setSelectedDate(value)}
+                  minDate={selectedDate}
                 />
               </div>
               <div className="flex flex-col w-full mb-4">
@@ -204,9 +202,13 @@ export default function BookRoom() {
                 />
               </div>
             </div>
-            <div className="w-1/2 border rounded-lg p-6 h-fit bg-white shadow-sm">
+            <div className="w-full lg:w-1/2 border rounded-lg p-4 md:p-6 h-fit bg-white shadow-sm">
               <div className="flex items-center gap-4">
-                <img src={room2} className="w-40 h-28 rounded-lg" alt="" />
+                <img
+                  src={room?.images[0]}
+                  className="w-24 h-20 md:w-40 md:h-28 rounded-lg"
+                  alt=""
+                />
                 <div>
                   <p className="text-lg font-medium mb-2 text-text-primary">
                     {room?.roomName}
@@ -225,7 +227,7 @@ export default function BookRoom() {
                 </div>
               </div>
               <div>
-                <h4 className="mt-8 text-2xl font-medium text-text-primary">
+                <h4 className="mt-6 md:mt-8 text-xl md:text-2xl font-medium text-text-primary">
                   Price Details
                 </h4>
                 <div className="flex justify-between items-center mt-4">
@@ -233,7 +235,7 @@ export default function BookRoom() {
                   <p className="font-medium">${room?.pricePerSlot}</p>
                 </div>
                 <div className="flex justify-end">
-                  <button className="bg-primary hover:bg-primary-hover transition duration-200 w-fit px-4 py-1.5 rounded text-white font-medium mt-6">
+                  <button className="bg-primary hover:bg-primary-hover transition duration-200 w-fit px-4 py-2 md:py-1.5 rounded text-white font-medium mt-6">
                     Checkout
                   </button>
                 </div>

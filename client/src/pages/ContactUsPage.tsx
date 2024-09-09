@@ -4,15 +4,21 @@ import { MdAlternateEmail } from "react-icons/md";
 import { FaPhoneAlt } from "react-icons/fa";
 import { CgOrganisation } from "react-icons/cg";
 import SecondaryNavbar from "../components/shared/SecondaryNavbar";
+import { motion } from "framer-motion";
 
 const ContactUs = () => {
   return (
     <>
       <SecondaryNavbar />
-      <div className="h-[calc(100vh-230px)]">
-        <div className="md:flex gap-28 items-center mb-[50px] sm:mb-[60px] md:mb-[140px] lg:mt-[150px] md:mt-[150px] mt-[110px] container mx-auto px-40">
-          <div className="w-2/3">
-            <p className="text-4xl font-semibold  mb-8 mt-5">
+      <div className="min-h-[calc(100vh-220px)]">
+        <div className="lg:flex gap-28 items-center mb-10 sm:mb-12 md:mb-24 2 lg:mt-32 py-16  container mx-auto px-5 md:px-20 lg:px-40">
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            className="w-full lg:w-2/3"
+          >
+            <p className="text-2xl sm:text-3xl md:text-4xl font-semibold mb-4 sm:mb-6 md:mb-8 mt-5">
               Send Us A Message
             </p>
             <form
@@ -36,50 +42,45 @@ const ContactUs = () => {
                 />
               </div>
 
-              <div className="flex gap-12 justify-between mb-5 sm:mb-7 md:mb-10 mt-5">
-                <div className="w-full">
-                  <label className="text-gray-600" htmlFor="email">
-                    Email <span>*</span>
-                  </label>
-                  <input
-                    type="text"
-                    name="email"
-                    id="email"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b border-gray appearance-none focus:outline-none"
-                    placeholder="you@example.com"
-                    required
-                    autoComplete="off"
-                    autoFocus={true}
-                  />
-                </div>
-              </div>
-
-              <div className="flex gap-12 justify-between mb-5 sm:mb-7 md:mb-10 mt-5">
-                <div className="w-full">
-                  <label className="text-gray-600" htmlFor="email">
-                    Subject <span>*</span>
-                  </label>
-                  <input
-                    type="text"
-                    name="email"
-                    id="email"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b border-gray appearance-none focus:outline-none"
-                    placeholder="Your subject here..."
-                    required
-                    autoComplete="off"
-                    autoFocus={true}
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="text-gray-600" htmlFor="projectDetails">
-                  Message <span>*</span>
+              <div className="mb-5 sm:mb-7 md:mb-10 mt-5">
+                <label className="text-gray-600" htmlFor="email">
+                  Email <span>*</span>
                 </label>
                 <input
                   type="text"
-                  name="projectDetails"
-                  id="projectDetails"
+                  name="email"
+                  id="email"
+                  className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b border-gray appearance-none focus:outline-none"
+                  placeholder="you@example.com"
+                  required
+                  autoComplete="off"
+                  autoFocus={true}
+                />
+              </div>
+
+              <div className="mb-5 sm:mb-7 md:mb-10 mt-5">
+                <label className="text-gray-600" htmlFor="subject">
+                  Subject <span>*</span>
+                </label>
+                <input
+                  type="text"
+                  name="subject"
+                  id="subject"
+                  className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b border-gray appearance-none focus:outline-none"
+                  placeholder="Your subject here..."
+                  required
+                  autoComplete="off"
+                  autoFocus={true}
+                />
+              </div>
+
+              <div>
+                <label className="text-gray-600" htmlFor="message">
+                  Message <span>*</span>
+                </label>
+                <textarea
+                  name="message"
+                  id="message"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b border-gray appearance-none focus:outline-none"
                   placeholder="Your message here..."
                   required
@@ -88,7 +89,7 @@ const ContactUs = () => {
                 />
               </div>
 
-              <div className="flex items-center gap-3 mt-10 group">
+              <div className="flex items-center gap-3 mt-8 group">
                 <button
                   type="submit"
                   className="py-3 px-7 rounded-full bg-rose-500 hover:bg-rose-600 transition duration-200 text-white text-body font-medium"
@@ -97,8 +98,14 @@ const ContactUs = () => {
                 </button>
               </div>
             </form>
-          </div>
-          <div className="sm:w-1/3  mt-8 md:mt-0 space-y-3 sm:space-y-4 md:space-y-5">
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            className="w-full sm:w-2/3 lg:w-1/3 mt-8 lg:mt-0 space-y-4"
+          >
             <div className="flex items-center gap-3 text-gray-600">
               <CgOrganisation size={18} />
               <Link to="/">MeetEase</Link>
@@ -109,7 +116,7 @@ const ContactUs = () => {
             </div>
             <div className="flex items-center gap-3 text-gray-600">
               <MdAlternateEmail size={18} />
-              <Link className="mb-0.5" to={""}>
+              <Link className="mb-0.5" to="">
                 support@developerlook.com
               </Link>
             </div>
@@ -117,7 +124,7 @@ const ContactUs = () => {
               <TbLocationFilled size={18} />
               <p>1603 Capitol Avenue, Suite 413</p>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </>

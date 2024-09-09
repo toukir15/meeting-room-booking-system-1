@@ -4,6 +4,7 @@ import { useAppDispatch } from "../../redux/hook";
 import { setRoom } from "../../redux/features/room/roomSlice";
 import { useNavigate } from "react-router-dom";
 import { useGetRoomsQuery } from "../../redux/features/roomManagement/roomManagementApi";
+import { motion } from "framer-motion";
 
 type TRoom = {
   _id: string;
@@ -38,43 +39,48 @@ export default function Rooms({ filteredRooms }: RoomsProps) {
     }
   };
   return (
-    <div className="py-20 container mx-auto">
-      <div className="grid grid-cols-4 gap-10 px-20">
+    <div className="py-16 lg:py-32 container mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:px-20 justify-items-center mt-8 md:mt-12 lg:mt-0">
         {filteredRooms.length > 0 ? (
           filteredRooms.map((room: TRoom) => (
-            <div
+            <motion.div
               onClick={(e) => handleRoom(e, room._id)}
               className="w-fit cursor-pointer"
               key={room._id}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
             >
-              <Swiper
-                speed={1000}
-                navigation={true}
-                modules={[Navigation]}
-                className="h-[320px] w-[320px]"
-              >
-                {room.images.map((image, index) => (
-                  <SwiperSlide key={index}>
-                    <div>
-                      <img
-                        src={image}
-                        alt={`Banner ${index + 1}`}
-                        className="w-[320px] h-[320px] rounded-lg object-fill"
-                      />
-                    </div>
-                  </SwiperSlide>
-                ))}
-              </Swiper>
+              <div>
+                <Swiper
+                  speed={1000}
+                  navigation={true}
+                  modules={[Navigation]}
+                  className="h-[320px] w-[320px]"
+                >
+                  {room.images.map((image, index) => (
+                    <SwiperSlide key={index}>
+                      <div>
+                        <img
+                          src={image}
+                          alt={`Banner ${index + 1}`}
+                          className="w-[320px] h-[320px] rounded-lg object-fill"
+                        />
+                      </div>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
 
-              <h6 className="mt-2 text-xl font-medium">{room.roomName}</h6>
-              <h6 className="text-gray-800">
-                Capacity <span className="font-medium">{room.capacity}</span>
-              </h6>
-              <h6 className="mt-1 text-gray-900">
-                Per slot{" "}
-                <span className="font-medium">${room.pricePerSlot}</span>
-              </h6>
-            </div>
+                <h6 className="mt-2 text-xl font-medium">{room.roomName}</h6>
+                <h6 className="text-gray-800">
+                  Capacity <span className="font-medium">{room.capacity}</span>
+                </h6>
+                <h6 className="mt-1 text-gray-900">
+                  Per slot{" "}
+                  <span className="font-medium">${room.pricePerSlot}</span>
+                </h6>
+              </div>
+            </motion.div>
           ))
         ) : (
           <div className="col-span-4 text-center text-xl text-gray-500">

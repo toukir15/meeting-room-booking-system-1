@@ -14,10 +14,10 @@ export default function RoomDetails() {
   }, []);
 
   return (
-    <div className="h-screen">
+    <div className="min-h-screen">
       <SecondaryNavbar />
-      <div className=" container mx-auto justify-center mt-20  flex items-center">
-        <div>
+      <div className=" container mx-auto justify-center py-12 md:py-20 md:mt-20  flex items-center">
+        <div className="hidden lg:block md:px-8 lg:px-8 xl:px-0">
           {images.length == 1 && (
             <div>
               <img src={images[0]} className="w-[600px] h-[500px]" alt="" />
@@ -129,10 +129,12 @@ export default function RoomDetails() {
                   src={images[4]}
                   alt=""
                 />
-                <button className="w-fit flex items-center gap-2 absolute bottom-6 right-6 bg-white px-4 py-2 rounded hover:bg-[#EBEBEB] transition duration-200">
-                  <CgMenuGridO />
-                  <span>Show all photos</span>
-                </button>
+                <div className="w-full md:hidden xl:block absolute bottom-6 right-6 ">
+                  <button className="w-fit flex items-center gap-2 absolute bottom-6 right-6 bg-white px-4 py-2 rounded hover:bg-[#EBEBEB] transition duration-200">
+                    <CgMenuGridO />
+                    <span>Show all photos</span>
+                  </button>
+                </div>
               </div>
             </div>
           )}
@@ -176,6 +178,54 @@ export default function RoomDetails() {
               })}
             </span>
           </p>
+        </div>
+
+        {/* mobile view  */}
+        <div className="px-4 block lg:hidden">
+          <div>
+            <img
+              src={images[0]}
+              className="w-[600px] h-[300px] md:h-[400px]"
+              alt=""
+            />
+          </div>
+          <h2 className=" text-2xl font-medium mt-3">{room?.roomName}</h2>
+          <div className="flex flex-col gap-[2px] mt-2">
+            <p>
+              <span className="text-gray-800">Price Per Slot:</span>{" "}
+              <span className="font-medium">$49</span> .
+            </p>
+            <p>
+              <span className="text-gray-800">Capacity:</span>{" "}
+              <span className="font-medium">{room?.capacity}</span> .
+            </p>
+            <p>
+              <span className="text-gray-800">Room No:</span>{" "}
+              <span className="font-medium">40</span> .
+            </p>
+            <p>
+              <span className="text-gray-800">Floor No:</span>{" "}
+              <span className="font-medium">{room?.floorNo}</span> .
+            </p>
+          </div>
+          <p className="">
+            <span className="text-gray-800">Amenities:</span>{" "}
+            <span>
+              {room?.amenities.map((amenite, index) => {
+                return (
+                  <span className="font-medium">
+                    {amenite} {room.amenities.length - 1 !== index && ","}{" "}
+                  </span>
+                );
+              })}
+            </span>
+          </p>
+          <button
+            onClick={() => navigate("/book-room")}
+            className="bg-rose-500 px-8 py-2 rounded w-full text-white font-medium mt-3"
+          >
+            Book Now
+          </button>
         </div>
       </div>
     </div>

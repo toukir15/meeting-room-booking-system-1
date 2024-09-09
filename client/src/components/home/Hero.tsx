@@ -10,6 +10,7 @@ import "swiper/css/autoplay";
 
 export default function Hero() {
   const navigate = useNavigate();
+
   return (
     <div className="flex-1">
       {/* banner section  */}
@@ -22,12 +23,8 @@ export default function Hero() {
           speed={3000}
           loop={true} // Enable looping
           slidesPerView={1} // Show one slide at a time
-          navigation={{
-            nextEl: `.${styles["swiper-button-next"]}`, // Use the scoped class
-            prevEl: `.${styles["swiper-button-prev"]}`, // Use the scoped class
-          }}
-          modules={[Navigation, Autoplay]}
-          className="mySwiper h-[725px]"
+          modules={[Autoplay]}
+          className="mySwiper h-[764px] md:h-[687px] sm:h-[500px] xs:h-[400px]"
         >
           <SwiperSlide>
             <div className="overlay-container h-full">
@@ -86,26 +83,25 @@ export default function Hero() {
         </Swiper>
 
         {/* Custom text and button */}
-        <div className="absolute top-1/2 -translate-y-8 right-1/2 z-50 text-white font-medium translate-x-1/2">
-          <h1 className="text-5xl mb-8 text-center">
+        <div className="absolute top-1/2 transform -translate-y-1/2 right-1/2 z-50 text-white font-medium translate-x-1/2">
+          <h1 className="hidden md:block text-3xl lg:text-5xl md:text-4xl sm:text-3xl xs:text-2xl md:mb-6 lg:mb-8 text-center whitespace-nowrap ">
             Book Your Ideal Meeting Room with Ease.
           </h1>
-          <h2 className="text-xl text-center">
+          <h1 className="block md:hidden text-3xl lg:text-5xl md:text-4xl sm:text-3xl xs:text-2xl mb-4 lg:mb-8 text-center whitespace-nowrap">
+            Book Your Ideal Meeting <br /> Room with Ease.
+          </h1>
+          <h2 className="text-sm lg:text-xl sm:text-lg xs:text-base text-center whitespace-break-spaces">
             Efficient, hassle-free room booking for all your meeting needs.
           </h2>
-          <div className="mt-10 flex justify-center">
+          <div className="lg:mt-10 mt-6 flex justify-center">
             <button
               onClick={() => navigate("/meeting-rooms")}
-              className="bg-white hover:bg-[#d3d3d3] transition duration-200 text-black py-3 rounded-full px-10"
+              className="bg-white hover:bg-[#d3d3d3] transition duration-200 text-black py-3 md:py-2 xs:py-1 rounded-full px-10 md:px-8 xs:px-6 whitespace-nowrap"
             >
               Book Now
             </button>
           </div>
         </div>
-
-        {/* Custom Swiper buttons */}
-        <div className={styles["swiper-button-next"]}></div>
-        <div className={styles["swiper-button-prev"]}></div>
       </div>
     </div>
   );

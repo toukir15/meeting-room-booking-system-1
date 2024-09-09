@@ -15,9 +15,13 @@ const createRoomIntoDB = async (roomData: TRoom, files: TMulterFile[]) => {
     amenities: roomData.amenities,
   };
 
-  const findRoom = await Room.findOne({ roomName: roomData.roomName });
+  const findRoom = await Room.findOne({
+    roomName: roomData.roomName,
+    isDeleted: { $ne: true },
+  });
+
   if (findRoom) {
-    throw new AppError(httpStatus.BAD_REQUEST, 'This room already exist');
+    throw new AppError(httpStatus.CONFLICT, 'This room already exist');
   }
 
   const result = await Room.create(data);

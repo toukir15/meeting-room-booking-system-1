@@ -2,11 +2,11 @@
 import { IoIosSearch } from "react-icons/io";
 import { useState, useRef, useEffect } from "react";
 import { useGetRoomsQuery } from "../redux/features/roomManagement/roomManagementApi";
-import SecondaryNavbar from "../components/shared/SecondaryNavbar";
 import filter from "/filter.png";
 import sort from "/sorting.png";
 import "./MeetingRoomPage.css";
 import Rooms from "../components/meetingRoom/Rooms";
+import PrimaryNavbar from "../components/shared/PrimaryNavbar";
 
 const capacityOptions = [
   { label: "1-10 people", value: "1-10" },
@@ -181,17 +181,17 @@ export default function MeetingRoomsPage() {
 
   return (
     <div className="min-h-screen">
-      <SecondaryNavbar />
-      <div className="py-12 bg-[#525050]">
+      <PrimaryNavbar />
+      <div className="md:py-12 py-6 bg-[#e7eaed]">
         <div className="flex justify-center items-center flex-col container mx-auto relative">
-          <div className="w-2/6">
+          <div className="w-5/6 md:w-5/6 lg:w-2/6">
             <div className="bg-white shadow rounded-full flex items-center">
               <input
                 placeholder="Search by room name or keyword"
                 className="w-full py-2 rounded-full outline-none px-5 text-black text-sm"
                 type="text"
-                value={searchQuery} // Controlled input
-                onChange={(e) => setSearchQuery(e.target.value)} // Update search query on change
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
               <button className="mx-2 p-2 my-1 rounded-full text-2xl text-white bg-rose-500 hover:bg-rose-600 transition duration-200">
                 <IoIosSearch />
@@ -200,107 +200,109 @@ export default function MeetingRoomsPage() {
           </div>
 
           {/* Filter and Sort Dropdowns */}
-          <div className="absolute right-0 flex gap-2 items-center">
-            {/* Filter Button and Dropdown */}
-            <div ref={filterRef} className="relative inline-block">
-              <button
-                onClick={() => handleToggleDropdown("filter")}
-                className="bg-white border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-rose-500"
-              >
-                <div className="flex items-center gap-2">
-                  <img src={filter} alt="" />
-                  <span>Filter</span>
-                </div>
-              </button>
-              {isFilterOpen && (
-                <div className="absolute right-0 mt-2 w-[200px] bg-white border border-gray-300 rounded-md shadow-lg z-10">
-                  {/* Capacity Filter */}
-                  <div className="px-4 py-2">
-                    <h4 className="font-bold">Capacity</h4>
-                    <ul className="space-y-2">
-                      {capacityOptions.map((option) => (
+          <div className="absolute lg:right-0 top-24 md:top-32 lg:top-0 md:right-4 right-2 ">
+            <div className="flex gap-2 items-center">
+              {/* Filter Button and Dropdown */}
+              <div ref={filterRef} className="relative inline-block">
+                <button
+                  onClick={() => handleToggleDropdown("filter")}
+                  className="bg-white border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-rose-500"
+                >
+                  <div className="flex items-center gap-2">
+                    <img src={filter} alt="" />
+                    <span>Filter</span>
+                  </div>
+                </button>
+                {isFilterOpen && (
+                  <div className="absolute right-0 mt-2 w-[200px] bg-white border border-gray-300 rounded-md shadow-lg z-10">
+                    {/* Capacity Filter */}
+                    <div className="px-4 py-2">
+                      <h4 className="font-bold">Capacity</h4>
+                      <ul className="space-y-2">
+                        {capacityOptions.map((option) => (
+                          <li
+                            key={option.value}
+                            className={`cursor-pointer px-2 rounded ${
+                              selectedCapacity === option.value
+                                ? "bg-rose-500 text-white"
+                                : "hover:bg-gray-100"
+                            }`}
+                            onClick={() =>
+                              handleFilterSelect("capacity", option.value)
+                            }
+                          >
+                            {option.label}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {/* Price Filter */}
+                    <div className="px-4 py-2 border-t">
+                      <h4 className="font-bold">Price</h4>
+                      <ul className="space-y-2">
+                        {priceOptions.map((option) => (
+                          <li
+                            key={option.value}
+                            className={`cursor-pointer px-2 rounded ${
+                              selectedPrice === option.value
+                                ? "bg-rose-500 text-white"
+                                : "hover:bg-gray-100"
+                            }`}
+                            onClick={() =>
+                              handleFilterSelect("price", option.value)
+                            }
+                          >
+                            {option.label}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Sort Button and Dropdown */}
+              <div ref={sortRef} className="relative inline-block">
+                <button
+                  onClick={() => handleToggleDropdown("sort")}
+                  className="bg-white border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-rose-500"
+                >
+                  <div className="flex items-center gap-2">
+                    <img src={sort} alt="" />
+                    <span>Sort</span>
+                  </div>
+                </button>
+                {isSortOpen && (
+                  <div className="absolute right-0 mt-2 w-[200px] bg-white border border-gray-300 rounded-md shadow-lg z-10">
+                    <ul className="space-y-2 px-4 py-2">
+                      {sortOptions.map((option) => (
                         <li
                           key={option.value}
                           className={`cursor-pointer px-2 rounded ${
-                            selectedCapacity === option.value
+                            selectedSort === option.value
                               ? "bg-rose-500 text-white"
                               : "hover:bg-gray-100"
                           }`}
-                          onClick={() =>
-                            handleFilterSelect("capacity", option.value)
-                          }
+                          onClick={() => handleSortSelect(option.value)}
                         >
                           {option.label}
                         </li>
                       ))}
                     </ul>
                   </div>
+                )}
+              </div>
 
-                  {/* Price Filter */}
-                  <div className="px-4 py-2 border-t">
-                    <h4 className="font-bold">Price</h4>
-                    <ul className="space-y-2">
-                      {priceOptions.map((option) => (
-                        <li
-                          key={option.value}
-                          className={`cursor-pointer px-2 rounded ${
-                            selectedPrice === option.value
-                              ? "bg-rose-500 text-white"
-                              : "hover:bg-gray-100"
-                          }`}
-                          onClick={() =>
-                            handleFilterSelect("price", option.value)
-                          }
-                        >
-                          {option.label}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
+              {showClearButton && (
+                <button
+                  className="px-4 py-2 bg-red-500 text-white rounded-md"
+                  onClick={handleClearFilters}
+                >
+                  Clear
+                </button>
               )}
             </div>
-
-            {/* Sort Button and Dropdown */}
-            <div ref={sortRef} className="relative inline-block">
-              <button
-                onClick={() => handleToggleDropdown("sort")}
-                className="bg-white border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-rose-500"
-              >
-                <div className="flex items-center gap-2">
-                  <img src={sort} alt="" />
-                  <span>Sort</span>
-                </div>
-              </button>
-              {isSortOpen && (
-                <div className="absolute right-0 mt-2 w-[200px] bg-white border border-gray-300 rounded-md shadow-lg z-10">
-                  <ul className="space-y-2 px-4 py-2">
-                    {sortOptions.map((option) => (
-                      <li
-                        key={option.value}
-                        className={`cursor-pointer px-2 rounded ${
-                          selectedSort === option.value
-                            ? "bg-rose-500 text-white"
-                            : "hover:bg-gray-100"
-                        }`}
-                        onClick={() => handleSortSelect(option.value)}
-                      >
-                        {option.label}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
-
-            {showClearButton && (
-              <button
-                className="px-4 py-2 bg-red-500 text-white rounded-md"
-                onClick={handleClearFilters}
-              >
-                Clear
-              </button>
-            )}
           </div>
         </div>
       </div>

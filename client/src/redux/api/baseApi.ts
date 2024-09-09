@@ -25,7 +25,8 @@ const baseQueryWithReauth: BaseQueryFn<
   FetchBaseQueryError
 > = async (args, api, extraOptions) => {
   const baseQuery = fetchBaseQuery({
-    baseUrl: "https://meeting-room-booking-system-server.onrender.com/api",
+    // baseUrl: "https://meeting-room-booking-system-server.onrender.com/api",
+    baseUrl: "http://localhost:5000/api",
     credentials: "include",
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as RootState).auth.token;

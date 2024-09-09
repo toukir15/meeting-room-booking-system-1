@@ -1,11 +1,11 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Navigation } from "swiper/modules";
+import { Autoplay } from "swiper/modules";
 import { banner1, banner2, banner3, banner4, banner5, banner6 } from "../..";
 import "./HeroSection.css";
 import Navbar from "../shared/PrimaryNavbar";
 
 const HeroSection = () => (
-  <div className="h-[700px] flex flex-col">
+  <div className="h-[880px] md:h-[700px] flex flex-col">
     <Navbar />
     <div className="flex-1">
       {/* banner section  */}
@@ -17,9 +17,8 @@ const HeroSection = () => (
             disableOnInteraction: false,
           }}
           speed={3000}
-          navigation={true}
-          modules={[Navigation, Autoplay]}
-          className="mySwiper h-[725px]"
+          modules={[Autoplay]}
+          className="mySwiper h-[835px] md:h-[725px]"
         >
           <SwiperSlide>
             <div className="overlay-container h-full">
@@ -77,11 +76,13 @@ const HeroSection = () => (
           </SwiperSlide>
         </Swiper>
         <div className="absolute top-1/2 -translate-y-8 right-1/2 z-50  text-white font-medium translate-x-1/2">
-          <h1 className="text-5xl mb-8 text-center">Welcome to Our World</h1>
+          <h1 className="text-3xl md:text-5xl mb-2 md:mb-8 text-center whitespace-nowrap">
+            Welcome to Our World
+          </h1>
           <h2 className="text-xl text-center">
             Discover our journey and what drives us
           </h2>
-          <div className="mt-10 flex justify-center">
+          <div className="mt-5 md:mt-10 flex justify-center">
             <button className="bg-white hover:bg-[#d3d3d3] transition duration-200 text-black py-3 rounded-full px-10">
               Meet Our Team
             </button>
