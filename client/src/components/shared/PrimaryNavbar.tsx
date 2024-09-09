@@ -42,12 +42,12 @@ export default function PrimaryNavbar() {
   return (
     <div className="shadow-sm ">
       <div
-        className="flex justify-between items-center w-full container mx-auto py-5 font-medium px-8 xl:px-0"
+        className="flex justify-between items-center w-full container mx-auto py-5 font-medium px-4 xl:px-0"
         ref={navbarRef}
       >
         {/* Logo */}
         <Link to={"/"} className="flex justify-between gap-4 items-center">
-          <img src={logo} className="w-10" alt="Logo" />
+          <img src={logo} className="w-8 md:w-10" alt="Logo" />
           <h5 className="text-xl font-medium">MeetEase</h5>
         </Link>
 
@@ -230,6 +230,16 @@ export default function PrimaryNavbar() {
                   >
                     Logout
                   </button>
+                </div>
+              )}
+              {!user && (
+                <div className="rounded bg-white shadow-sm z-50 w-40 text-black absolute flex flex-col -left-[104px] mt-[21px]">
+                  <Link
+                    className="border-b border-gray-500 py-3 px-6 hover:bg-[#e3e3e3e9] rounded"
+                    to={"/login"}
+                  >
+                    Login
+                  </Link>
                 </div>
               )}
             </>

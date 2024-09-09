@@ -47,7 +47,7 @@ export default function CreateSlot() {
       const result = await createSlot(data);
       if (result.data.success) {
         toast.success("Slots created successfully", {
-          duration: 10000,
+          duration: 2000,
         });
         navigate("/admin/dashboard/slot-management");
       }

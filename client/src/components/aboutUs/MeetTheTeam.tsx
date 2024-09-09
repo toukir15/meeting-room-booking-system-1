@@ -26,7 +26,7 @@ const MeetTheTeam = () => (
     <h2 className="text-3xl sm:text-4xl font-bold mb-12 sm:mb-20">
       Meet the Team
     </h2>
-    <div className="flex flex-col items-center gap-10 sm:gap-20">
+    <div className="flex flex-col lg:flex-row lg:justify-center items-center gap-10 sm:gap-20">
       {teamMembers.map((member, index) => (
         <motion.div
           key={index}
@@ -39,7 +39,7 @@ const MeetTheTeam = () => (
             <img
               src={member.image}
               alt={`${member.name} - ${member.role}`}
-              className={`w-full h-full object-cover relative right-10 ${member.imageNo}`}
+              className={`w-full h-full object-cover relative lg:right-10 ${member.imageNo}`}
             />
           </div>
           <h3 className="text-xl sm:text-2xl font-semibold mt-4">

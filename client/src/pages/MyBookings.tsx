@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Table, Tag } from "antd";
+import { Table, Tag, Row, Col } from "antd";
 import type { TableProps } from "antd";
 import { useGetMyBookingsQuery } from "../redux/features/booking/bookingApi";
 import SecondaryNavbar from "../components/shared/SecondaryNavbar";
@@ -24,8 +24,8 @@ export default function BookingManagement() {
       title: "Room Name",
       dataIndex: "roomName",
       key: "roomName",
+      responsive: ["md"], // Only visible on medium screens and above
     },
-
     {
       title: "Date",
       dataIndex: "date",
@@ -71,21 +71,27 @@ export default function BookingManagement() {
     <div className="h-screen">
       <div>
         <SecondaryNavbar />
-        <div className="mt-20 container mx-auto">
-          <Table
-            columns={columns}
-            dataSource={bookingData?.data.map((item: any) => ({
-              key: item._id,
-              _id: item._id,
-              roomName: item.room.roomName,
-              date: item.slot.date,
-              startTime: item.slot.startTime,
-              endTime: item.slot.endTime,
-              isConfirmed: item.isConfirmed,
-            }))}
-            pagination={{ pageSize: 10 }}
-            className="custom-table-header"
-          />
+        <div className="mt-20 container mx-auto px-4">
+          {/* Responsive Layout for the table */}
+          <Row justify="center">
+            <Col xs={24} md={20} lg={24}>
+              <Table
+                columns={columns}
+                dataSource={bookingData?.data.map((item: any) => ({
+                  key: item._id,
+                  _id: item._id,
+                  roomName: item.room.roomName,
+                  date: item.slot.date,
+                  startTime: item.slot.startTime,
+                  endTime: item.slot.endTime,
+                  isConfirmed: item.isConfirmed,
+                }))}
+                pagination={{ pageSize: 10 }}
+                className="custom-table-header"
+                scroll={{ x: 600 }}
+              />
+            </Col>
+          </Row>
         </div>
       </div>
     </div>

@@ -1,7 +1,6 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { banner1, banner2, banner3, banner4, banner5, banner6 } from "../..";
-import { Autoplay, Navigation } from "swiper/modules";
-import styles from "./Hero.module.css"; // Import CSS module
+import { Autoplay } from "swiper/modules";
 import { useNavigate } from "react-router-dom";
 // Import Swiper styles
 import "swiper/css";
@@ -24,7 +23,7 @@ export default function Hero() {
           loop={true} // Enable looping
           slidesPerView={1} // Show one slide at a time
           modules={[Autoplay]}
-          className="mySwiper h-[764px] md:h-[687px] sm:h-[500px] xs:h-[400px]"
+          className="mySwiper h-[764px] md:h-[687px] sm:h-[500px] lg:h-[725px] xs:h-[400px]"
         >
           <SwiperSlide>
             <div className="overlay-container h-full">

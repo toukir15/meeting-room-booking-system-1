@@ -2,7 +2,7 @@
 import { Space, Table, Tag } from "antd";
 import type { TableProps } from "antd";
 import { useNavigate } from "react-router-dom";
-import "./SlotManagement.css";
+import "./SlotManagement.css"; // Ensure this file has the necessary styles
 import {
   useDeleteSlotMutation,
   useGetSlotsQuery,
@@ -14,7 +14,7 @@ import { setSlot } from "../../../redux/features/slotManagement/slotManagementSl
 interface DataType {
   _id: string;
   key: string;
-  roomName: string; // Ensure this is correctly named
+  roomName: string;
   roomNo: number;
   date: string;
   isBooked: boolean;
@@ -70,25 +70,19 @@ export default function SlotManagement() {
       title: "Date",
       dataIndex: "date",
       key: "date",
-      render: (date: string) => {
-        return <Tag color={"purple"}>{date}</Tag>;
-      },
+      render: (date: string) => <Tag color={"purple"}>{date}</Tag>,
     },
     {
       title: "Start Time",
       dataIndex: "startTime",
       key: "startTime",
-      render: (startTime: string) => {
-        return <Tag color={"blue"}>{startTime}</Tag>;
-      },
+      render: (startTime: string) => <Tag color={"blue"}>{startTime}</Tag>,
     },
     {
       title: "End Time",
       dataIndex: "endTime",
       key: "endTime",
-      render: (endTime: string) => {
-        return <Tag color={"cyan"}>{endTime}</Tag>;
-      },
+      render: (endTime: string) => <Tag color={"cyan"}>{endTime}</Tag>,
     },
     {
       title: "Booked Status",
@@ -127,17 +121,7 @@ export default function SlotManagement() {
   ];
 
   return (
-    <div className="px-32 ">
-      <div className="flex justify-end">
-        <button
-          onClick={() =>
-            navigate("/admin/dashboard/slot-management/create-slot")
-          }
-          className="bg-rose-500 hover:bg-rose-600 transition duration-200 text-white py-2 px-6 rounded mb-6 mt-20"
-        >
-          Create Slot
-        </button>
-      </div>
+    <div className="px-4 md:px-12 lg:px-32 mt-8 lg:mt-20">
       <div>
         <Table
           columns={columns}
@@ -147,6 +131,7 @@ export default function SlotManagement() {
           }))}
           pagination={{ pageSize: 10 }}
           className="custom-table-header"
+          scroll={{ x: "max-content" }} // Allow horizontal scrolling
         />
       </div>
     </div>

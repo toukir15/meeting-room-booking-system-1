@@ -42,7 +42,7 @@ export default function SecondaryNavbar() {
   return (
     <div className="shadow-sm text-[#2f3542] bg-[#f5f5f5]">
       <div
-        className="flex justify-between items-center w-full py-5 container mx-auto font-medium px-8 xl:px-0"
+        className="flex justify-between items-center w-full py-5 container mx-auto font-medium px-4 xl:px-0"
         ref={navbarRef}
       >
         {/* Logo */}

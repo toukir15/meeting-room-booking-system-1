@@ -62,50 +62,39 @@ export default function RoomManagement() {
       title: "Room No",
       dataIndex: "roomNo",
       key: "roomNo",
-      render: (endTime: string) => {
-        return <Tag color={"orange"}>{endTime}</Tag>;
-      },
+      render: (text: string) => <Tag color={"orange"}>{text}</Tag>,
     },
     {
       title: "Floor No",
       dataIndex: "floorNo",
       key: "floorNo",
-      render: (endTime: string) => {
-        return <Tag color={"magenta"}>{endTime}</Tag>;
-      },
+      render: (text: string) => <Tag color={"magenta"}>{text}</Tag>,
     },
     {
       title: "Capacity",
       dataIndex: "capacity",
       key: "capacity",
-      render: (endTime: string) => {
-        return <Tag color={"cyan"}>{endTime}</Tag>;
-      },
+      render: (text: string) => <Tag color={"cyan"}>{text}</Tag>,
     },
     {
       title: "Price Per Slot",
       dataIndex: "pricePerSlot",
       key: "pricePerSlot",
-      render: (price) => <Tag color="green">${price}</Tag>,
+      render: (price: string) => <Tag color="green">${price}</Tag>,
     },
-
     {
       title: "Action",
       key: "action",
       render: (_, render) => (
         <Space size="middle">
           <button
-            onClick={() => {
-              handleUpdate(render._id);
-            }}
+            onClick={() => handleUpdate(render._id)}
             className="bg-green-500 hover:bg-green-600 transition duration-150 py-1 px-3 rounded text-white"
           >
             Update
           </button>
           <button
-            onClick={() => {
-              handleDelete(render._id);
-            }}
+            onClick={() => handleDelete(render._id)}
             className="bg-red-500 hover:bg-red-600 transition duration-150 py-1 px-3 rounded text-white"
           >
             Delete
@@ -116,23 +105,15 @@ export default function RoomManagement() {
   ];
 
   return (
-    <div className="px-32 ">
-      <div className="flex justify-end">
-        <button
-          onClick={() =>
-            navigate("/admin/dashboard/room-management/create-room")
-          }
-          className="bg-rose-500 hover:bg-rose-600 transition duration-200 text-white py-2 px-6 rounded mb-6 mt-20"
-        >
-          Create Room
-        </button>
-      </div>
+    <div className="lg:px-32 px-4 mt-8 md:12 lg:mt-20">
+      <div className="flex justify-end"></div>
       <div>
         <Table
           columns={columns}
           dataSource={roomData?.data}
           pagination={{ pageSize: 10 }}
           className="custom-table-header"
+          scroll={{ x: "max-content" }} // Allow horizontal scrolling
         />
       </div>
     </div>

@@ -26,11 +26,10 @@ export default function BookingManagement() {
   const [approveBooking] = useApproveBookingMutation();
 
   const handleReject = async (id: string) => {
-    console.log(id);
     Notiflix.Confirm.show(
-      "Delete Confirmation",
+      "Reject Confirmation",
       "Are you sure you want to reject this?",
-      "reject",
+      "Reject",
       "Cancel",
       function () {
         rejectBooking(id);
@@ -48,7 +47,7 @@ export default function BookingManagement() {
   const handleApprove = async (id: string) => {
     const result = await approveBooking(id);
     if (result.data.success) {
-      toast.success("Successfull Aproved", { duration: 2000 });
+      toast.success("Successfully Approved", { duration: 2000 });
     }
   };
 
@@ -107,7 +106,7 @@ export default function BookingManagement() {
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          {record.isConfirmed != "confirmed" && (
+          {record.isConfirmed !== "confirmed" && (
             <>
               <button
                 onClick={() => handleApprove(record._id)}
@@ -123,11 +122,10 @@ export default function BookingManagement() {
               </button>
             </>
           )}
-          {record.isConfirmed != "unconfirmed" && (
+          {record.isConfirmed === "confirmed" && (
             <button
-              onClick={() => handleApprove(record._id)}
-              disabled
               className="bg-gray-600 transition duration-150 py-1 px-3 rounded text-white"
+              disabled
             >
               Approved
             </button>
@@ -138,8 +136,8 @@ export default function BookingManagement() {
   ];
 
   return (
-    <div className="px-32 mt-28">
-      <div>
+    <div className="px-4 lg:px-32 mt-8 lg:mt-20">
+      <div className="overflow-x-auto">
         <Table
           columns={columns}
           dataSource={bookingData?.data.map((item: any) => ({
@@ -154,6 +152,7 @@ export default function BookingManagement() {
           }))}
           pagination={{ pageSize: 10 }}
           className="custom-table-header"
+          scroll={{ x: "max-content" }} // Allow horizontal scrolling for large content
         />
       </div>
     </div>

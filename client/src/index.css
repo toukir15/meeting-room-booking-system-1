@@ -13,3 +13,12 @@
 .tippy-box[data-placement^="right"] .tippy-arrow {
   display: none;
 }
+@media (max-width: 1024px) {
+  .sider-desktop {
+    display: none;
+  }
+
+  .mobile-menu-button {
+    display: block;
+  }
+}
