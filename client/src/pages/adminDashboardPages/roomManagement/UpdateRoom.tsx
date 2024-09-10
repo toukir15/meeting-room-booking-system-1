@@ -7,6 +7,7 @@ import "./AddRoom.css";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../redux/hook";
 import { RootState } from "../../../redux/store";
+import { toast } from "sonner";
 
 type FormValues = {
   roomName: string;
@@ -44,6 +45,7 @@ export default function UpdateRoom() {
       .unwrap()
       .then((response) => {
         if (response.success) {
+          toast.message("Update room successfully", { duration: 2000 });
           navigate("/admin/dashboard/room-management");
         }
       })
@@ -154,7 +156,7 @@ export default function UpdateRoom() {
           <label className="md:w-[30%] mb-1 text-gray-600" htmlFor="amenities">
             Amenities
           </label>
-          <div className="w-[70%] border border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 rounded">
+          <div className="lg:w-[70%] border border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 rounded">
             <Select
               mode="tags"
               style={{ width: "100%" }}
@@ -230,13 +232,13 @@ export default function UpdateRoom() {
           <div className="md:lg:w-[70%] flex gap-6">
             <button
               type="submit"
-              className="w-1/2 bg-rose-500 hover:bg-rose-600 text-white transition duration-150 font-medium py-3 px-4 rounded-lg"
+              className="w-1/2 bg-rose-500 hover:bg-rose-600 text-white transition duration-150 font-medium py-2 lg:py-3 px-4 rounded-lg"
             >
               Update Room
             </button>
             <button
               type="button"
-              className="w-1/2 border border-rose-500 hover:border-rose-600 text-rose-500 hover:text-rose-600 py-3 px-4 rounded-lg"
+              className="w-1/2 border border-rose-500 hover:border-rose-600 text-rose-500 hover:text-rose-600 py-2 lg:py-3 px-4 rounded-lg"
             >
               Cancel
             </button>

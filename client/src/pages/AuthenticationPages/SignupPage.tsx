@@ -285,24 +285,27 @@ export default function SignupPage() {
       // Construct phone number
       const phoneNumber = `${countryData[selectedCountry].code} ${data.phone}`;
       const signupData = { ...data, phone: phoneNumber };
-      console.log(signupData);
       // Attempt to create the user
       const result = await createUser(signupData);
+      if (result?.data?.success) {
+        toast.success("Successfully signed up", { duration: 2000 });
+      }
+
       if (result.error) {
         if ("data" in result.error) {
-          const errorData = result.error.data as ErrorData; // Type assertion
+          const errorData = result.error.data as ErrorData;
 
           if (!errorData.success) {
             toast.error(errorData.message);
           }
         } else {
-          // Handle other types of errors if needed
           toast.error("An unexpected error occurred.");
         }
       } else {
         navigate("/login");
       }
     } catch (error) {
+      console.log(error);
       toast.error("Registration Failed");
     }
   };
@@ -429,7 +432,7 @@ export default function SignupPage() {
                   <ReactFlagsSelect
                     {...field}
                     selected={selectedCountry}
-                    onSelect={(countryCode) => {
+                    onSelect={(countryCode: string) => {
                       setSelectedCountry(countryCode as CountryCode);
                       field.onChange(countryCode);
                     }}

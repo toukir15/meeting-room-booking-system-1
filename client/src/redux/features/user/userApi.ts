@@ -11,7 +11,26 @@ const userApi = baseApi.injectEndpoints({
         };
       },
     }),
+    makeAdmin: builder.mutation({
+      query: (id) => {
+        return {
+          url: `/users/${id}`,
+          method: "POST",
+        };
+      },
+      invalidatesTags: ["user"],
+    }),
+    getUsers: builder.query({
+      query: () => {
+        return {
+          url: "/users",
+          method: "GET",
+        };
+      },
+      providesTags: ["user"],
+    }),
   }),
 });
 
-export const { useCreateUserMutation } = userApi;
+export const { useCreateUserMutation, useGetUsersQuery, useMakeAdminMutation } =
+  userApi;

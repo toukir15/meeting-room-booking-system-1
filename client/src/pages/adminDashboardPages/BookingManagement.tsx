@@ -21,7 +21,8 @@ interface DataType {
 }
 
 export default function BookingManagement() {
-  const { data: bookingData } = useGetBookingsQuery(undefined);
+  const { data: bookingData, isLoading: isBookingDataLoading } =
+    useGetBookingsQuery(undefined);
   const [rejectBooking] = useRejectBookingMutation();
   const [approveBooking] = useApproveBookingMutation();
 
@@ -152,7 +153,8 @@ export default function BookingManagement() {
           }))}
           pagination={{ pageSize: 10 }}
           className="custom-table-header"
-          scroll={{ x: "max-content" }} // Allow horizontal scrolling for large content
+          scroll={{ x: "max-content" }}
+          loading={isBookingDataLoading}
         />
       </div>
     </div>

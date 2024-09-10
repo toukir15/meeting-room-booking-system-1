@@ -38,7 +38,6 @@ type TRoom = {
 
 export default function MeetingRoomsPage() {
   const { data: roomsData } = useGetRoomsQuery(undefined);
-
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isSortOpen, setIsSortOpen] = useState(false);
   const [selectedCapacity, setSelectedCapacity] = useState<string | null>(null);
@@ -60,7 +59,7 @@ export default function MeetingRoomsPage() {
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedSearchQuery(searchQuery);
-    }, 1000); // Debouncing for 2 seconds
+    }, 1000);
 
     return () => {
       clearTimeout(handler);
@@ -119,7 +118,7 @@ export default function MeetingRoomsPage() {
   };
 
   useEffect(() => {
-    filterAndSortRooms(); // Apply filters whenever search query, capacity, price, or sort changes
+    filterAndSortRooms();
     setShowClearButton(
       selectedCapacity !== null ||
         selectedPrice !== null ||

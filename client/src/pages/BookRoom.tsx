@@ -7,6 +7,7 @@ import { useAppSelector } from "../redux/hook";
 import { useGetAvailableSlotQuery } from "../redux/features/slot/slotApi";
 import { useCreatePaymentSessionMutation } from "../redux/features/payment/paymentApi";
 import SecondaryNavbar from "../components/shared/SecondaryNavbar";
+import Notiflix from "notiflix";
 
 dayjs.extend(customParseFormat);
 
@@ -40,7 +41,8 @@ export default function BookRoom() {
 
   // API call to get available slots
   const { data: availableSlotData } = useGetAvailableSlotQuery(query);
-  const [createPaymentSession] = useCreatePaymentSessionMutation();
+  const [createPaymentSession, { isLoading: isCreatePaymentSessionLoading }] =
+    useCreatePaymentSessionMutation();
 
   const availableStartTime: Dayjs[] =
     availableSlotData?.data.map((data: { startTime: string }) =>
@@ -107,7 +109,7 @@ export default function BookRoom() {
   }, [startTime, setValue]);
 
   useEffect(() => {
-    setValue("date", selectedDate); // Set the default value for date in the form
+    setValue("date", selectedDate);
   }, [selectedDate, setValue]);
 
   useEffect(() => {
@@ -115,6 +117,9 @@ export default function BookRoom() {
     setValue("endTime", endTime);
   }, [startTime, endTime, setValue]);
 
+  if (isCreatePaymentSessionLoading) {
+    Notiflix.Loading.dots();
+  }
   return (
     <>
       <SecondaryNavbar />

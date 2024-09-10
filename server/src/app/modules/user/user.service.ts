@@ -23,6 +23,28 @@ const createUserIntoDB = async (payload: TUser) => {
   return result;
 };
 
+const getUserFromDB = async () => {
+  const result = await User.find({ role: 'user' }).select({
+    name: 1,
+    email: 1,
+    address: 1,
+    phone: 1,
+    role: 1,
+  });
+  return result;
+};
+
+const updateUserIntoDB = async (id: string) => {
+  const result = await User.findByIdAndUpdate(
+    id,
+    { role: 'admin' },
+    { new: true },
+  );
+  return result;
+};
+
 export const UserServices = {
   createUserIntoDB,
+  getUserFromDB,
+  updateUserIntoDB,
 };

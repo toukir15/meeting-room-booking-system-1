@@ -129,8 +129,8 @@ export default function RoomDetails() {
                   src={images[4]}
                   alt=""
                 />
-                <div className="w-full md:hidden xl:block absolute bottom-6 right-6 ">
-                  <button className="w-fit flex items-center gap-2 absolute bottom-6 right-6 bg-white px-4 py-2 rounded hover:bg-[#EBEBEB] transition duration-200">
+                <div className="w-full md:hidden xl:block absolute bottom-0 right-0 ">
+                  <button className="w-fit flex items-center gap-2 absolute bottom-2 right-2 bg-white px-4 py-2 rounded hover:bg-[#EBEBEB] transition duration-200">
                     <CgMenuGridO />
                     <span>Show all photos</span>
                   </button>

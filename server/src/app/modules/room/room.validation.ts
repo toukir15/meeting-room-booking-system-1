@@ -16,23 +16,11 @@ const createRoomValidationSchema = z.object({
 
 const updateRoomValidationSchema = z.object({
   body: z.object({
-    name: z.string({ required_error: 'Name is required' }).optional(),
-    roomNo: z
-      .number({ required_error: 'Room no is required' })
-      .int()
-      .positive('Room number must be a positive integer')
-      .optional(),
-    floorNo: z
-      .number({ required_error: 'Floor no is required' })
-      .int()
-      .nonnegative('Floor number must be a non-negative integer')
-      .optional(),
-    capacity: z
-      .number({ required_error: 'Capacity is required' })
-      .int()
-      .positive('Capacity must be a positive integer')
-      .optional(),
-    pricePerSlot: z.number({ required_error: 'Price is required' }).optional(),
+    roomName: z.string({ required_error: 'Name is required' }).optional(),
+    roomNo: z.string({ required_error: 'Room no is required' }).optional(),
+    floorNo: z.string({ required_error: 'Floor no is required' }).optional(),
+    capacity: z.string({ required_error: 'Capacity is required' }).optional(),
+    pricePerSlot: z.string({ required_error: 'Price is required' }).optional(),
     amenities: z
       .array(z.string(), {
         required_error: 'Amenities are required',

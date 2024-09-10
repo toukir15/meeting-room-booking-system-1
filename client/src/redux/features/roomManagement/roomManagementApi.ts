@@ -23,7 +23,6 @@ const roomManagementApi = baseApi.injectEndpoints({
     }),
     updateRoom: builder.mutation({
       query: ({ data, id }) => {
-        console.log({ data, id });
         return {
           url: `/rooms/${id}`,
           method: "PATCH",

@@ -21,6 +21,7 @@ import AdminProtectedRoute from "../components/layout/AdminProtectedRoute";
 import ProtectedRoute from "../components/layout/ProtectedRoute";
 import PaymentSuccess from "../pages/PaymentSuccess";
 import MyBookings from "../pages/MyBookings";
+import UserManagement from "../pages/adminDashboardPages/UserManagement";
 
 export const router = createBrowserRouter([
   {
@@ -109,6 +110,10 @@ export const router = createBrowserRouter([
       {
         path: "booking-management",
         element: <BookingManagement />,
+      },
+      {
+        path: "user-management",
+        element: <UserManagement />,
       },
     ],
   },

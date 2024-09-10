@@ -24,7 +24,8 @@ interface DataType {
 
 export default function SlotManagement() {
   const navigate = useNavigate();
-  const { data: slotData } = useGetSlotsQuery(undefined);
+  const { data: slotData, isLoading: isSlotDataLoading } =
+    useGetSlotsQuery(undefined);
   const [deleteSlot] = useDeleteSlotMutation();
   const dispatch = useAppDispatch();
 
@@ -131,7 +132,8 @@ export default function SlotManagement() {
           }))}
           pagination={{ pageSize: 10 }}
           className="custom-table-header"
-          scroll={{ x: "max-content" }} // Allow horizontal scrolling
+          scroll={{ x: "max-content" }}
+          loading={isSlotDataLoading}
         />
       </div>
     </div>

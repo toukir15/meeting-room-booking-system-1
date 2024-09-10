@@ -16,8 +16,8 @@ interface DataType {
 }
 
 export default function BookingManagement() {
-  const { data: bookingData } = useGetMyBookingsQuery(undefined);
-  console.log(bookingData);
+  const { data: bookingData, isLoading: isBookingDataLoading } =
+    useGetMyBookingsQuery(undefined);
 
   const columns: TableProps<DataType>["columns"] = [
     {
@@ -89,6 +89,7 @@ export default function BookingManagement() {
                 pagination={{ pageSize: 10 }}
                 className="custom-table-header"
                 scroll={{ x: 600 }}
+                loading={isBookingDataLoading}
               />
             </Col>
           </Row>

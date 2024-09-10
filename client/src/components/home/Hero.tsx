@@ -95,7 +95,7 @@ export default function Hero() {
           <div className="lg:mt-10 mt-6 flex justify-center">
             <button
               onClick={() => navigate("/meeting-rooms")}
-              className="bg-white hover:bg-[#d3d3d3] transition duration-200 text-black py-3 md:py-2 xs:py-1 rounded-full px-10 md:px-8 xs:px-6 whitespace-nowrap"
+              className="bg-white hover:bg-[#d3d3d3] transition duration-200 text-black py-2 lg:py-3 md:py-2 xs:py-1 rounded-full px-10 md:px-8 xs:px-6 whitespace-nowrap"
             >
               Book Now
             </button>

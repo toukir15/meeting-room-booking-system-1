@@ -7,6 +7,7 @@ import { useAppSelector } from "../../../redux/hook";
 import { RootState } from "../../../redux/store";
 import { useUpdateSlotMutation } from "../../../redux/features/slotManagement/slotManagementApi";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 // Define the slotDetails interface
 interface slotDetails {
@@ -40,10 +41,12 @@ export default function UpdateSlot() {
 
   // Handle form submission, only sending the date
   const handleCreateSlot: SubmitHandler<FormData> = async (data) => {
-    console.log(data);
     try {
-      await updateSlot({ date: data.date, id: slot._id });
-      navigate("/admin/dashboard/slot-management");
+      const response = await updateSlot({ date: data.date, id: slot._id });
+      if (response.data.success) {
+        toast.success("Slot update successfully", { duration: 2000 });
+        navigate("/admin/dashboard/slot-management");
+      }
     } catch (error) {
       console.error("Failed to update slot:", error);
     }
@@ -64,7 +67,7 @@ export default function UpdateSlot() {
             Room Name
           </label>
           <Select
-            className="w-[70%] border rounded-md border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 bg-white"
+            className="lg:w-[70%] border rounded-md border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 bg-white"
             showSearch
             placeholder="Select a room"
             disabled
@@ -99,9 +102,10 @@ export default function UpdateSlot() {
             Date
           </label>
           <DatePicker
-            className="py-2.5 w-[70%] border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 bg-white]"
+            className="py-2.5 lg:w-[70%] border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 bg-white]"
             value={selectedDate ? dayjs(selectedDate, dateFormat) : null}
             format={dateFormat}
+            required
             onChange={(_date, dateString) => {
               setValue("date", dateString as string);
             }}
@@ -121,7 +125,7 @@ export default function UpdateSlot() {
             Start Time
           </label>
           <TimePicker
-            className="py-2.5 outline-none w-[70%] border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 bg-[#E0F7FA]"
+            className="py-2.5 outline-none lg:w-[70%] border-[#B0BEC5] hover:border-[#80CBC4] transition duration-200 bg-[#E0F7FA]"
             format="HH:mm"
             defaultValue={
               slot?.startTime ? dayjs(slot?.startTime, "HH:mm") : null
@@ -136,7 +140,7 @@ export default function UpdateSlot() {
             End Time
           </label>
           <TimePicker
-            className="py-2.5 outline-none w-[70%] bg-[#E8F0FD]"
+            className="py-2.5 outline-none lg:w-[70%] bg-[#E8F0FD]"
             disabled={true}
             format="HH:mm"
             defaultValue={slot?.endTime ? dayjs(slot?.endTime, "HH:mm") : null}
@@ -149,7 +153,7 @@ export default function UpdateSlot() {
           <div className="md:lg:w-[70%] flex gap-6">
             <button
               type="submit"
-              className="w-1/2 bg-rose-500 hover:bg-rose-600 text-white transition duration-150 font-medium py-3 px-4 rounded-lg"
+              className="w-1/2 bg-rose-500 hover:bg-rose-600 text-white transition duration-150 font-medium py-2 lg:py-3 px-4 rounded-lg"
             >
               Update Slot
             </button>
@@ -158,7 +162,7 @@ export default function UpdateSlot() {
                 navigate("/admin/dashboard/slot-management");
               }}
               type="button"
-              className="w-1/2 border border-rose-500 hover:border-rose-600 text-rose-500 hover:text-rose-600 py-3 px-4 rounded-lg"
+              className="w-1/2 border border-rose-500 hover:border-rose-600 text-rose-500 hover:text-rose-600 py-2 lg:py-3 px-4 rounded-lg"
             >
               Cancel
             </button>

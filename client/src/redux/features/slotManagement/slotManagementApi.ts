@@ -13,7 +13,6 @@ const slotManagement = baseApi.injectEndpoints({
     }),
     createSlot: builder.mutation({
       query: (data) => {
-        console.log(data);
         return {
           url: "/slots",
           method: "POST",

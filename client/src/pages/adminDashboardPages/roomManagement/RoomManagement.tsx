@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Space, Table, Tag } from "antd";
 import type { TableProps } from "antd";
 import { useNavigate } from "react-router-dom";
@@ -21,7 +22,8 @@ interface DataType {
 
 export default function RoomManagement() {
   const navigate = useNavigate();
-  const { data: roomData } = useGetRoomsQuery(undefined);
+  const { data: roomData, isLoading: isRoomDataLoading } =
+    useGetRoomsQuery(undefined);
   const [deleteRoom] = useDeleteRoomMutation();
   const dispatch = useAppDispatch();
 
@@ -110,10 +112,13 @@ export default function RoomManagement() {
       <div>
         <Table
           columns={columns}
-          dataSource={roomData?.data}
+          dataSource={roomData?.data.map((room: { _id: any }) => {
+            return { ...room, key: room._id };
+          })}
           pagination={{ pageSize: 10 }}
           className="custom-table-header"
-          scroll={{ x: "max-content" }} // Allow horizontal scrolling
+          scroll={{ x: "max-content" }}
+          loading={isRoomDataLoading}
         />
       </div>
     </div>

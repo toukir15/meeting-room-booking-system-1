@@ -26,6 +26,12 @@ const sidebarItems = [
     icon: "icon-booking-management",
     path: "/admin/dashboard/booking-management",
   },
+  {
+    key: "4",
+    label: "User Management",
+    icon: "icon-user-management",
+    path: "/admin/dashboard/user-management",
+  },
 ];
 
 // Convert JSON data to Menu items
@@ -159,7 +165,7 @@ export default function AdminDashboardLayout() {
 
           <button
             onClick={toggleDrawer}
-            className="mobile-menu-button text-white"
+            className="mobile-menu-button text-white block lg:hidden"
           >
             <MenuOutlined size={32} />
           </button>

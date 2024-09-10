@@ -9,7 +9,6 @@ import { UserServices } from './user.service';
 const createUser = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const userData = req?.body;
-    console.log(userData);
     const result = await UserServices.createUserIntoDB(userData);
     sendResponse(res, {
       statusCode: httpStatus.OK,
@@ -19,7 +18,33 @@ const createUser = catchAsync(
     });
   },
 );
+const getUsers = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const result = await UserServices.getUserFromDB();
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'User retrive successfully',
+      data: result,
+    });
+  },
+);
+
+const updateUser = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const id = req.params.id;
+    const result = await UserServices.updateUserIntoDB(id);
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'User update successfully',
+      data: result,
+    });
+  },
+);
 
 export const UserControllers = {
   createUser,
+  getUsers,
+  updateUser,
 };

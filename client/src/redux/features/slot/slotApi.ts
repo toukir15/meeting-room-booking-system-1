@@ -4,7 +4,6 @@ const slotApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAvailableSlot: builder.query({
       query: ({ roomId, date }) => {
-        console.log({ roomId, date });
         return {
           url: `/slots/availability?roomId=${roomId}&date=${date}`,
           method: "GET",
