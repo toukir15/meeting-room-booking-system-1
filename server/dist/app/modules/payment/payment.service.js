@@ -17,7 +17,8 @@ const stripe_1 = __importDefault(require("stripe"));
 const slot_model_1 = require("../slot/slot.model");
 const appError_1 = require("../../errors/appError");
 const http_status_1 = __importDefault(require("http-status"));
-const stripe = new stripe_1.default('sk_test_51NrBpjKfBQVbvexEZDxgs6htLSnLhY2gNUMeW5K7U9Af9twEy3PVfOWFCJ5vk3JfMj6Xi5GofPVoqZbPfXVEP2fN00OwF2s04k');
+const config_1 = __importDefault(require("../../config"));
+const stripe = new stripe_1.default(config_1.default.stripe_cli);
 const createPaymentSession = (bookingData) => __awaiter(void 0, void 0, void 0, function* () {
     // find slot
     const findSlot = yield slot_model_1.Slot.findOne({
@@ -62,8 +63,8 @@ const createPaymentSession = (bookingData) => __awaiter(void 0, void 0, void 0, 
             slotId: String(findSlot._id),
             bookingData: JSON.stringify(bookingCollectionData),
         },
-        success_url: 'http://localhost:5173/payment-success',
-        cancel_url: 'http://localhost:5173/',
+        success_url: `${config_1.default.client_url}/payment-success`,
+        cancel_url: config_1.default.client_url,
     });
     return session;
 });

@@ -2,9 +2,8 @@ import Stripe from 'stripe';
 import { Slot } from '../slot/slot.model';
 import { AppError } from '../../errors/appError';
 import httpStatus from 'http-status';
-const stripe = new Stripe(
-  'sk_test_51NrBpjKfBQVbvexEZDxgs6htLSnLhY2gNUMeW5K7U9Af9twEy3PVfOWFCJ5vk3JfMj6Xi5GofPVoqZbPfXVEP2fN00OwF2s04k',
-);
+import config from '../../config';
+const stripe = new Stripe(config.stripe_cli as string);
 
 interface BookingData {
   date: string;
@@ -66,8 +65,8 @@ const createPaymentSession = async (bookingData: BookingData) => {
       slotId: String(findSlot._id),
       bookingData: JSON.stringify(bookingCollectionData),
     },
-    success_url: 'http://localhost:5173/payment-success',
-    cancel_url: 'http://localhost:5173/',
+    success_url: `${config.client_url}/payment-success`,
+    cancel_url: config.client_url,
   });
   return session;
 };
