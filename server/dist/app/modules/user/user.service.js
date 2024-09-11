@@ -34,6 +34,22 @@ const createUserIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function
     const result = yield user_model_1.User.create(payload);
     return result;
 });
+const getUserFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield user_model_1.User.find({ role: 'user' }).select({
+        name: 1,
+        email: 1,
+        address: 1,
+        phone: 1,
+        role: 1,
+    });
+    return result;
+});
+const updateUserIntoDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield user_model_1.User.findByIdAndUpdate(id, { role: 'admin' }, { new: true });
+    return result;
+});
 exports.UserServices = {
     createUserIntoDB,
+    getUserFromDB,
+    updateUserIntoDB,
 };

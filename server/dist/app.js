@@ -26,8 +26,6 @@ const booking_model_1 = require("./app/modules/booking/booking.model");
 const config_1 = __importDefault(require("./app/config"));
 const app = (0, express_1.default)();
 const stripe = new stripe_1.default(config_1.default.stripe_cli);
-// parser
-// app.use(express.json());
 app.use((0, cors_1.default)({ origin: [config_1.default.client_url], credentials: true }));
 app.use(express_1.default.urlencoded({ extended: true }));
 // application routes
