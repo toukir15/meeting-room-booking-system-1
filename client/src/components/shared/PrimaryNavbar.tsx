@@ -34,6 +34,7 @@ export default function PrimaryNavbar() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+  console.log(isDropdownOpen);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -165,27 +166,58 @@ export default function PrimaryNavbar() {
                   Contact us
                 </Link>
               </li>
-              <li>
-                <Link
-                  className={`${
-                    location.pathname == "/contact-us" && "text-rose-500"
-                  }`}
-                  to="/admin/dashboard/room-management"
-                  onClick={toggleMobileMenu}
-                >
-                  Dashboard
-                </Link>
-              </li>
-              <li>
-                <button
-                  onClick={() => {
-                    toggleMobileMenu();
-                    handleLogout();
-                  }}
-                >
-                  Logout
-                </button>
-              </li>
+              {user?.role == "admin" && (
+                <li>
+                  <Link
+                    className={`${
+                      location.pathname == "/contact-us" && "text-rose-500"
+                    }`}
+                    to="/admin/dashboard/room-management"
+                    onClick={toggleMobileMenu}
+                  >
+                    Dashboard
+                  </Link>
+                </li>
+              )}
+              {user?.role == "user" && (
+                <li>
+                  <Link
+                    className={`${
+                      location.pathname == "/book-room/my-bookings" &&
+                      "text-rose-500"
+                    }`}
+                    to="/book-room/my-bookings"
+                    onClick={toggleMobileMenu}
+                  >
+                    My Bookings
+                  </Link>
+                </li>
+              )}
+              {!user && (
+                <li>
+                  <Link
+                    className={`${
+                      location.pathname == "/login" && "text-rose-500"
+                    }`}
+                    to="/admin/dashboard/room-management"
+                    onClick={toggleMobileMenu}
+                  >
+                    Login
+                  </Link>
+                </li>
+              )}
+              {user && (
+                <li>
+                  <button
+                    onClick={() => {
+                      toggleMobileMenu();
+                      handleLogout();
+                    }}
+                  >
+                    Logout
+                  </button>
+                </li>
+              )}
             </ul>
           </div>
         )}

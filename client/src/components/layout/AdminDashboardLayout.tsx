@@ -34,12 +34,6 @@ const sidebarItems = [
   },
 ];
 
-// Convert JSON data to Menu items
-const menuItems = sidebarItems.map((item) => ({
-  key: item.key,
-  label: <a href={item.path}>{item.label}</a>,
-}));
-
 export default function AdminDashboardLayout() {
   const [collapsed, setCollapsed] = useState(false);
   const [drawerVisible, setDrawerVisible] = useState(false);
@@ -47,7 +41,7 @@ export default function AdminDashboardLayout() {
   const location = useLocation();
 
   const handleTitleClick = () => {
-    navigate("/"); // Navigate to the home page
+    navigate("/");
   };
 
   // Determine which menu item should be active based on the current location
@@ -59,6 +53,13 @@ export default function AdminDashboardLayout() {
   const toggleDrawer = () => {
     setDrawerVisible(!drawerVisible);
   };
+
+  // Menu Items with navigate onClick
+  const menuItems = sidebarItems.map((item) => ({
+    key: item.key,
+    label: item.label,
+    onClick: () => navigate(item.path),
+  }));
 
   return (
     <div style={{ display: "flex", minHeight: "100vh" }}>
@@ -83,7 +84,7 @@ export default function AdminDashboardLayout() {
         <div
           style={{
             color: "white",
-            height: "4rem",
+            height: "5.5rem",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
@@ -103,7 +104,7 @@ export default function AdminDashboardLayout() {
           theme="dark"
           mode="inline"
           selectedKeys={[activeKey as string]}
-          style={{ color: "white", marginTop: "28px" }}
+          style={{ color: "white", marginTop: "12px" }}
           items={menuItems.map((item) => ({
             ...item,
             style: {

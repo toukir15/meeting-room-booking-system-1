@@ -36,6 +36,7 @@ export default function Rooms({ filteredRooms }: RoomsProps) {
     const isSwiperButton =
       target.classList.contains("swiper-button-next") ||
       target.classList.contains("swiper-button-prev");
+
     if (!isSwiperButton) {
       const findRoom = roomsData?.data.find((room: TRoom) => room._id === id);
       if (findRoom) {
@@ -48,10 +49,11 @@ export default function Rooms({ filteredRooms }: RoomsProps) {
   // Show loading state
   if (isFetching || isLoading) {
     Notiflix.Loading.dots();
-    return Notiflix.Loading.remove();
+    Notiflix.Loading.remove();
+    return null;
   }
 
-  // Show no data message if no filtered rooms
+  // Show no data message if no rooms available
   if (roomsData?.data.length === 0 && !isFetching && !isLoading) {
     return (
       <div className="h-32 flex items-center justify-center">
@@ -59,6 +61,7 @@ export default function Rooms({ filteredRooms }: RoomsProps) {
       </div>
     );
   }
+
   // Show no data message if no filtered rooms
   if (filteredRooms.length === 0 && !isFetching && !isLoading) {
     return (

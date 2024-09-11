@@ -104,8 +104,11 @@ export default function Footer() {
           </div>
         </div>
       </div>
-      {/* <div className="absolute bottom-44 -left-64 hidden h-[150px] w-[900px] -rotate-45 rounded-3xl bg-gradient-to-r from-violet-600 to-indigo-800 opacity-30 blur-3xl filter dark:block lg:bottom-24 lg:-left-20 lg:h-28 lg:w-[250px] lg:-rotate-12 lg:opacity-20 xl:h-40 xl:w-[400px]"></div>
-      <div className="absolute right-[28%] top-0 hidden h-[150px] w-[200px] rotate-12 rounded-3xl bg-gradient-to-l from-violet-600 to-indigo-800 opacity-20 blur-3xl filter dark:block dark:opacity-30 lg:top-44 lg:right-20 lg:h-48 lg:w-[350px] xl:h-32 xl:w-[400px]"></div> */}
+      {/* This element will be visible only on large screens (lg and up) */}
+      <div className="absolute bottom-44 -left-64 hidden lg:block h-[150px] w-[900px] -rotate-45 rounded-3xl bg-gradient-to-r from-violet-600 to-indigo-800 opacity-30 blur-3xl filter lg:bottom-24 lg:-left-20 lg:h-28 lg:w-[250px] lg:-rotate-12 lg:opacity-20 xl:h-40 xl:w-[400px]"></div>
+
+      {/* This element will also be visible only on large screens (lg and up) */}
+      <div className="absolute right-[28%] top-0 hidden lg:block h-[150px] w-[200px] rotate-12 rounded-3xl bg-gradient-to-l from-violet-600 to-indigo-800 opacity-20 blur-3xl filter lg:top-44 lg:right-20 lg:h-48 lg:w-[350px] xl:h-32 xl:w-[400px]"></div>
     </div>
   );
 }

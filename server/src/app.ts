@@ -13,8 +13,6 @@ import config from './app/config';
 const app: Application = express();
 const stripe = new Stripe(config.stripe_cli as string);
 
-// parser
-// app.use(express.json());
 app.use(cors({ origin: [config.client_url as string], credentials: true }));
 app.use(express.urlencoded({ extended: true }));
 
