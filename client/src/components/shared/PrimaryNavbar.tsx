@@ -179,20 +179,21 @@ export default function PrimaryNavbar() {
                   </Link>
                 </li>
               )}
-              {user?.role == "user" && (
-                <li>
-                  <Link
-                    className={`${
-                      location.pathname == "/book-room/my-bookings" &&
-                      "text-rose-500"
-                    }`}
-                    to="/book-room/my-bookings"
-                    onClick={toggleMobileMenu}
-                  >
-                    My Bookings
-                  </Link>
-                </li>
-              )}
+              {user?.role == "user" ||
+                (user?.role == "admin" && (
+                  <li>
+                    <Link
+                      className={`${
+                        location.pathname == "/book-room/my-bookings" &&
+                        "text-rose-500"
+                      }`}
+                      to="/book-room/my-bookings"
+                      onClick={toggleMobileMenu}
+                    >
+                      My Bookings
+                    </Link>
+                  </li>
+                ))}
               {!user && (
                 <li>
                   <Link
