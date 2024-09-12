@@ -6,8 +6,8 @@ import { notFound } from './app/middlewares/notFound';
 import bodyParser from 'body-parser';
 import Stripe from 'stripe';
 import { Slot } from './app/modules/slot/slot.model';
-import { AppError } from './app/errors/appError';
-import httpStatus from 'http-status';
+// import { AppError } from './app/errors/appError';
+// import httpStatus from 'http-status';
 import { Booking } from './app/modules/booking/booking.model';
 import config from './app/config';
 const app: Application = express();
@@ -27,58 +27,61 @@ app.post(
   '/webhook',
   bodyParser.raw({ type: 'application/json' }),
   async (req, res) => {
-    const sig = req.headers['stripe-signature'] as string;
-    let event: Stripe.Event;
-    console.log('web hook er vitor');
-    console.log({
-      body: req.body,
-      sig,
-      stripeSec: config.stripe_endpoint_secret,
-    });
     try {
-      event = stripe.webhooks.constructEvent(
-        req.body,
-        sig,
-        config.stripe_endpoint_secret as string,
-      );
-    } catch (err) {
-      throw new AppError(httpStatus.BAD_REQUEST, 'Webhook Error');
-    }
+      const sig = req.headers['stripe-signature'] as string;
+      let event: Stripe.Event;
+      console.log('web hook er vitor');
 
-    // Handle the event
-    console.log(event);
-    if (event.type === 'checkout.session.completed') {
-      const session = event.data.object as Stripe.Checkout.Session;
-
-      const bookingData = JSON.parse(session.metadata!.bookingData);
-      const slotId = session.metadata!.slotId;
-
+      // Verify the Stripe signature
       try {
-        // update slot status
-        await Slot.findByIdAndUpdate(
-          slotId,
-          {
-            isBooked: true,
-          },
-          { new: true },
+        event = stripe.webhooks.constructEvent(
+          req.body,
+          sig,
+          config.stripe_endpoint_secret as string,
         );
-
-        // create booking
-        if (bookingData) {
-          await Booking.create(bookingData);
-        }
       } catch (err) {
-        throw new AppError(
-          httpStatus.BAD_REQUEST,
-          `Failed to find slot for booking ID ${slotId}:`,
-        );
+        console.error('Error constructing webhook event:', err);
+        return res.status(400).send(`Webhook Error: ${err}`);
       }
-    } else {
-      console.log(`Unhandled event type ${event.type}`);
-    }
 
-    // Return a response to acknowledge receipt of the event
-    res.json({ received: true });
+      // Handle the event
+      console.log(event);
+      if (event.type === 'checkout.session.completed') {
+        const session = event.data.object as Stripe.Checkout.Session;
+
+        const bookingData = JSON.parse(session.metadata!.bookingData);
+        const slotId = session.metadata!.slotId;
+
+        try {
+          // Update slot status
+          await Slot.findByIdAndUpdate(
+            slotId,
+            {
+              isBooked: true,
+            },
+            { new: true },
+          );
+
+          // Create booking
+          if (bookingData) {
+            await Booking.create(bookingData);
+          }
+        } catch (err) {
+          console.error('Error handling booking:', err);
+          // return res
+          //   .status(500)
+          //   .send(`Failed to process booking: ${err.message}`);
+        }
+      } else {
+        console.log(`Unhandled event type ${event.type}`);
+      }
+
+      // Return a response to acknowledge receipt of the event
+      res.json({ received: true });
+    } catch (err) {
+      console.error('Webhook handler error:', err);
+      res.status(500).send('Internal Server Error');
+    }
   },
 );
 
