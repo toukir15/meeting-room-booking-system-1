@@ -66,7 +66,6 @@ const createPaymentSession = (bookingData) => __awaiter(void 0, void 0, void 0, 
         success_url: `${config_1.default.client_url}/payment-success`,
         cancel_url: config_1.default.client_url,
     });
-    console.log('create product');
     return session;
 });
 exports.PaymentService = {
