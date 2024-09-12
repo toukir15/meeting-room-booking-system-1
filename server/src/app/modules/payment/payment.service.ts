@@ -68,6 +68,7 @@ const createPaymentSession = async (bookingData: BookingData) => {
     success_url: `${config.client_url}/payment-success`,
     cancel_url: config.client_url,
   });
+  console.log('create product');
   return session;
 };
 
