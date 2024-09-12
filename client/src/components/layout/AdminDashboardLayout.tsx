@@ -5,6 +5,7 @@ import Sider from "antd/es/layout/Sider";
 import { MenuOutlined } from "@ant-design/icons";
 import logo from "/icon.png";
 import { CloseOutlined } from "@ant-design/icons";
+import Notiflix from "notiflix";
 
 // Static JSON data
 const sidebarItems = [
@@ -60,6 +61,9 @@ export default function AdminDashboardLayout() {
     label: item.label,
     onClick: () => navigate(item.path),
   }));
+  Notiflix.Loading.init({
+    svgColor: "#F54361",
+  });
 
   return (
     <div style={{ display: "flex", minHeight: "100vh" }}>

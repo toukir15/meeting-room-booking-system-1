@@ -20,7 +20,7 @@ export default function UserManagement() {
   const { data: usersData, isLoading: isUsersDataLoading } =
     useGetUsersQuery(undefined);
 
-  const [makeAdmin] = useMakeAdminMutation();
+  const [makeAdmin, { isLoading: isMakeAdminLoading }] = useMakeAdminMutation();
 
   const handleMakeAdmin = async (id: string) => {
     Notiflix.Confirm.show(
@@ -96,6 +96,12 @@ export default function UserManagement() {
       ),
     },
   ];
+
+  if (isMakeAdminLoading) {
+    Notiflix.Loading.dots();
+  } else {
+    Notiflix.Loading.remove();
+  }
 
   return (
     <div className="px-4 lg:px-32 mt-8 lg:mt-20">

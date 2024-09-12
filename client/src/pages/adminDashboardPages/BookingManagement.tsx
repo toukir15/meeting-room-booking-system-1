@@ -23,8 +23,10 @@ interface DataType {
 export default function BookingManagement() {
   const { data: bookingData, isLoading: isBookingDataLoading } =
     useGetBookingsQuery(undefined);
-  const [rejectBooking] = useRejectBookingMutation();
-  const [approveBooking] = useApproveBookingMutation();
+  const [rejectBooking, { isLoading: isRejectBookingLoading }] =
+    useRejectBookingMutation();
+  const [approveBooking, { isLoading: isApproveBookingLoading }] =
+    useApproveBookingMutation();
 
   const handleReject = async (id: string) => {
     Notiflix.Confirm.show(
@@ -135,6 +137,12 @@ export default function BookingManagement() {
       ),
     },
   ];
+
+  if (isRejectBookingLoading || isApproveBookingLoading) {
+    Notiflix.Loading.dots();
+  } else {
+    Notiflix.Loading.remove();
+  }
 
   return (
     <div className="px-4 lg:px-32 mt-8 lg:mt-20">

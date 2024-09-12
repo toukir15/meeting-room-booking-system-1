@@ -32,9 +32,9 @@ const data = [
   {
     id: 4,
     image: sprout,
-    title: "Create a sustainable workplace",
+    title: "Sustainable workplace",
     description:
-      " Embrace a sustainable workplace approach by managing your Scope 2 & Scope 3 emissions.",
+      " Embrace a sustainable workplace approach by managing your Scope 3 emissions.",
   },
   {
     id: 5,
@@ -45,6 +45,20 @@ const data = [
   },
   {
     id: 6,
+    image: startup,
+    title: "Maximize workplace flexibility",
+    description:
+      "Make hot desking and other flexible seating policies easy and productive.",
+  },
+  {
+    id: 7,
+    image: analytics,
+    title: "Get real data for smart decisions",
+    description:
+      "Arm yourself with workplace analytics and optimize office space usage.",
+  },
+  {
+    id: 8,
     image: startup,
     title: "Maximize workplace flexibility",
     description:
@@ -66,10 +80,10 @@ export default function WhyChooesUs() {
               Why Choose Us?
             </h1>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {data.map((d) => {
               return (
-                <div className="bg-white p-6 rounded h-full text-start">
+                <div className="bg-white p-6 rounded h-full text-start shadow-sm">
                   <div className="flex md:justify-center">
                     <img className="w-24 mb-4" src={d.image} alt="Startup" />
                   </div>

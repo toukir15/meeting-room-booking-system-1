@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../redux/hook";
 import { RootState } from "../../../redux/store";
 import { toast } from "sonner";
+import Notiflix from "notiflix";
 
 type FormValues = {
   roomName: string;
@@ -21,7 +22,8 @@ type FormValues = {
 
 export default function UpdateRoom() {
   const [amenities, setAmenities] = useState<string[]>([]);
-  const [updateRoom] = useUpdateRoomMutation();
+  const [updateRoom, { isLoading: isUpdateRoomLoading }] =
+    useUpdateRoomMutation();
   const navigate = useNavigate();
   const room = useAppSelector((state: RootState) => state.roomManagement.room);
 
@@ -45,7 +47,7 @@ export default function UpdateRoom() {
       .unwrap()
       .then((response) => {
         if (response.success) {
-          toast.message("Update room successfully", { duration: 2000 });
+          toast.success("Update room successfully", { duration: 2000 });
           navigate("/admin/dashboard/room-management");
         }
       })
@@ -53,6 +55,12 @@ export default function UpdateRoom() {
         console.error("Error adding room:", error);
       });
   };
+
+  if (isUpdateRoomLoading) {
+    Notiflix.Loading.dots();
+  } else {
+    Notiflix.Loading.remove();
+  }
 
   return (
     <div className="min-h-[calc(100vh-110px)] pt-10 pb-20 lg:pb-0 lg:pt-0 w-full flex lg:justify-center items-center container mx-auto">

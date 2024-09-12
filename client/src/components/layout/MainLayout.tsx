@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
-import Footer from "../home/Footer";
 import { MdOutlineArrowForwardIos } from "react-icons/md";
+import Footer from "../Footer";
 
 export default function MainLayout() {
   const [showScrollButton, setShowScrollButton] = useState(false);
@@ -42,7 +42,7 @@ export default function MainLayout() {
       {showScrollButton && (
         <div className="fixed bottom-5 right-5">
           <button
-            className="bg-rose-500 text-white p-4 rounded-full shadow-lg hover:bg-rose-600"
+            className="bg-rose-500 text-white p-4 rounded-full shadow-lg hover:bg-rose-600 z-[200]"
             onClick={scrollToTop}
           >
             <MdOutlineArrowForwardIos className="-rotate-90" />

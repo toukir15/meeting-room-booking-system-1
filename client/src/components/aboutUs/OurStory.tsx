@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 
 const OurStory = () => (
-  <section className="py-10 md:py-20 bg-[#F7F9FB] text-center">
+  <section className="py-10 md:py-20 lg:py-32 bg-[#F7F9FB] text-center">
     <div className="container mx-auto px-4">
       <motion.div
         initial={{ opacity: 0 }}

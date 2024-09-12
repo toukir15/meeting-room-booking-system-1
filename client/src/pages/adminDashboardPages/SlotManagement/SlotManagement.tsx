@@ -26,7 +26,8 @@ export default function SlotManagement() {
   const navigate = useNavigate();
   const { data: slotData, isLoading: isSlotDataLoading } =
     useGetSlotsQuery(undefined);
-  const [deleteSlot] = useDeleteSlotMutation();
+  const [deleteSlot, { isLoading: isDeleteSlotLoading }] =
+    useDeleteSlotMutation();
   const dispatch = useAppDispatch();
 
   const handleDelete = async (id: string) => {
@@ -120,6 +121,12 @@ export default function SlotManagement() {
       ),
     },
   ];
+
+  if (isDeleteSlotLoading) {
+    Notiflix.Loading.dots();
+  } else {
+    Notiflix.Loading.remove();
+  }
 
   return (
     <div className="px-4 md:px-12 lg:px-32 mt-8 lg:mt-20">

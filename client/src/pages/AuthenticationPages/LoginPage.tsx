@@ -62,9 +62,9 @@ export default function LoginPage() {
   return (
     <div
       onSubmit={handleSubmit(handleLoginForm)}
-      className="bg-[#E8E8E8] h-screen flex justify-center items-center"
+      className="md:bg-[#E8E8E8] h-screen flex justify-center items-center"
     >
-      <form className="bg-white w-[500px] shadow-lg pb-[70px] pt-[50px] rounded-2xl flex justify-center items-center flex-col">
+      <form className="bg-white w-[500px] md:shadow-lg pb-[70px] pt-[50px] rounded-2xl flex justify-center items-center flex-col">
         <img className="w-24 mb-5" src={logo} alt="" />
         <h3 className="text-3xl font-medium mb-4 text-gray-700">MeetEase</h3>
         <div className="flex flex-col w-4/5 md:w-3/5 mb-4">

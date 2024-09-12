@@ -51,10 +51,6 @@ export default function MeetingRoomsPage() {
   const filterRef = useRef<HTMLDivElement>(null);
   const sortRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   // Handle search input with debouncing
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -180,8 +176,12 @@ export default function MeetingRoomsPage() {
 
   return (
     <div className="min-h-screen">
-      <PrimaryNavbar />
-      <div className="md:py-12 py-6 bg-[#e7eaed]">
+      {/* Fixed Navbar */}
+      <div className="fixed top-0 left-0 w-full z-[100]">
+        <PrimaryNavbar />
+      </div>
+
+      <div className="md:py-12 py-6 bg-[#e7eaed] mt-[73px] lg:mt-[88px]">
         <div className="flex justify-center items-center flex-col container mx-auto relative">
           <div className="w-5/6 md:w-5/6 lg:w-2/6">
             <div className="bg-white shadow rounded-full flex items-center">

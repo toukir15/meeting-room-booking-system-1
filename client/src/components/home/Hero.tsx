@@ -23,7 +23,7 @@ export default function Hero() {
           loop={true} // Enable looping
           slidesPerView={1} // Show one slide at a time
           modules={[Autoplay]}
-          className="mySwiper h-[764px] md:h-[687px] sm:h-[500px] lg:h-[725px] xs:h-[400px]"
+          className="mySwiper h-[calc(100vh-75px)] md:h-[700px]  lg:h-[735px] xs:h-[400px]"
         >
           <SwiperSlide>
             <div className="overlay-container h-full">

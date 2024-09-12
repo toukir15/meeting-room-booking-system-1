@@ -8,10 +8,12 @@ import "./CreateSlot.css";
 import { useCreateSlotMutation } from "../../../redux/features/slotManagement/slotManagementApi";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import Notiflix from "notiflix";
 
 export default function CreateSlot() {
   const navigate = useNavigate();
-  const [createSlot] = useCreateSlotMutation();
+  const [createSlot, { isLoading: isCreateSlotLoading }] =
+    useCreateSlotMutation();
   dayjs.extend(customParseFormat);
   const { data: roomData } = useGetRoomsQuery(undefined);
   const dateFormat = "YYYY-MM-DD";
@@ -93,6 +95,12 @@ export default function CreateSlot() {
     }
     setValue("room", value);
   };
+
+  if (isCreateSlotLoading) {
+    Notiflix.Loading.dots();
+  } else {
+    Notiflix.Loading.remove();
+  }
 
   return (
     <div className="min-h-[calc(100vh-110px)] pt-10 pb-20 lg:pb-0 lg:pt-0 w-full flex lg:justify-center items-center container mx-auto">

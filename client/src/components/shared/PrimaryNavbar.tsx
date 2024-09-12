@@ -41,7 +41,7 @@ export default function PrimaryNavbar() {
   };
 
   return (
-    <div className="shadow-sm ">
+    <div className="shadow-lg bg-white ">
       <div
         className="flex justify-between items-center w-full container mx-auto py-5 font-medium px-4 xl:px-0"
         ref={navbarRef}
@@ -179,21 +179,20 @@ export default function PrimaryNavbar() {
                   </Link>
                 </li>
               )}
-              {user?.role == "user" ||
-                (user?.role == "admin" && (
-                  <li>
-                    <Link
-                      className={`${
-                        location.pathname == "/book-room/my-bookings" &&
-                        "text-rose-500"
-                      }`}
-                      to="/book-room/my-bookings"
-                      onClick={toggleMobileMenu}
-                    >
-                      My Bookings
-                    </Link>
-                  </li>
-                ))}
+              {(user?.role == "user" || user?.role == "admin") && (
+                <li>
+                  <Link
+                    className={`${
+                      location.pathname == "/book-room/my-bookings" &&
+                      "text-rose-500"
+                    }`}
+                    to="/book-room/my-bookings"
+                    onClick={toggleMobileMenu}
+                  >
+                    My Bookings
+                  </Link>
+                </li>
+              )}
               {!user && (
                 <li>
                   <Link
@@ -250,9 +249,15 @@ export default function PrimaryNavbar() {
                 </div>
               )}
               {user?.role == "admin" && (
-                <div className="rounded bg-white shadow-sm z-50 w-40 text-black absolute flex flex-col -left-[104px] mt-[21px]">
+                <div className="rounded bg-white shadow-lg z-50 w-40 text-black border absolute flex flex-col -left-[104px] mt-[21px]">
                   <Link
-                    className="border-b border-gray-500 py-3 px-6 hover:bg-[#e3e3e3e9] rounded"
+                    className="border-b border-gray-300 py-3 px-6 hover:bg-[#e3e3e3e9] rounded"
+                    to={"/book-room/my-bookings"}
+                  >
+                    My Bookings
+                  </Link>
+                  <Link
+                    className="border-b border-gray-300 py-3 px-6 hover:bg-[#e3e3e3e9] rounded"
                     to={"/admin/dashboard/room-management"}
                   >
                     Dashboard
@@ -268,7 +273,7 @@ export default function PrimaryNavbar() {
               {!user && (
                 <div className="rounded bg-white shadow-sm z-50 w-40 text-black absolute flex flex-col -left-[104px] mt-[21px]">
                   <Link
-                    className="border-b border-gray-500 py-3 px-6 hover:bg-[#e3e3e3e9] rounded"
+                    className="border-b border-gray-300 py-3 px-6 hover:bg-[#e3e3e3e9] rounded"
                     to={"/login"}
                   >
                     Login

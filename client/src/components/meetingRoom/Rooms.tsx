@@ -56,7 +56,7 @@ export default function Rooms({ filteredRooms }: RoomsProps) {
   // Show no data message if no rooms available
   if (roomsData?.data.length === 0 && !isFetching && !isLoading) {
     return (
-      <div className="h-32 flex items-center justify-center">
+      <div className="h-32 flex items-center text-3xl font-medium text-gray-600 mt-10 justify-center">
         No rooms available
       </div>
     );
@@ -65,8 +65,8 @@ export default function Rooms({ filteredRooms }: RoomsProps) {
   // Show no data message if no filtered rooms
   if (filteredRooms.length === 0 && !isFetching && !isLoading) {
     return (
-      <div className="h-32 flex items-center justify-center">
-        No rooms available
+      <div className="h-32 flex items-center text-3xl font-medium text-gray-600 mt-10 justify-center">
+        No rooms found that match your filter criteria.
       </div>
     );
   }

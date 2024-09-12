@@ -40,7 +40,7 @@ export default function SecondaryNavbar() {
   };
 
   return (
-    <div className="shadow-sm text-[#2f3542] bg-[#f5f5f5]">
+    <div className=" text-[#2f3542] bg-[#f5f5f5] shadow-md">
       <div
         className="flex justify-between items-center w-full py-5 container mx-auto font-medium px-4 xl:px-0"
         ref={navbarRef}
@@ -149,7 +149,7 @@ export default function SecondaryNavbar() {
                   </Link>
                 </li>
               )}
-              {user?.role == "user" && (
+              {(user?.role == "user" || user?.role == "admin") && (
                 <li>
                   <Link
                     className={`${
@@ -220,6 +220,12 @@ export default function SecondaryNavbar() {
               )}
               {user?.role === "admin" && (
                 <div className="rounded bg-[#0B1221] z-50 w-40 text-white absolute flex flex-col -left-[104px] mt-[21px]">
+                  <Link
+                    className="border-b border-gray-500 py-3 px-6 hover:bg-[#1d2537e9] rounded"
+                    to="/book-room/my-bookings"
+                  >
+                    My Bookings
+                  </Link>
                   <Link
                     className="border-b border-gray-500 py-3 px-6 hover:bg-[#1d2537e9] rounded"
                     to="/admin/dashboard/room-management"

@@ -2,12 +2,16 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import { banner1, banner2, banner3, banner4, banner5, banner6 } from "../..";
 import "./HeroSection.css";
-import Navbar from "../shared/PrimaryNavbar";
+import PrimaryNavbar from "../shared/PrimaryNavbar";
 
 const HeroSection = () => (
-  <div className="h-[880px] md:h-[700px] flex flex-col">
-    <Navbar />
-    <div className="flex-1">
+  <div className="h-screen md:h-[700px] flex flex-col">
+    {/* Fixed Navbar */}
+    <div className="fixed top-0 left-0 w-full z-[100]">
+      <PrimaryNavbar />
+    </div>
+
+    <div className="flex-1 mt-[75px] md:mt-[88px]">
       {/* banner section  */}
       <div className=" relative">
         {/* Set to full height */}
@@ -18,7 +22,7 @@ const HeroSection = () => (
           }}
           speed={3000}
           modules={[Autoplay]}
-          className="mySwiper h-[835px] md:h-[725px]"
+          className="mySwiper h-[calc(100vh-75px)] md:h-[725px]"
         >
           <SwiperSlide>
             <div className="overlay-container h-full">

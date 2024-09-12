@@ -14,17 +14,22 @@ import WhyChooesUs from "../components/home/WhyChooesUs";
 import Step from "../components/home/Step";
 import Testmonial from "../components/home/Testmonial";
 import Hero from "../components/home/Hero";
-import Navbar from "../components/shared/PrimaryNavbar";
+import PrimaryNavbar from "../components/shared/PrimaryNavbar";
 
 export default function HomePage() {
   return (
     <>
-      <div className="h-[835px] md:h-[775px] lg:h-[808px] flex flex-col">
-        <Navbar />
+      {/* Fixed Navbar */}
+      <div className="fixed top-0 left-0 w-full z-[100]">
+        <PrimaryNavbar />
+      </div>
+
+      {/* Add margin-top to avoid overlap with the fixed Navbar */}
+      <div className="mt-[75px] h-[calc(100vh-75px)] md:h-[690px] lg:h-[735px] flex flex-col">
         <Hero />
       </div>
 
-      {/* Service Advertisement Section: */}
+      {/* Service Advertisement Section */}
       <div className="bg-[#f3f6fc] py-8 px-4 sm:px-8 md:px-16 lg:px-32 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 justify-items-center">
         <div className="w-fit flex flex-col justify-center items-center text-center">
           <IoTimerOutline className="text-4xl text-[#62717A]" />
@@ -52,16 +57,16 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* fetured rooms  */}
+      {/* Featured rooms */}
       <FeturedRooms />
 
-      {/* why choes us  */}
+      {/* Why choose us */}
       <WhyChooesUs />
 
-      {/* step  */}
+      {/* Step */}
       <Step />
 
-      {/* testmonial  */}
+      {/* Testimonial */}
       <Testmonial />
     </>
   );

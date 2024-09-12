@@ -11,12 +11,12 @@ import RoomDetails from "../pages/RoomDetails";
 import BookRoom from "../pages/BookRoom";
 import AdminDashboardLayout from "../components/layout/AdminDashboardLayout";
 import RoomManagement from "../pages/adminDashboardPages/roomManagement/RoomManagement";
-import SlotManagement from "../pages/adminDashboardPages/SlotManagement.t/SlotManagement";
+import SlotManagement from "../pages/adminDashboardPages/SlotManagement/SlotManagement";
 import BookingManagement from "../pages/adminDashboardPages/BookingManagement";
 import AddRoom from "../pages/adminDashboardPages/roomManagement/AddRoom";
-import CreateSlot from "../pages/adminDashboardPages/SlotManagement.t/CreateSlot";
+import CreateSlot from "../pages/adminDashboardPages/SlotManagement/CreateSlot";
 import UpdateRoom from "../pages/adminDashboardPages/roomManagement/UpdateRoom";
-import UpdateSlot from "../pages/adminDashboardPages/SlotManagement.t/UpdateSlot";
+import UpdateSlot from "../pages/adminDashboardPages/SlotManagement/UpdateSlot";
 import AdminProtectedRoute from "../components/layout/AdminProtectedRoute";
 import ProtectedRoute from "../components/layout/ProtectedRoute";
 import PaymentSuccess from "../pages/PaymentSuccess";
@@ -47,7 +47,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "room-details",
-        element: <RoomDetails />,
+        element: (
+          <ProtectedRoute>
+            <RoomDetails />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "book-room",

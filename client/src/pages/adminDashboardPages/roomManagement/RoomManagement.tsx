@@ -24,7 +24,8 @@ export default function RoomManagement() {
   const navigate = useNavigate();
   const { data: roomData, isLoading: isRoomDataLoading } =
     useGetRoomsQuery(undefined);
-  const [deleteRoom] = useDeleteRoomMutation();
+  const [deleteRoom, { isLoading: isDeleteRoomLoading }] =
+    useDeleteRoomMutation();
   const dispatch = useAppDispatch();
 
   const handleUpdate = (id: string) => {
@@ -105,6 +106,12 @@ export default function RoomManagement() {
       ),
     },
   ];
+
+  if (isDeleteRoomLoading) {
+    Notiflix.Loading.dots();
+  } else {
+    Notiflix.Loading.remove();
+  }
 
   return (
     <div className="lg:px-32 px-4 mt-8 md:12 lg:mt-20">

@@ -6,8 +6,8 @@ import { DatePicker, TimePicker } from "antd";
 import { useAppSelector } from "../redux/hook";
 import { useGetAvailableSlotQuery } from "../redux/features/slot/slotApi";
 import { useCreatePaymentSessionMutation } from "../redux/features/payment/paymentApi";
-import SecondaryNavbar from "../components/shared/SecondaryNavbar";
 import Notiflix from "notiflix";
+import PrimaryNavbar from "../components/shared/PrimaryNavbar";
 
 dayjs.extend(customParseFormat);
 
@@ -119,14 +119,19 @@ export default function BookRoom() {
 
   if (isCreatePaymentSessionLoading) {
     Notiflix.Loading.dots();
+  } else {
+    Notiflix.Loading.remove();
   }
+
   return (
     <>
-      <SecondaryNavbar />
-      <div className="bg-gray-50">
+      <div className="fixed top-0 left-0 w-full z-[100]">
+        <PrimaryNavbar />
+      </div>
+      <div className="bg-gray-50 mt-[75px] lg:mt-[88px]">
         <form
           onSubmit={handleSubmit(handleCheckout)}
-          className="flex container mx-auto min-h-[calc(100vh-80px)] justify-center items-center py-10 lg:py-0"
+          className="flex container mx-auto min-h-[calc(100vh-80px)] justify-center items-center py-10 md:py-16 lg:py-0"
         >
           <div className="flex flex-col lg:flex-row px-4 md:px-20 lg:px-40 gap-10 w-full">
             <div className="w-full lg:w-1/2 border p-4 md:p-6 h-fit rounded-xl bg-white shadow-sm">

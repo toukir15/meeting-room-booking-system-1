@@ -9,9 +9,12 @@ import { motion } from "framer-motion";
 const ContactUs = () => {
   return (
     <>
-      <SecondaryNavbar />
-      <div className="min-h-[calc(100vh-220px)]">
-        <div className="lg:flex gap-28 items-center mb-10 sm:mb-12 md:mb-24 2 lg:mt-32 py-16  container mx-auto px-5 md:px-20 lg:px-40">
+      <div className="fixed top-0 left-0 w-full z-[100]">
+        <SecondaryNavbar />
+      </div>
+
+      <div className="min-h-screen flex py-24 md:py-40 lg:py-0  ">
+        <div className="lg:flex gap-28 items-center  container mx-auto px-5 md:px-20 lg:px-40">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}

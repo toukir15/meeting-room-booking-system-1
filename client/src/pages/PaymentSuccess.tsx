@@ -1,28 +1,33 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import success from "/successful.png";
+import Player from "lottie-react";
+import successAnimation from "../../public/lottie/success.json"; // Adjust path to your lottie file
 
 const PaymentSuccess: React.FC = () => {
   const navigate = useNavigate();
 
   // Handler to navigate to the bookings page
   const handleGoToBookings = (): void => {
-    navigate("/bookings"); // Adjust this path based on your routing structure
+    navigate("/bookings");
   };
 
   // Handler to navigate to the home page
   const handleGoHome = (): void => {
-    navigate("/"); // Adjust this path if your home page is different
+    navigate("/");
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-50">
-      <div className="bg-white px-10 p-8 rounded-lg shadow-md text-center">
-        <h1 className="text-4xl font-semibold text-green-500 mb-12">
-          Payment Successful!
-        </h1>
+    <div className="flex justify-center items-center h-screen ">
+      <div className="bg-[#f8f9fa] px-10 p-8 rounded-lg shadow-md text-center">
+        <h1 className="text-4xl font-semibold  mb-12">Payment Successful!</h1>
         <div className="flex justify-center items-center">
-          <img className="w-52" src={success} alt="" />
+          {/* Replace img with Lottie Player */}
+          <Player
+            autoplay
+            loop
+            animationData={successAnimation}
+            style={{ width: "300px", height: "300px" }}
+          />
         </div>
         <p className="text-gray-700 mb-10 mt-8">
           Thank you for your booking. You will receive a confirmation email
@@ -32,13 +37,13 @@ const PaymentSuccess: React.FC = () => {
           <Link
             to={"/book-room/my-bookings"}
             onClick={handleGoToBookings}
-            className="bg-primary hover:bg-primary-hover text-white py-2 px-4 rounded  transition-colors"
+            className="bg-primary hover:bg-primary-hover text-white py-3 px-4 rounded  transition-colors"
           >
             View Bookings
           </Link>
           <button
             onClick={handleGoHome}
-            className="bg-gray-200 text-gray-700 py-2 px-4 roundeds hover:bg-gray-300 transition-colors"
+            className="bg-gray-200 text-gray-700 py-3 px-4 rounded hover:bg-gray-300 transition-colors"
           >
             Go to Home
           </button>

@@ -8,6 +8,7 @@ import { RootState } from "../../../redux/store";
 import { useUpdateSlotMutation } from "../../../redux/features/slotManagement/slotManagementApi";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import Notiflix from "notiflix";
 
 // Define the slotDetails interface
 interface slotDetails {
@@ -29,7 +30,8 @@ export default function UpdateSlot() {
   const slot = useAppSelector(
     (state: RootState) => state.slotManagement.slot
   ) as unknown as slotDetails;
-  const [updateSlot] = useUpdateSlotMutation();
+  const [updateSlot, { isLoading: isUpdateSlotLoading }] =
+    useUpdateSlotMutation();
   const navigate = useNavigate();
 
   const {
@@ -53,6 +55,12 @@ export default function UpdateSlot() {
   };
 
   const selectedDate = watch("date");
+
+  if (isUpdateSlotLoading) {
+    Notiflix.Loading.dots();
+  } else {
+    Notiflix.Loading.remove();
+  }
 
   return (
     <div className="min-h-[calc(100vh-110px)] pt-10 pb-20 lg:pb-0 lg:pt-0 w-full flex lg:justify-center items-center container mx-auto">

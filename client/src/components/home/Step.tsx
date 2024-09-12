@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 
 export default function Step() {
   return (
-    <section className="mb-16 md:mb-40 container mx-auto md:px-10 lg:px-0">
+    <section className="mb-16 md:mb-40 container mx-auto md:px-10 lg:px-0 hidden md:block">
       <h1 className="text-3xl md:text-4xl font-bold md:mb-8 text-center">
         How it Works?
       </h1>

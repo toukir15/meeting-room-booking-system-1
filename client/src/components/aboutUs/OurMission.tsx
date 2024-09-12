@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 
 const OurMission = () => (
-  <section className="py-20 sm:py-40 bg-[#F7F9FB]">
+  <section className="relative py-12 md:py-0 sm:pt-52 md:pb-32 bg-[#F7F9FB]">
     <div className="flex justify-center container mx-auto px-4">
       <div className="w-full sm:w-3/4 lg:w-2/3">
         <motion.div

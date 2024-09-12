@@ -6,6 +6,7 @@ import type { SelectProps } from "antd";
 import "./AddRoom.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import Notiflix from "notiflix";
 
 type FormValues = {
   roomName: string;
@@ -20,8 +21,9 @@ type FormValues = {
 export default function AddRoom() {
   const [fileNames, setFileNames] = useState<string[]>([]);
   const [files, setFiles] = useState<File[]>([]);
-  const [amenities, setAmenities] = useState<string[]>([]); // State for selected amenities
-  const [createRoom] = useCreateRoomMutation();
+  const [amenities, setAmenities] = useState<string[]>([]);
+  const [createRoom, { isLoading: isCreateRoomLoading }] =
+    useCreateRoomMutation();
   const navigate = useNavigate();
 
   const options: SelectProps["options"] = [
@@ -94,6 +96,12 @@ export default function AddRoom() {
         }
       });
   };
+
+  if (isCreateRoomLoading) {
+    Notiflix.Loading.dots();
+  } else {
+    Notiflix.Loading.remove();
+  }
 
   return (
     <div className="min-h-[calc(100vh-110px)] pt-10 pb-20 lg:pb-0 lg:pt-0 w-full flex lg:justify-center items-center container mx-auto">
