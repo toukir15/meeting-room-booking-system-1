@@ -41,6 +41,7 @@ app.post(
     }
 
     // Handle the event
+    console.log(event);
     if (event.type === 'checkout.session.completed') {
       const session = event.data.object as Stripe.Checkout.Session;
 
