@@ -47,11 +47,11 @@ app.post('/webhook', body_parser_1.default.raw({ type: 'application/json' }), (r
             return res.status(400).send(`Webhook Error: ${err}`);
         }
         // Handle the event
-        console.log(event);
         if (event.type === 'checkout.session.completed') {
             const session = event.data.object;
             const bookingData = JSON.parse(session.metadata.bookingData);
             const slotId = session.metadata.slotId;
+            console.log({ bookingData, slotId });
             try {
                 // Update slot status
                 yield slot_model_1.Slot.findByIdAndUpdate(slotId, {
