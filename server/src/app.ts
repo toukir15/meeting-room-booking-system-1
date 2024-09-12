@@ -30,6 +30,7 @@ app.post(
     const sig = req.headers['stripe-signature'] as string;
     let event: Stripe.Event;
     console.log('web hook er vitor');
+    console.log('web hook er vitor 2');
     try {
       event = stripe.webhooks.constructEvent(
         req.body,
