@@ -44,6 +44,7 @@ app.post('/webhook', body_parser_1.default.raw({ type: 'application/json' }), (r
         throw new appError_1.AppError(http_status_1.default.BAD_REQUEST, 'Webhook Error');
     }
     // Handle the event
+    console.log(event);
     if (event.type === 'checkout.session.completed') {
         const session = event.data.object;
         const bookingData = JSON.parse(session.metadata.bookingData);
