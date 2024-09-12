@@ -37,7 +37,11 @@ app.post('/webhook', body_parser_1.default.raw({ type: 'application/json' }), (r
     const sig = req.headers['stripe-signature'];
     let event;
     console.log('web hook er vitor');
-    console.log('web hook er vitor 2');
+    console.log({
+        body: req.body,
+        sig,
+        stripeSec: config_1.default.stripe_endpoint_secret,
+    });
     try {
         event = stripe.webhooks.constructEvent(req.body, sig, config_1.default.stripe_endpoint_secret);
     }
