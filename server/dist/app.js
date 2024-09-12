@@ -35,6 +35,7 @@ app.get('/', (req, res) => {
 });
 app.post('/webhook', body_parser_1.default.raw({ type: 'application/json' }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const sig = req.headers['stripe-signature'];
+    console.log(sig);
     let event;
     try {
         event = stripe.webhooks.constructEvent(req.body, sig, config_1.default.stripe_endpoint_secret);
