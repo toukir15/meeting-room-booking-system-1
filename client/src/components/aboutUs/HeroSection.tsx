@@ -5,7 +5,7 @@ import "./HeroSection.css";
 import PrimaryNavbar from "../shared/PrimaryNavbar";
 
 const HeroSection = () => (
-  <div className="h-screen md:h-[700px] flex flex-col">
+  <div className="h-screen lg:h-[calc(100vh-140px)] flex flex-col">
     {/* Fixed Navbar */}
     <div className="fixed top-0 left-0 w-full z-[100]">
       <PrimaryNavbar />
@@ -22,7 +22,7 @@ const HeroSection = () => (
           }}
           speed={3000}
           modules={[Autoplay]}
-          className="mySwiper h-[calc(100vh-75px)] md:h-[725px]"
+          className="mySwiper h-[calc(100vh-75px)] lg:h-[725px]"
         >
           <SwiperSlide>
             <div className="overlay-container h-full">

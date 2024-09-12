@@ -5,6 +5,8 @@ import team from "/images/whyChooes/team.svg";
 import sprout from "/images/whyChooes/sprout.svg";
 import analytics from "/images/whyChooes/analytics.svg";
 import startup from "/images/whyChooes/startup.svg";
+import shield from "/images/whyChooes/shield.png";
+import price from "/images/whyChooes/price.png";
 import { motion } from "framer-motion";
 
 const data = [
@@ -39,28 +41,28 @@ const data = [
   {
     id: 5,
     image: analytics,
-    title: "Get real data for smart decisions",
+    title: "Smart decisions",
     description:
       "Arm yourself with workplace analytics and optimize office space usage.",
   },
   {
     id: 6,
     image: startup,
-    title: "Maximize workplace flexibility",
+    title: "Workplace flexibility",
     description:
       "Make hot desking and other flexible seating policies easy and productive.",
   },
   {
     id: 7,
-    image: analytics,
-    title: "Get real data for smart decisions",
+    image: shield,
+    title: "Secure and Private",
     description:
       "Arm yourself with workplace analytics and optimize office space usage.",
   },
   {
     id: 8,
-    image: startup,
-    title: "Maximize workplace flexibility",
+    image: price,
+    title: "Transparent Pricing",
     description:
       "Make hot desking and other flexible seating policies easy and productive.",
   },
@@ -83,14 +85,14 @@ export default function WhyChooesUs() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {data.map((d) => {
               return (
-                <div className="bg-white p-6 rounded h-full text-start shadow-sm">
+                <div className="group bg-white px-6 py-10 cursor-pointer rounded h-full text-start shadow-sm">
                   <div className="flex md:justify-center">
                     <img className="w-24 mb-4" src={d.image} alt="Startup" />
                   </div>
                   <h5 className="text-2xl font-medium mb-2">{d.title}</h5>
                   <p className=" mb-auto">{d.description}</p>
                   <div className="mt-6 flex justify-end">
-                    <button className="group-hover:rotate-45 transition-all duration-200 rotate-90 bg-[#F7F9FB] p-6 rounded-full text-[20px]">
+                    <button className="group-hover:rotate-45 group-hover:bg-[#edf0f3] transition-all duration-200 rotate-90 bg-[#F7F9FB] p-6 rounded-full text-[20px]">
                       <FaArrowUp />
                     </button>
                   </div>

@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 
 const OurMission = () => (
-  <section className="relative py-12 md:py-0 sm:pt-52 md:pb-32 bg-[#F7F9FB]">
+  <section className="bg-[#F7F9FB] py-12 md:py-16 lg:py-24">
     <div className="flex justify-center container mx-auto px-4">
       <div className="w-full sm:w-3/4 lg:w-2/3">
         <motion.div
@@ -12,7 +12,7 @@ const OurMission = () => (
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6 md:mb-8 text-center">
             Our Mission
           </h2>
-          <p className="text-base sm:text-lg text-gray-600 text-center leading-relaxed">
+          <p className="text-base sm:text-lg text-gray-600 text-justify md:text-center leading-relaxed">
             Our mission is to streamline the way teams and organizations manage
             their meeting spaces. We are committed to providing an intuitive and
             efficient booking system that ensures every meeting room is utilized

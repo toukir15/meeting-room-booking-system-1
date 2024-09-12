@@ -9,7 +9,7 @@ const OurStory = () => (
         transition={{ duration: 3 }}
       >
         <h2 className="text-3xl sm:text-4xl font-bold mb-8">Our Story</h2>
-        <p className="max-w-4xl text-center mx-auto text-base sm:text-lg mb-6">
+        <p className="max-w-4xl text-justify md:text-center mx-auto text-base sm:text-lg mb-6">
           Our journey began in 2022 when Toukir Ahmed set out to revolutionize
           the way organizations manage their meeting spaces. Recognizing the
           inefficiencies and frustrations associated with traditional room

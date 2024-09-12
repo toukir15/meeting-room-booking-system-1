@@ -18,7 +18,7 @@ export default function RoomDetails() {
       <div className="fixed top-0 left-0 w-full z-[100]">
         <SecondaryNavbar />
       </div>
-      <div className=" container mx-auto min-h-[calc(100vh-75px)] md:h-auto justify-center mt-10 py-16 md:mt-0 md:py-0 lg:py-20 lg:mt-32  flex items-center ">
+      <div className=" container mx-auto min-h-[calc(100vh-75px)] md:h-auto justify-center mt-10 py-16 md:mt-0 md:py-0 lg:py-20 lg:mt-12  flex items-center ">
         <div className="hidden lg:block md:px-8 lg:px-8 xl:px-0">
           {images.length == 1 && (
             <div>
