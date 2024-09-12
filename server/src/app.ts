@@ -28,8 +28,8 @@ app.post(
   bodyParser.raw({ type: 'application/json' }),
   async (req, res) => {
     const sig = req.headers['stripe-signature'] as string;
-    console.log(sig);
     let event: Stripe.Event;
+    console.log('web hook er vitor');
     try {
       event = stripe.webhooks.constructEvent(
         req.body,
