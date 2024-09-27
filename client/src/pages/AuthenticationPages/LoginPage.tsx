@@ -32,6 +32,7 @@ export default function LoginPage() {
   } = useForm<TLogin>();
 
   const handleLoginForm: SubmitHandler<TLogin> = async (data) => {
+    const toastId = toast.loading("Logging in");
     const result = await login(data);
     if (result.data.success) {
       const token = result?.data?.token as string;
@@ -44,7 +45,11 @@ export default function LoginPage() {
             token,
           })
         );
-        toast.success("Logged in successfull", { position: "bottom-right" });
+        toast.success("Logged in successfully", {
+          id: toastId,
+          duration: 2000,
+          position: "bottom-right",
+        });
         navigate("/");
       }
     }
@@ -52,9 +57,12 @@ export default function LoginPage() {
     if (result.error) {
       if ("data" in result.error) {
         const apiError = result.error.data as { message: string };
-        toast.error(apiError.message, { duration: 2000 });
+        toast.error(apiError.message, { id: toastId, duration: 2000 });
       } else {
-        toast.error("An unexpected error occurred.", { duration: 2000 });
+        toast.error("An unexpected error occurred.", {
+          id: toastId,
+          duration: 2000,
+        });
       }
     }
   };

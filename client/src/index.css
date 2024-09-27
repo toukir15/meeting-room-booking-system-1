@@ -7,6 +7,10 @@
   border-radius: 5px;
 }
 
+.ant-spin-dot i {
+  background-color: #f54361 !important; /* Your desired color */
+}
+
 .tippy-box[data-placement^="top"] .tippy-arrow,
 .tippy-box[data-placement^="bottom"] .tippy-arrow,
 .tippy-box[data-placement^="left"] .tippy-arrow,

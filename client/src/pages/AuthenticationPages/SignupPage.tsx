@@ -281,6 +281,7 @@ export default function SignupPage() {
   } = useForm<TSignupData>();
 
   const handleRegisterForm: SubmitHandler<TSignupData> = async (data) => {
+    const toastId = toast.loading("Singing up");
     try {
       // Construct phone number
       const phoneNumber = `${countryData[selectedCountry].code} ${data.phone}`;
@@ -288,7 +289,10 @@ export default function SignupPage() {
       // Attempt to create the user
       const result = await createUser(signupData);
       if (result?.data?.success) {
-        toast.success("Successfully signed up", { duration: 2000 });
+        toast.success("Successfully signed up", {
+          id: toastId,
+          duration: 2000,
+        });
       }
 
       if (result.error) {
@@ -299,14 +303,20 @@ export default function SignupPage() {
             toast.error(errorData.message);
           }
         } else {
-          toast.error("An unexpected error occurred.");
+          toast.error("An unexpected error occurred.", {
+            id: toastId,
+            duration: 2000,
+          });
         }
       } else {
         navigate("/login");
       }
     } catch (error) {
       console.log(error);
-      toast.error("Registration Failed");
+      toast.error("Registration Failed", {
+        id: toastId,
+        duration: 2000,
+      });
     }
   };
 

@@ -34,7 +34,6 @@ export default function PrimaryNavbar() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-  console.log(isDropdownOpen);
 
   const handleLogout = () => {
     dispatch(logout());

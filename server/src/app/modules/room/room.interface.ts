@@ -20,3 +20,12 @@ export type TMulterFile = {
   path: string;
   size: number;
 };
+
+export type TQuery = {
+  search?: string;
+  priceMin?: string;
+  priceMax?: string;
+  capacityMin?: string;
+  capacityMax?: string;
+  sort?: string;
+};

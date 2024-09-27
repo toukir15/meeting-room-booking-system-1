@@ -2,6 +2,7 @@ import { Server } from 'http';
 import mongoose from 'mongoose';
 import app from './app';
 import config from './app/config';
+import { meiliClient } from './app/utils/meiliSearch';
 
 let server: Server;
 
@@ -12,6 +13,11 @@ async function main() {
     server = app.listen(config.port, () => {
       console.log(`my app is listening on port ${config.port}`);
     });
+    // const index = meiliClient.index('rooms');
+    // index
+    //   .deleteAllDocuments()
+    //   .then((res) => console.log(res))
+    //   .catch((err) => console.error(err));
   } catch (err) {
     console.log(err);
   }

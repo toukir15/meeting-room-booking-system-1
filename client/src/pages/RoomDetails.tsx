@@ -4,10 +4,29 @@ import { useAppSelector } from "../redux/hook";
 import SecondaryNavbar from "../components/shared/SecondaryNavbar";
 import { useEffect } from "react";
 
+import LightGallery from "lightgallery/react";
+
+// import styles
+import "lightgallery/css/lightgallery.css";
+import "lightgallery/css/lg-zoom.css";
+import "lightgallery/css/lg-thumbnail.css";
+
+// If you want you can use SCSS instead of css
+import "lightgallery/scss/lightgallery.scss";
+import "lightgallery/scss/lg-zoom.scss";
+
+// import plugins if you need
+import lgThumbnail from "lightgallery/plugins/thumbnail";
+import lgZoom from "lightgallery/plugins/zoom";
+
 export default function RoomDetails() {
   const room = useAppSelector((state) => state.room.room);
   const images = room?.images as string[];
   const navigate = useNavigate();
+
+  const onInit = () => {
+    console.log("lightGallery has been initialized");
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -21,124 +40,105 @@ export default function RoomDetails() {
       <div className=" container mx-auto min-h-[calc(100vh-75px)] md:h-auto justify-center mt-10 py-16 md:mt-0 md:py-0 lg:py-20 lg:mt-12  flex items-center ">
         <div className="hidden lg:block md:px-8 lg:px-8 xl:px-0">
           {images.length == 1 && (
-            <div>
-              <img src={images[0]} className="w-[600px] h-[500px]" alt="" />
-            </div>
+            <LightGallery
+              elementClassNames="flex gap-3"
+              onInit={onInit}
+              speed={500}
+              plugins={[lgThumbnail, lgZoom]}
+            >
+              <a href={images[0]}>
+                <img
+                  className="h-[500px] w-[800px] object-cover object-center"
+                  alt="img1"
+                  src={images[0]}
+                />
+              </a>
+            </LightGallery>
           )}
 
           {images.length == 2 && (
-            <div className="flex gap-3">
-              <img
-                className="h-[448px] w-[550px] object-cover"
-                src={images[0]}
-                alt=""
-              />
-              <img
-                className="h-[448px] w-[550px] object-cover"
-                src={images[1]}
-                alt=""
-              />
-            </div>
+            <LightGallery
+              elementClassNames="flex gap-2"
+              onInit={onInit}
+              speed={500}
+              plugins={[lgThumbnail, lgZoom]}
+            >
+              {images.map((image, index) => {
+                const imageClass = [
+                  "h-[448px] w-[600px] object-cover",
+                  "h-[448px] w-[600px] object-cover",
+                ];
+                return (
+                  <a href={images[index]}>
+                    <img
+                      className={`${imageClass[index]}`}
+                      src={image}
+                      alt={`Image${index + 1}`}
+                    />
+                  </a>
+                );
+              })}
+            </LightGallery>
           )}
-          {images.length == 3 && (
-            <div className="flex gap-2">
-              {/* Main Image */}
-              <img
-                className="h-[448px] w-[550px] object-cover"
-                src={images[0]}
-                alt=""
-              />
-
-              {/* First Column of Images */}
-              <div className="flex flex-col gap-2">
-                <img
-                  className="h-[220px] w-[350px] object-cover"
-                  src={images[1]}
-                  alt=""
-                />
-                <img
-                  className="h-[220px] w-[350px] object-cover"
-                  src={images[2]}
-                  alt=""
-                />
-              </div>
-            </div>
-          )}
-
-          {images.length == 4 && (
-            <div className="flex gap-2">
-              {/* Main Image */}
-              <img
-                className="h-[448px] w-[550px] object-cover"
-                src={images[0]}
-                alt=""
-              />
-
-              {/* First Column of Images */}
-              <div className="flex flex-col gap-2">
-                <img
-                  className="h-[220px] w-[350px] object-cover"
-                  src={images[1]}
-                  alt=""
-                />
-                <img
-                  className="h-[220px] w-[350px] object-cover"
-                  src={images[2]}
-                  alt=""
-                />
-              </div>
-
-              <img
-                className="h-[448px] w-[550px] object-cover"
-                src={images[3]}
-                alt=""
-              />
-            </div>
+          {images.length === 3 && (
+            <LightGallery
+              elementClassNames="flex gap-2"
+              onInit={onInit}
+              speed={500}
+              plugins={[lgThumbnail, lgZoom]}
+            >
+              {images.map((image, index) => {
+                const imageClass = [
+                  "h-[448px] w-[700px] object-cover",
+                  "h-[448px] w-[350px] object-cover",
+                  "h-[448px] w-[350px] object-cover",
+                ];
+                return (
+                  <a href={images[index]}>
+                    <img
+                      className={`${imageClass[index]}`}
+                      src={image}
+                      alt={`Image${index + 1}`}
+                    />
+                  </a>
+                );
+              })}
+            </LightGallery>
           )}
 
-          {images.length >= 5 && (
-            <div className="flex gap-2">
-              {/* Main Image */}
-              <img
-                className="h-[448px] w-[550px] object-cover"
-                src={images[0]}
-                alt=""
-              />
-
-              {/* First Column of Images */}
-              <div className="flex flex-col gap-2">
-                <img
-                  className="h-[220px] w-[350px] object-cover"
-                  src={images[1]}
-                  alt=""
-                />
-                <img
-                  className="h-[220px] w-[350px] object-cover"
-                  src={images[2]}
-                  alt=""
-                />
-              </div>
-
-              {/* Second Column of Images and Button */}
-              <div className="flex flex-col gap-2 relative">
-                <img
-                  className="h-[220px] w-[350px] object-cover"
-                  src={images[3]}
-                  alt=""
-                />
-                <img
-                  className="h-[220px] w-[350px] object-cover"
-                  src={images[4]}
-                  alt=""
-                />
+          {images.length >= 4 && (
+            <LightGallery
+              elementClassNames="flex gap-2 relative"
+              onInit={onInit}
+              speed={500}
+              plugins={[lgThumbnail, lgZoom]}
+            >
+              {images.slice(0, 4).map((image, index) => {
+                const imageClass = [
+                  "h-[448px] w-[500px] object-cover",
+                  "h-[448px] w-[350px] object-cover",
+                  "h-[448px] w-[350px] object-cover",
+                  "h-[448px] w-[500px] object-cover",
+                ];
+                return (
+                  <a href={images[index]}>
+                    <img
+                      className={`${imageClass[index]}`}
+                      src={image}
+                      alt={`Image${index + 1}`}
+                    />
+                  </a>
+                );
+              })}
+              {images.length > 4 && (
                 <div className="w-full md:hidden xl:block absolute bottom-0 right-0 ">
-                  <button className="w-fit flex items-center gap-2 absolute bottom-2 right-2 bg-white px-4 py-2 rounded hover:bg-[#EBEBEB] transition duration-200">
+                  <button className="w-fit flex items-center gap-2 absolute bottom-3 right-3 bg-white px-4 py-2 rounded hover:bg-[#EBEBEB] transition duration-200">
                     <CgMenuGridO />
                     <span>Show all photos</span>
                   </button>
                 </div>
-              </div>
-            </div>
+              )}
+            </LightGallery>
           )}
 
           <div className="flex justify-between my-6">

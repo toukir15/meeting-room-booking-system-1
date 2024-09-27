@@ -58,6 +58,6 @@ const baseQueryWithReauth: BaseQueryFn<
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: baseQueryWithReauth, // Use the custom base query
-  tagTypes: ["slot", "room", "bookingManagement", "user"],
+  tagTypes: ["slot", "room", "bookingManagement", "roomManagement", "user"],
   endpoints: () => ({}),
 });

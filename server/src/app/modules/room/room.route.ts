@@ -11,10 +11,11 @@ router.post(
   '/',
   auth([USER_ROLE.admin]),
   upload.array('file'),
-  validateRequest(RoomValidations.createRoomValidationSchema),
+  // validateRequest(RoomValidations.createRoomValidationSchema),
   RoomControllers.createRoom,
 );
 router.get('/', RoomControllers.getAllRooms);
+router.get('/management/get-rooms', RoomControllers.getManagementRooms);
 router.get('/:id', RoomControllers.getSingleRoom);
 router.patch(
   '/:id',

@@ -1,23 +1,25 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { IoIosSearch } from "react-icons/io";
 import { useState, useRef, useEffect } from "react";
-import { useGetRoomsQuery } from "../redux/features/roomManagement/roomManagementApi";
 import filter from "/filter.png";
 import sort from "/sorting.png";
 import "./MeetingRoomPage.css";
 import Rooms from "../components/meetingRoom/Rooms";
 import PrimaryNavbar from "../components/shared/PrimaryNavbar";
+import { useGetRoomsQuery } from "../redux/features/room/roomApi";
 
 const capacityOptions = [
   { label: "1-10 people", value: "1-10" },
   { label: "11-20 people", value: "11-20" },
   { label: "21-30 people", value: "21-30" },
+  { label: "31-40 people", value: "31-40" },
 ];
 
 const priceOptions = [
   { label: "$0-$200", value: "0-200" },
   { label: "$201-$300", value: "201-300" },
   { label: "$301-$400", value: "301-400" },
+  { label: "$401-$500", value: "401-500" },
 ];
 
 const sortOptions = [
@@ -25,28 +27,23 @@ const sortOptions = [
   { label: "Price: High to Low", value: "price-desc" },
 ];
 
-type TRoom = {
-  _id: string;
-  roomName: string;
-  roomNo: string;
-  capacity: string;
-  pricePerSlot: string;
-  floorNo: string;
-  amenities: string[];
-  images: string[];
-};
-
 export default function MeetingRoomsPage() {
-  const { data: roomsData } = useGetRoomsQuery(undefined);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isSortOpen, setIsSortOpen] = useState(false);
   const [selectedCapacity, setSelectedCapacity] = useState<string | null>(null);
   const [selectedPrice, setSelectedPrice] = useState<string | null>(null);
   const [selectedSort, setSelectedSort] = useState<string | null>(null);
-  const [filteredRooms, setFilteredRooms] = useState<TRoom[]>([]);
-  const [searchQuery, setSearchQuery] = useState(""); // State for search input
-  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState(""); // For debounced search
+  const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
   const [showClearButton, setShowClearButton] = useState(false);
+  const queryData = {
+    search: debouncedSearchQuery,
+    price: selectedPrice,
+    capacity: selectedCapacity,
+    sort: selectedSort,
+  };
+  const { data: roomsData, isLoading: isRoomsDataLoading } =
+    useGetRoomsQuery(queryData);
 
   const filterRef = useRef<HTMLDivElement>(null);
   const sortRef = useRef<HTMLDivElement>(null);
@@ -63,58 +60,7 @@ export default function MeetingRoomsPage() {
   }, [searchQuery]);
 
   // Filter rooms based on search, capacity, price, and sort
-  const filterAndSortRooms = () => {
-    if (roomsData?.data) {
-      let filtered = [...roomsData.data]; // Create a copy of the array
-
-      // Apply search query (e.g., room name)
-      if (debouncedSearchQuery) {
-        filtered = filtered.filter((room) =>
-          room.roomName
-            .toLowerCase()
-            .includes(debouncedSearchQuery.toLowerCase())
-        );
-      }
-
-      // Apply capacity filter
-      if (selectedCapacity) {
-        const [minCapacity, maxCapacity] = selectedCapacity
-          .split("-")
-          .map(Number);
-        filtered = filtered.filter(
-          (room) =>
-            Number(room.capacity) >= minCapacity &&
-            Number(room.capacity) <= maxCapacity
-        );
-      }
-
-      // Apply price filter
-      if (selectedPrice) {
-        const [minPrice, maxPrice] = selectedPrice.split("-").map(Number);
-        filtered = filtered.filter(
-          (room) =>
-            Number(room.pricePerSlot) >= minPrice &&
-            Number(room.pricePerSlot) <= maxPrice
-        );
-      }
-
-      // Apply sorting
-      if (selectedSort === "price-asc") {
-        filtered = filtered
-          .slice()
-          .sort((a, b) => Number(a.pricePerSlot) - Number(b.pricePerSlot));
-      } else if (selectedSort === "price-desc") {
-        filtered = filtered
-          .slice()
-          .sort((a, b) => Number(b.pricePerSlot) - Number(a.pricePerSlot));
-      }
-
-      setFilteredRooms(filtered);
-    }
-  };
-
   useEffect(() => {
-    filterAndSortRooms();
     setShowClearButton(
       selectedCapacity !== null ||
         selectedPrice !== null ||
@@ -149,12 +95,15 @@ export default function MeetingRoomsPage() {
     setSelectedSort(value);
   };
 
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
+
   const handleClearFilters = () => {
     setSelectedCapacity(null);
     setSelectedPrice(null);
     setSelectedSort(null);
     setSearchQuery("");
-    setFilteredRooms(roomsData?.data || []);
     setShowClearButton(false);
   };
 
@@ -190,7 +139,7 @@ export default function MeetingRoomsPage() {
                 className="w-full py-2 rounded-full outline-none px-5 text-black text-sm"
                 type="text"
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e) => handleSearch(e)}
               />
               <button className="mx-2 p-2 my-1 rounded-full text-2xl text-white bg-rose-500 hover:bg-rose-600 transition duration-200">
                 <IoIosSearch />
@@ -306,7 +255,11 @@ export default function MeetingRoomsPage() {
         </div>
       </div>
 
-      <Rooms filteredRooms={filteredRooms} />
+      <Rooms
+        roomsData={roomsData?.data}
+        isRoomsDataLoading={isRoomsDataLoading}
+        queryData={queryData}
+      />
     </div>
   );
 }

@@ -4,7 +4,7 @@ import type { TableProps } from "antd";
 import { useNavigate } from "react-router-dom";
 import {
   useDeleteRoomMutation,
-  useGetRoomsQuery,
+  useGetManagementRoomsQuery,
 } from "../../../redux/features/roomManagement/roomManagementApi";
 import Notiflix from "notiflix";
 import { useAppDispatch } from "../../../redux/hook";
@@ -23,7 +23,7 @@ interface DataType {
 export default function RoomManagement() {
   const navigate = useNavigate();
   const { data: roomData, isLoading: isRoomDataLoading } =
-    useGetRoomsQuery(undefined);
+    useGetManagementRoomsQuery(undefined);
   const [deleteRoom, { isLoading: isDeleteRoomLoading }] =
     useDeleteRoomMutation();
   const dispatch = useAppDispatch();

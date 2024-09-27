@@ -3,19 +3,19 @@ import { DatePicker, notification, Select, TimePicker } from "antd";
 import { Controller, useForm } from "react-hook-form";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import { useGetRoomsQuery } from "../../../redux/features/roomManagement/roomManagementApi";
 import "./CreateSlot.css";
 import { useCreateSlotMutation } from "../../../redux/features/slotManagement/slotManagementApi";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import Notiflix from "notiflix";
+import { useGetManagementRoomsQuery } from "../../../redux/features/roomManagement/roomManagementApi";
 
 export default function CreateSlot() {
   const navigate = useNavigate();
   const [createSlot, { isLoading: isCreateSlotLoading }] =
     useCreateSlotMutation();
   dayjs.extend(customParseFormat);
-  const { data: roomData } = useGetRoomsQuery(undefined);
+  const { data: roomData } = useGetManagementRoomsQuery(undefined);
   const dateFormat = "YYYY-MM-DD";
 
   interface TRoom {

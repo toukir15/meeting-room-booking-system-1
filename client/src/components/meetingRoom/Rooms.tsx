@@ -3,9 +3,9 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { useAppDispatch } from "../../redux/hook";
 import { setRoom } from "../../redux/features/room/roomSlice";
 import { useNavigate } from "react-router-dom";
-import { useGetRoomsQuery } from "../../redux/features/roomManagement/roomManagementApi";
 import { motion } from "framer-motion";
 import Notiflix from "notiflix";
+import { FaExclamation } from "react-icons/fa6"; // Example using Heroicons
 
 type TRoom = {
   _id: string;
@@ -17,19 +17,26 @@ type TRoom = {
   amenities: string[];
   images: string[];
 };
+type TQueryData = {
+  search?: string;
+  price?: string;
+  capacity?: string;
+  sort?: string;
+};
 
 interface RoomsProps {
-  filteredRooms: TRoom[];
+  roomsData: TRoom[];
+  isRoomsDataLoading: boolean;
+  queryData: TQueryData;
 }
 
-export default function Rooms({ filteredRooms }: RoomsProps) {
+export default function Rooms({
+  roomsData,
+  isRoomsDataLoading,
+  queryData,
+}: RoomsProps) {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const {
-    data: roomsData,
-    isLoading,
-    isFetching,
-  } = useGetRoomsQuery(undefined);
 
   const handleRoom = (e: React.MouseEvent<HTMLElement>, id: string) => {
     const target = e.target as HTMLElement;
@@ -38,7 +45,7 @@ export default function Rooms({ filteredRooms }: RoomsProps) {
       target.classList.contains("swiper-button-prev");
 
     if (!isSwiperButton) {
-      const findRoom = roomsData?.data.find((room: TRoom) => room._id === id);
+      const findRoom = roomsData?.find((room: TRoom) => room._id === id);
       if (findRoom) {
         dispatch(setRoom(findRoom));
         navigate("/room-details");
@@ -47,26 +54,39 @@ export default function Rooms({ filteredRooms }: RoomsProps) {
   };
 
   // Show loading state
-  if (isFetching || isLoading) {
+  if (isRoomsDataLoading) {
     Notiflix.Loading.dots();
     Notiflix.Loading.remove();
     return null;
   }
 
-  // Show no data message if no rooms available
-  if (roomsData?.data.length === 0 && !isFetching && !isLoading) {
-    return (
-      <div className="h-32 flex items-center text-3xl font-medium text-gray-600 mt-10 justify-center">
-        No rooms available
-      </div>
-    );
-  }
-
   // Show no data message if no filtered rooms
-  if (filteredRooms.length === 0 && !isFetching && !isLoading) {
+
+  if (roomsData.length === 0 && !isRoomsDataLoading) {
     return (
-      <div className="h-32 flex items-center text-3xl font-medium text-gray-600 mt-10 justify-center">
-        No rooms found that match your filter criteria.
+      <div className="h-32 flex flex-col items-center justify-center mt-20">
+        <FaExclamation className="h-12 w-12 text-red-500 mb-4" />
+        <p className="text-2xl font-semibold text-gray-700">
+          No rooms available
+        </p>
+        {(queryData.capacity ||
+          queryData.price ||
+          queryData.search ||
+          queryData.sort) && (
+          <p className="text-lg mt-2 text-gray-500">
+            Please try adjusting your search or filters or come back later.
+          </p>
+        )}
+        {!(
+          queryData.capacity ||
+          queryData.price ||
+          queryData.search ||
+          queryData
+        ) && (
+          <p className="text-lg mt-2 text-gray-500">
+            Check back later for available rooms.
+          </p>
+        )}
       </div>
     );
   }
@@ -74,7 +94,7 @@ export default function Rooms({ filteredRooms }: RoomsProps) {
   return (
     <div className="py-16 lg:py-32 container mx-auto">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:px-20 justify-items-center mt-8 md:mt-12 lg:mt-0">
-        {filteredRooms.map((room: TRoom) => (
+        {roomsData?.map((room: TRoom) => (
           <motion.div
             onClick={(e) => handleRoom(e, room._id)}
             className="w-fit cursor-pointer"

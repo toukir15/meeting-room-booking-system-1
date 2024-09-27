@@ -3,11 +3,11 @@ import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import "./FeturedRooms.css";
 import { FaArrowRightLong } from "react-icons/fa6";
-import { useGetRoomsQuery } from "../../redux/features/roomManagement/roomManagementApi";
 import { useAppDispatch } from "../../redux/hook";
 import { useNavigate } from "react-router-dom";
 import { setRoom } from "../../redux/features/room/roomSlice";
 import { motion } from "framer-motion";
+import { useGetFeturedRoomsQuery } from "../../redux/features/room/roomApi";
 
 type TRoom = {
   _id: string;
@@ -21,7 +21,7 @@ type TRoom = {
 };
 
 export default function FeturedRooms() {
-  const { data: roomsData } = useGetRoomsQuery(undefined);
+  const { data: roomsData } = useGetFeturedRoomsQuery(undefined);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 

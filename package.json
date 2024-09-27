@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "concurrently \"(cd client && npm run dev)\" \"(cd server && npm run start:dev)\""
+    "start": "concurrently \"(cd client && npm i && npm run dev)\" \"(cd server && npm run && npm i && start:dev)\""
   },
   "keywords": [],
   "author": "",

@@ -2,14 +2,14 @@ import { baseApi } from "../../api/baseApi";
 
 const roomManagementApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getRooms: builder.query({
+    getManagementRooms: builder.query({
       query: () => {
         return {
-          url: "/rooms",
+          url: `/rooms/management/get-rooms`,
           method: "GET",
         };
       },
-      providesTags: ["room"],
+      providesTags: ["roomManagement"],
     }),
     createRoom: builder.mutation({
       query: (data) => {
@@ -19,7 +19,7 @@ const roomManagementApi = baseApi.injectEndpoints({
           body: data,
         };
       },
-      invalidatesTags: ["room"],
+      invalidatesTags: ["roomManagement"],
     }),
     updateRoom: builder.mutation({
       query: ({ data, id }) => {
@@ -29,7 +29,7 @@ const roomManagementApi = baseApi.injectEndpoints({
           body: data,
         };
       },
-      invalidatesTags: ["room"],
+      invalidatesTags: ["roomManagement"],
     }),
     deleteRoom: builder.mutation({
       query: (id) => {
@@ -38,14 +38,14 @@ const roomManagementApi = baseApi.injectEndpoints({
           method: "DELETE",
         };
       },
-      invalidatesTags: ["room"],
+      invalidatesTags: ["roomManagement"],
     }),
   }),
 });
 
 export const {
   useCreateRoomMutation,
-  useGetRoomsQuery,
+  useGetManagementRoomsQuery,
   useDeleteRoomMutation,
   useUpdateRoomMutation,
 } = roomManagementApi;
